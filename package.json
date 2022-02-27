@@ -10,7 +10,11 @@
 		"@types/node": "^16.7.13",
 		"@types/react": "^17.0.20",
 		"@types/react-dom": "^17.0.9",
+		"express": "^4.17.3",
+		"express-validator": "^6.14.0",
 		"firebase": "^9.6.7",
+		"fs": "^0.0.1-security",
+		"path": "^0.12.7",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-scripts": "5.0.0",
@@ -20,20 +24,36 @@
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^5.12.1",
 		"@typescript-eslint/parser": "^5.12.1",
+		"babel-loader": "^8.2.3",
+		"compression-webpack-plugin": "^9.2.0",
+		"css-loader": "^6.6.0",
 		"eslint": "^8.10.0",
 		"eslint-config-prettier": "^8.4.0",
 		"eslint-plugin-prettier": "^4.0.0",
 		"eslint-plugin-react": "^7.29.2",
+		"file-loader": "^6.2.0",
+		"html-webpack-plugin": "^5.5.0",
 		"husky": "^7.0.4",
+		"mini-css-extract-plugin": "^2.5.3",
+		"optimize-css-assets-webpack-plugin": "^6.0.1",
 		"postcss-scss": "^4.0.3",
 		"prettier": "^2.5.1",
+		"sass": "^1.49.9",
+		"sass-loader": "^12.6.0",
+		"style-loader": "^3.3.1",
 		"stylelint": "^14.5.3",
 		"stylelint-config-prettier": "^9.0.3",
-		"stylelint-prettier": "^2.0.0"
+		"stylelint-prettier": "^2.0.0",
+		"terser-webpack-plugin": "^5.3.1",
+		"webpack": "^5.69.1",
+		"webpack-cli": "^4.9.2",
+		"webpack-dev-server": "^4.7.4",
+		"webpack-node-externals": "^3.0.0"
 	},
 	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
+		"dev": "webpack serve",
+		"build": "rm -rf dist && webpack --mode production --config webpack.prod.config.js && webpack --mode production --config webpack.server.config.js",
+		"start": "node ./dist/server.wp.js",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"prettier": "prettier --config ./.prettierrc --ignore-path  ./.prettierignore --write \"**/*.ts*\" \"**/*.js\" \"**/*.scss\" \"*.json\" \"*.md\"",
@@ -44,12 +64,6 @@
 		"stylelint": "stylelint --config ./.stylelintrc --fix \"**/*.scss\" --color --cache",
 		"stylelint-check": "stylelint --config ./.stylelintrc \"**/*.scss\" --color --cache",
 		"prepare": "husky install"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
 	},
 	"browserslist": {
 		"production": [
