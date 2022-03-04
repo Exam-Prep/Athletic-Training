@@ -4,11 +4,8 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-
-const compressionRegex = /\.(js|png|jpg|html|css|svg)$/;
 
 module.exports = {
 	mode: "production",
@@ -52,7 +49,6 @@ module.exports = {
 		extensions: [".tsx", ".ts", ".js"],
 	},
 	output: {
-		globalObject: "this",
 		path: path.resolve(__dirname, "dist/"),
 		publicPath: "/",
 		filename: "main.[contenthash].wp.js",
@@ -81,15 +77,6 @@ module.exports = {
 			filename: "[name].[contenthash].css",
 			chunkFilename: "[name].[contenthash].css",
 			ignoreOrder: false,
-		}),
-		new CompressionPlugin({
-			filename: "[path][base].br",
-			algorithm: "brotliCompress",
-			test: compressionRegex,
-		}),
-		new CompressionPlugin({
-			filename: "[path][base].gz",
-			test: compressionRegex,
 		}),
 	],
 };
