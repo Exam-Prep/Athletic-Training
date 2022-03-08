@@ -1,0 +1,182 @@
+/* Rectangle 18 */
+
+.background {
+	position: absolute;
+	width: 1440px;
+	height: 1024px;
+	left: 0px;
+	top: 0px;
+
+	background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #F5F5F5;
+}
+
+/* AthletiTrain by Whitworth University */
+
+.logo {
+	position: absolute;
+	width: 527px;
+	height: 118px;
+	left: 29px;
+	top: 35px;
+
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 800;
+	font-size: 48px;
+	line-height: 56px;
+	text-decoration-line: underline;
+
+	color: #0158AE;
+}
+
+
+/* Rectangle 20 */
+
+.headerBorder {
+	position: absolute;
+	width: 1440px;
+	height: 20px;
+	left: 0px;
+	top: 94px;
+
+	background: #C4C4C4;
+}
+
+/* Rectangle 21 */
+
+.loginBox {
+	position: absolute;
+	width: 593px;
+	height: 379px;
+	left: 423px;
+	top: 232px;
+
+	background: #FFFFFF;
+}
+
+/* Rectangle 22 */
+
+.usernameBackground {
+	position: absolute;
+	width: 479px;
+	height: 62px;
+	left: 480px;
+	top: 278px;
+
+	background: #F9F8F8;
+}
+
+/* Rectangle 23 */
+
+.passwordBackground {
+	position: absolute;
+	width: 479px;
+	height: 62px;
+	left: 480px;
+	top: 360px;
+
+	background: #C4C4C4;
+}
+
+/* Rectangle 24 */
+
+.loginButtonBackground {
+	position: absolute;
+	width: 554px;
+	height: 67px;
+	left: 443px;
+	top: 442px;
+
+	background: #1B43EF;
+}
+
+/* Forgot Password ? */
+
+.forgotPassword {
+	position: absolute;
+	width: 117px;
+	height: 16px;
+	left: 661px;
+	top: 527px;
+
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 16px;
+
+	color: #1B43EF;
+}
+
+/* New Learner? Click Here */
+
+.createAccount {
+	position: absolute;
+	width: 213px;
+	height: 12px;
+	left: 646px;
+	top: 549px;
+
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 16px;
+
+	color: #1B43EF;
+}
+
+
+/* Username (typically your email) */
+
+.usernameTextBox {
+	position: absolute;
+	width: 200px;
+	height: 16px;
+	left: 531px;
+	top: 301px;
+
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 16px;
+
+	color: #C4C4C4;
+}
+
+/* Password */
+
+.passwordTextBox {
+	position: absolute;
+	width: 62px;
+	height: 16px;
+	left: 531px;
+	top: 383px;
+
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 16px;
+
+	color: #C4C4C4;
+}
+
+/* Login */
+
+.loginButton {
+	position: absolute;
+	width: 61px;
+	height: 28px;
+	left: 689px;
+	top: 462px;
+
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 28px;
+
+	color: #C4C4C4;
+}
