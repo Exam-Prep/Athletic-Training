@@ -1,4 +1,5 @@
 {
+  "customSyntax": "postcss-scss",
   "plugins": ["stylelint-prettier"],
   "extends": ["stylelint-prettier/recommended"],
   "rules": {
