@@ -1,8 +1,6 @@
-/**
- * /* Rectangle 18
- *
- * @format
- */
+/** @format */
+
+@use "../../../../styles/variables" as variables;
 
 .background {
 	position: absolute;
@@ -23,6 +21,9 @@
 	left: 29px;
 	top: 35px;
 
+	margin: 0;
+	padding: 0;
+
 	font-family: "Roboto";
 	font-style: normal;
 	font-weight: 800;
@@ -33,7 +34,7 @@
 	color: #0158ae;
 }
 
-/* Rectangle 20 */
+/* border between header and body */
 
 .headerBorder {
 	position: absolute;
@@ -45,10 +46,12 @@
 	background: #c4c4c4;
 }
 
-/* Rectangle 21 */
+/* background container for login components */
 
 .loginBox {
-	position: absolute;
+	@include variables.bodyContainer;
+	flex-direction: column;
+	align-items: center;
 	width: 593px;
 	height: 379px;
 	left: 423px;
@@ -57,40 +60,44 @@
 	background: #ffffff;
 }
 
-/* Rectangle 22 */
+/* Username (typically your email) */
 
-.usernameBackground {
-	position: absolute;
+.usernameTextBox {
+	@include variables.textBox;
 	width: 479px;
 	height: 62px;
 	left: 480px;
 	top: 278px;
 
 	background: #f9f8f8;
+
+	font-family: "Roboto";
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 16px;
+
+	color: #c4c4c4;
 }
 
-/* Rectangle 23 */
+/* Password */
 
-.passwordBackground {
-	position: absolute;
+.passwordTextBox {
+	@include variables.textBox;
 	width: 479px;
 	height: 62px;
 	left: 480px;
-	top: 360px;
+	top: 278px;
 
-	background: #c4c4c4;
-}
+	background: #f9f8f8;
 
-/* Rectangle 24 */
+	font-family: "Roboto";
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 16px;
 
-.loginButtonBackground {
-	position: absolute;
-	width: 554px;
-	height: 67px;
-	left: 443px;
-	top: 442px;
-
-	background: #1b43ef;
+	color: #c4c4c4;
 }
 
 /* Forgot Password ? */
@@ -127,58 +134,4 @@
 	line-height: 16px;
 
 	color: #1b43ef;
-}
-
-/* Username (typically your email) */
-
-.usernameTextBox {
-	position: absolute;
-	width: 200px;
-	height: 16px;
-	left: 531px;
-	top: 301px;
-
-	font-family: "Roboto";
-	font-style: normal;
-	font-weight: bold;
-	font-size: 14px;
-	line-height: 16px;
-
-	color: #c4c4c4;
-}
-
-/* Password */
-
-.passwordTextBox {
-	position: absolute;
-	width: 62px;
-	height: 16px;
-	left: 531px;
-	top: 383px;
-
-	font-family: "Roboto";
-	font-style: normal;
-	font-weight: bold;
-	font-size: 14px;
-	line-height: 16px;
-
-	color: #c4c4c4;
-}
-
-/* Login */
-
-.loginButton {
-	position: absolute;
-	width: 61px;
-	height: 28px;
-	left: 689px;
-	top: 462px;
-
-	font-family: "Roboto";
-	font-style: normal;
-	font-weight: bold;
-	font-size: 24px;
-	line-height: 28px;
-
-	color: #c4c4c4;
 }

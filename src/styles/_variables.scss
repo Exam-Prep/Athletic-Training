@@ -1,0 +1,28 @@
+/** @format */
+
+$default-font: "Roboto", sans-serif;
+
+@mixin tab {
+	padding: 10px, 20px;
+	border-radius: 3px;
+	background: rgb(118, 193, 255);
+	font-family: $default-font;
+	font-size: 30px;
+	color: black;
+}
+
+@mixin bodyContainer {
+	display: flex;
+	justify-content: center;
+	padding-top: 100px;
+}
+
+@mixin textBox {
+	padding: 0;
+	position: relative;
+	outline: none;
+	border: 1px solid #cdcdcd;
+	border-color: rgba(0, 0, 0, 0.1);
+	background-color: white;
+	font-size: 16px;
+}
