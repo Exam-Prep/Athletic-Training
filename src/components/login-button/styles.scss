@@ -1,15 +1,16 @@
 /** @format */
 
+@use "../../styles/variables" as variables;
+
 .loginButton {
-	position: absolute;
-	width: 554px;
-	height: 67px;
-	left: 443px;
-	top: 442px;
+	width: 525px;
+	height: 70px;
+
+	margin: 12px, 8px, 8px, 8px;
 
 	background: #1b43ef;
 
-	font-family: "Roboto";
+	font-family: variables.$default-font;
 	font-style: normal;
 	font-weight: bold;
 	font-size: 24px;

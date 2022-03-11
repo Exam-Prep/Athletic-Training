@@ -12,14 +12,23 @@ const Login = () => {
 	return (
 		<Page>
 			<div className={styles.background}>
-				<div className={styles.headerBorder}>
-					<div className={styles.logo}>
-						AthletiTrain by Whitworth University
+				<div className={styles.logo}>
+					<div className={styles.athleti}>Athleti</div>
+					<div className={styles.train}>Train</div>
+					<div className={styles.whitworth}>
+						by Whitworth University
 					</div>
 				</div>
+				<div className={styles.headerBorder} />
 				<div className={styles.loginBox}>
-					<input className={styles.usernameTextBox}></input>
-					<input className={styles.passwordTextBox}></input>
+					<input
+						className={styles.usernameTextBox}
+						placeholder='Username (typically your email)'
+					></input>
+					<input
+						className={styles.passwordTextBox}
+						placeholder='Password'
+					></input>
 					<LoginButton />
 					<button className={styles.forgotPassword}>
 						Forgot Password?
