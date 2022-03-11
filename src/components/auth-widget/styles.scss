@@ -1,0 +1,83 @@
+/** @format */
+@use "../../styles/variables" as variables;
+
+.loginButton {
+	width: 525px;
+	height: 70px;
+
+	margin: 8px, 8px, 12px, 8px;
+
+	background: #1b43ef;
+
+	font-family: variables.$default-font;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 28px;
+
+	border: none;
+
+	color: #ffffff;
+}
+
+.registerButton {
+	width: 525px;
+	height: 70px;
+
+	margin: 8px, 8px, 12px, 8px;
+
+	background: #fd8606;
+
+	font-family: variables.$default-font;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 28px;
+
+	border: none;
+
+	color: #ffffff;
+}
+
+/* Username (typically your email) */
+
+.usernameTextBox {
+	@include variables.textBox;
+	width: 479px;
+	height: 50px;
+
+	margin: 8px;
+	padding: 5px;
+
+	background: #f9f8f8;
+
+	font-family: variables.$default-font;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 16px;
+
+	color: #c4c4c4;
+}
+
+/* Password */
+
+.passwordTextBox {
+	@include variables.textBox;
+	width: 479px;
+	height: 50px;
+
+	margin: 8px;
+	margin-bottom: 20px;
+	padding: 5px;
+
+	background: #f9f8f8;
+
+	font-family: variables.$default-font;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 16px;
+
+	color: #c4c4c4;
+}

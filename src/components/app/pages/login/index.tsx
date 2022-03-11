@@ -6,7 +6,7 @@ import Page from "../page";
 
 import styles from "./styles.scss";
 
-import LoginButton from "../../../login-button";
+import AuthWidget from "../../../auth-widget";
 
 const Login = () => {
 	return (
@@ -21,15 +21,7 @@ const Login = () => {
 				</div>
 				<div className={styles.headerBorder} />
 				<div className={styles.loginBox}>
-					<input
-						className={styles.usernameTextBox}
-						placeholder='Username (typically your email)'
-					></input>
-					<input
-						className={styles.passwordTextBox}
-						placeholder='Password'
-					></input>
-					<LoginButton />
+					<AuthWidget />
 					<button className={styles.forgotPassword}>
 						Forgot Password?
 					</button>
