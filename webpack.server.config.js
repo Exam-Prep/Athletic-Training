@@ -34,16 +34,18 @@ module.exports = {
 		extensions: [".ts"],
 	},
 	optimization: {
+		innerGraph: true,
+		minimize: true,
 		splitChunks: {
 			chunks: "async",
 			cacheGroups: {
 				vendor: {
-					test: /[\\/]node_modules[\\/]/,
-					name: "vendors",
-					chunks: "all",
+					filename: "modules.[contenthash].js",
+					reuseExistingChunk: true,
 				},
 			},
 		},
+		usedExports: false,
 		minimizer: [new TerserPlugin()],
 	},
 };
