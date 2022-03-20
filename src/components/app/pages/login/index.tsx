@@ -11,7 +11,7 @@ import AuthWidget from "../../../auth-widget";
 const Login = () => {
 	return (
 		<Page>
-			<div className={styles.background}>
+			<div className={styles.header}>
 				<div className={styles.logo}>
 					<div className={styles.athleti}>Athleti</div>
 					<div className={styles.train}>Train</div>
@@ -20,6 +20,8 @@ const Login = () => {
 					</div>
 				</div>
 				<div className={styles.headerBorder} />
+			</div>
+			<div className={styles.loginBackground}>
 				<div className={styles.loginBox}>
 					<AuthWidget />
 					<button className={styles.forgotPassword}>

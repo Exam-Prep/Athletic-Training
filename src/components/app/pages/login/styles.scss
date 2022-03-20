@@ -8,114 +8,107 @@
 
 /* AthletiTrain by Whitworth University */
 
-.logo {
-	position: absolute;
-	width: 600px;
-	height: 118px;
-	left: 10px;
-	top: 0;
+.header {
+	width: 100vw;
+	height: 80px;
 
-	justify-content: left;
+	.logo {
+		position: absolute;
+		margin-left: 10px;
+		top: 0;
 
-	margin: 0;
-	padding: 0;
-}
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+	}
 
-.athleti {
-	width: 30%;
-	float: left;
+	.athleti {
+		font-weight: 800;
+		font-size: 48px;
+		text-decoration-line: underline;
 
-	font-family: variables.$default-font;
-	font-style: bold;
-	font-weight: 800;
-	font-size: 48px;
-	text-decoration-line: underline;
+		color: #0158ae;
+	}
 
-	color: #0158ae;
-}
+	.train {
+		font-weight: 800;
+		font-size: 48px;
+		margin-left: 6px;
+	}
 
-.train {
-	width: 25%;
-	float: left;
+	.whitworth {
+		margin-top: 33px;
 
-	font-family: variables.$default-font;
-	font-style: bold;
-	font-weight: 800;
-	font-size: 48px;
-}
+		font-weight: 800;
+		font-size: 18px;
+		margin-left: 10px;
+	}
 
-.whitworth {
-	padding-top: 33px;
-	width: 45%;
-	float: left;
+	/* border between header and body */
 
-	font-family: variables.$default-font;
-	font-style: bold;
-	font-weight: 800;
-	font-size: 18px;
-}
+	.headerBorder {
+		position: absolute;
+		width: 100%;
+		height: 10px;
+		left: 0;
+		top: 70px;
 
-/* border between header and body */
-
-.headerBorder {
-	position: absolute;
-	width: 100%;
-	height: 10px;
-	left: 0;
-	top: 70px;
-
-	background: #c4c4c4;
+		background: #c4c4c4;
+	}
 }
 
 /* background container for login components */
+.loginBackground {
+	background-color: #f5f5f5;
+	width: 100%;
+	height: 100%;
 
-.loginBox {
-	@include variables.bodyContainer;
-	flex-direction: column;
-	align-items: center;
-	width: 600px;
-	height: 250px;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	.loginBox {
+		@include variables.bodyContainer;
+		flex-direction: column;
+		align-items: center;
+		width: 600px;
+		height: 250px;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 
-	background: #ffffff;
-}
+		background: #ffffff;
 
-/* Forgot Password ? */
+		/* Forgot Password ? */
 
-.forgotPassword {
-	@include variables.invisibleButton;
-	width: 200px;
-	height: 22px;
+		.forgotPassword {
+			@include variables.invisibleButton;
+			width: 200px;
+			height: 22px;
 
-	margin: 8px;
-	margin-top: 12px;
+			margin: 8px;
+			margin-top: 12px;
 
-	font-family: variables.$default-font;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 14px;
-	line-height: 16px;
+			font-style: normal;
+			font-weight: bold;
+			font-size: 14px;
+			line-height: 16px;
 
-	color: #1b43ef;
-}
+			color: #1b43ef;
+		}
 
-/* New Learner? Click Here */
+		/* New Learner? Click Here */
 
-.createAccount {
-	@include variables.invisibleButton;
-	width: 200px;
-	height: 22px;
+		.createAccount {
+			@include variables.invisibleButton;
+			width: 200px;
+			height: 22px;
 
-	margin: 8px;
+			margin: 8px;
 
-	font-family: variables.$default-font;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 14px;
-	line-height: 16px;
+			font-style: normal;
+			font-weight: bold;
+			font-size: 14px;
+			line-height: 16px;
 
-	color: #1b43ef;
+			color: #1b43ef;
+		}
+	}
 }
