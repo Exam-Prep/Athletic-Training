@@ -55,8 +55,6 @@
 		"dev": "webpack serve",
 		"build": "rm -rf dist && webpack --mode production --config webpack.prod.config.js && webpack --mode production --config webpack.server.config.js",
 		"start": "node ./dist/server.wp.js",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
 		"prettier": "prettier --config ./.prettierrc --ignore-path  ./.prettierignore --write \"**/*.ts*\" \"**/*.js\" \"**/*.scss\" \"*.json\" \"*.md\"",
 		"prettier-check": "prettier --list-different --config ./.prettierrc --ignore-path  ./.prettierignore \"**/*.ts*\" \"**/*.js\" \"**/*.scss\" \"*.json\" \"*.md\"",
 		"lint": "yarn prettier && yarn eslint && yarn stylelint",
