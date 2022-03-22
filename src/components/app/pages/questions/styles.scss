@@ -1,0 +1,101 @@
+/* Rectangle 19 */
+.background {
+position: absolute;
+width: 1440px;
+height: 1024px;
+left: 0px;
+top: 0px;
+
+background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #F5F5F5;
+}
+
+
+/* Rectangle 13 */
+.questionsBox {
+position: absolute;
+width: 1098px;
+height: 536px;
+left: 221px;
+top: 182px;
+
+background: #C4C4C4;
+border-radius: 10px;
+}
+
+
+/* Rectangle 1 */
+
+.questionsToolBar {
+position: absolute;
+width: 141px;
+height: 507px;
+left: 34px;
+top: 123px;
+
+background: #B8DFFE;
+border: 1px solid #000000;
+box-sizing: border-box;
+box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+border-radius: 10px;
+
+}
+
+
+
+.titleBar {
+position: absolute;
+width: 1440px;
+height: 59px;
+left: 0px;
+top: 1px;
+background: #C4C4C4;
+}
+
+.timeRemainingText{
+position: absolute;
+width: 131px;
+height: 19px;
+left: 42px;
+top: 138px;
+
+font-family: 'Roboto';
+font-style: italic;
+font-weight: 400;
+font-size: 12px;
+line-height: 14px;
+
+color: #000000;
+}
+
+.time {
+position: absolute;
+width: 81px;
+height: 23px;
+left: 66px;
+top: 158px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 20px;
+line-height: 23px;
+
+color: #0158AE;
+}
+
+.questionsLeft{
+position: absolute;
+width: 54px;
+height: 27px;
+left: 91px;
+top: 201px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 900;
+font-size: 24px;
+line-height: 28px;
+text-decoration-line: underline;
+
+color: #1B43EF;
+}
