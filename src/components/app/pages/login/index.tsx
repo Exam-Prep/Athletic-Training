@@ -24,12 +24,6 @@ const Login = () => {
 			<div className={styles.loginBackground}>
 				<div className={styles.loginBox}>
 					<AuthWidget />
-					<button className={styles.forgotPassword}>
-						Forgot Password?
-					</button>
-					<button className={styles.createAccount}>
-						New Learner? Click Here
-					</button>
 				</div>
 			</div>
 		</Page>

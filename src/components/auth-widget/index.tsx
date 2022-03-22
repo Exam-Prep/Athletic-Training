@@ -35,18 +35,20 @@ const AuthWidget = () => {
 	};
 
 	return (
-		<div>
+		<div className={styles.authWidget}>
 			<input
-				className={styles.usernameTextBox}
+				type='email'
+				className={styles.input}
 				onChange={(e) => setEmail(e.target.value)}
 				placeholder='Username (typically your email)'
 			/>
 			<input
-				className={styles.passwordTextBox}
+				type='password'
+				className={styles.input}
 				onChange={(e) => setPassword(e.target.value)}
 				placeholder='Password'
 			/>
-			<div className={styles.loginBox}>
+			<div className={styles.buttonBox}>
 				<button className={styles.loginButton} onClick={onClickLogin}>
 					Login
 				</button>
@@ -55,6 +57,9 @@ const AuthWidget = () => {
 					onClick={onClickRegister}
 				>
 					Register
+				</button>
+				<button className={styles.forgotPassword}>
+					Forgot Password?
 				</button>
 			</div>
 		</div>
