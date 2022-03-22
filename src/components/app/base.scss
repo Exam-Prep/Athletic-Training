@@ -1,0 +1,14 @@
+/** @format */
+
+@use "../../styles/variables" as variables;
+
+* {
+	font-family: variables.$default-font;
+	margin: 0;
+}
+
+.app {
+	width: 100vw;
+	height: 100vh;
+	position: relative;
+}
