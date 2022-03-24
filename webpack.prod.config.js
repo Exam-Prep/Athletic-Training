@@ -4,7 +4,7 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const CssMinimizerWebpackPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
 				exclude: /node_modules/,
 			},
 			{
-				test: /\.(s*)css$/,
+				test: /\.scss$/,
 				use: [
 					{
 						loader: MiniCssExtractPlugin.loader,
@@ -27,7 +27,7 @@ module.exports = {
 						loader: "css-loader",
 						options: {
 							modules: {
-								localIdentName: "[hash:base64]",
+								localIdentName: "[contenthash]",
 							},
 						},
 					},
@@ -36,12 +36,7 @@ module.exports = {
 			},
 			{
 				test: /\.(jpg|png|svg)$/,
-				use: [
-					{
-						loader: "file-loader",
-						options: { name: "[name].[contenthash].[ext]" },
-					},
-				],
+				type: "asset",
 			},
 		],
 	},
@@ -49,23 +44,27 @@ module.exports = {
 		extensions: [".tsx", ".ts", ".js"],
 	},
 	output: {
+		globalObject: "this",
 		path: path.resolve(__dirname, "dist/"),
 		publicPath: "/",
 		filename: "main.[contenthash].wp.js",
-		chunkFilename: "[contenthash].js",
+		chunkFilename: "chunk.[contenthash].js",
 	},
+	devtool: "source-map",
 	optimization: {
+		innerGraph: true,
+		minimize: true,
 		splitChunks: {
-			chunks: "async",
+			chunks: "all",
 			cacheGroups: {
 				vendor: {
-					test: /[\\/]node_modules[\\/]/,
-					name: "vendors",
-					chunks: "all",
+					filename: "modules.[contenthash].js",
+					reuseExistingChunk: true,
 				},
 			},
 		},
-		minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})],
+		usedExports: false,
+		minimizer: [new TerserPlugin(), new CssMinimizerWebpackPlugin({})],
 	},
 	plugins: [
 		new HtmlWebpackPlugin({

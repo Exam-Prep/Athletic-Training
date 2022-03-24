@@ -1,7 +1,6 @@
 /** @format */
 
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import styles from "./styles.scss";
 import { useAuth } from "../../AuthContext";
 
