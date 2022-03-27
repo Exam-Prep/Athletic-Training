@@ -1,4 +1,14 @@
-/* Rectangle 19 */
+@use "../../../../styles/variables" as variables;
+
+@mixin flexColumn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+
+
 .background {
 position: absolute;
 width: 1440px;
@@ -20,27 +30,25 @@ top: 182px;
 
 background: #C4C4C4;
 border-radius: 10px;
+@include flexColumn()
 }
 
-
-/* Rectangle 1 */
 
 .questionsToolBar {
-position: absolute;
-width: 141px;
-height: 507px;
-left: 34px;
-top: 123px;
+	position: absolute;
+	width: 80px;
+	height: 507px;
+	left: 34px;
+	top: 123px;
 
-background: #B8DFFE;
-border: 1px solid #000000;
-box-sizing: border-box;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-border-radius: 10px;
+	background: #B8DFFE;
+	border: 1px solid #000000;
+	box-sizing: border-box;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	@include flexColumn;
 
 }
-
-
 
 .titleBar {
 position: absolute;
@@ -51,51 +59,3 @@ top: 1px;
 background: #C4C4C4;
 }
 
-.timeRemainingText{
-position: absolute;
-width: 131px;
-height: 19px;
-left: 42px;
-top: 138px;
-
-font-family: 'Roboto';
-font-style: italic;
-font-weight: 400;
-font-size: 12px;
-line-height: 14px;
-
-color: #000000;
-}
-
-.time {
-position: absolute;
-width: 81px;
-height: 23px;
-left: 66px;
-top: 158px;
-
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 700;
-font-size: 20px;
-line-height: 23px;
-
-color: #0158AE;
-}
-
-.questionsLeft{
-position: absolute;
-width: 54px;
-height: 27px;
-left: 91px;
-top: 201px;
-
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 900;
-font-size: 24px;
-line-height: 28px;
-text-decoration-line: underline;
-
-color: #1B43EF;
-}

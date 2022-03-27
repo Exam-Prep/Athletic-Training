@@ -1,0 +1,233 @@
+/** @format */
+@use "../../styles/variables" as variables;
+
+@mixin flexColumn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+@mixin button {
+	width: 80%;
+	height: 40px;
+	margin-bottom: 10px;
+	border: none;
+	color: #c4c4c4;
+	cursor: pointer;
+}
+
+.toolBoxLine1,
+.toolBoxLine2,
+.toolBoxLine3,
+.toolBoxLine4{
+	position: absolute;
+	width: 146px;
+	height: 0px;
+	left: 27px;
+	top: 260px;
+
+	border: 1px solid #FFFFFF;
+}
+
+.stretch {
+	width:100%
+	display: inline-block;
+	font-size:0;
+	line-height:0;
+}
+
+.questionsToolBar {
+	position: absolute;
+	width: 80%;
+	height: 507px;
+	left: 34px;
+	top: 123px;
+
+	background: #B8DFFE;
+	border: 1px solid #000000;
+	box-sizing: border-box;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	@include flexColumn;
+}
+	.questionsNotAnswered {
+		position: absolute;
+		width: 54px;
+		height: 27px;
+		left: 91px;
+		top: 201px;
+
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 900;
+		font-size: 24px;
+		line-height: 28px;
+		text-decoration-line: underline;
+
+		color: #1B43EF;
+
+	}
+
+	.timeRemaining {
+
+	position: absolute;
+	width: 80%;
+	height: 12px;
+	left: 15%;
+	top:10px;
+
+	font-family: 'Roboto';
+	font-style: italic;
+	font-weight: 400;
+	font-size: 8%;
+	line-height: 14px;
+
+	color: #000000;
+	}
+
+	.timeLeftOnExam {
+		position: absolute;
+		width: 81px;
+		height: 23px;
+		left: 28%;
+		top: 25px;
+
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 700;
+		font-size: 20px;
+		line-height: 23px;
+
+		color: #0158AE;
+	}
+	
+
+	.questionsCompleted {
+		position: absolute;
+		width: 54px;
+		height: 27px;
+		left: 40%;
+		top: 14%;
+
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 900;
+		font-size: 24px;
+		line-height: 28px;
+		text-decoration-line: underline;
+
+		color: #1B43EF;
+	}
+
+	.questionsCompletedText {
+		position: absolute;
+		width: 116px;
+		height: 16px;
+		left: 3px;
+		top: 20%;
+
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 8px;
+		line-height: 14px;
+
+		color: #000000;
+	}
+
+
+	.questionsNotCompleted {
+		position: absolute;
+		width: 54px;
+		height: 27px;
+		left: 40%;
+		top: 28%;
+
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 900;
+		font-size: 24px;
+		line-height: 28px;
+		text-decoration-line: underline;
+
+		color: #1B43EF;
+	}
+
+	.questionsNotCompletedText {
+		position: absolute;
+		width: 116px;
+		height: 16px;
+		left: 17%;
+		top: 33%;
+
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 8px;
+		line-height: 14px;
+
+		color: #000000;
+	}
+
+	.flaggedQuestionCount {
+		position: absolute;
+		width: 14px;
+		height: 28px;
+		left: 99px;
+		top: 355px;
+
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 900;
+		font-size: 24px;
+		line-height: 28px;
+		text-decoration-line: underline;
+
+		color: #1B43EF;
+	}
+
+	.flaggedQuestionText {
+		position: absolute;
+		width: 115px;
+		height: 22px;
+		left: 49px;
+		top: 383px;
+
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 14px;
+		text-align: center;
+
+		color: #000000;
+	}
+
+	.calculatorIcon{
+		position: absolute;
+		width: 40px;
+		height: 33px;
+		left: 86px;
+		top: 429px;
+		background: #C4C4C4;
+	}
+
+	.helpIcon{
+		position: absolute;
+		width: 40px;
+		height: 33px;
+		left: 86px;
+		top: 489px;
+		background: #C4C4C4;
+	}
+
+	.takeBreakIcon {
+		position: absolute;
+		width: 40px;
+		height: 33px;
+		left: 84px;
+		top: 560px;
+
+		background: #C4C4C4;
+	}
