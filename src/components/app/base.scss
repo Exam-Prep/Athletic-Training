@@ -1,6 +1,7 @@
 /** @format */
 
 @use "../../styles/variables" as variables;
+@import "~bootstrap/scss/bootstrap";
 
 * {
 	font-family: variables.$default-font;
