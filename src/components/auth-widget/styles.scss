@@ -57,3 +57,29 @@
 		cursor: pointer;
 	}
 }
+
+.errorHandling {
+	@include flexColumn;
+	width: 80%;
+
+	.errorText {
+		width: 100%;
+		align-items: center;
+		text-align: center;
+		background-color: red;
+		color: white;
+		border-radius: 5px;
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+
+	.exitButton {
+		position: absolute;
+		border: none;
+		right: 0;
+		margin-right: 10%;
+		background-color: transparent;
+		color: white;
+		font-size: 20px;
+	}
+}
