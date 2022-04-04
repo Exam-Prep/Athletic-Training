@@ -1,16 +1,9 @@
 /** @format */
 
 import React from "react";
-import { useState } from "react";
 import styles from "./styles.scss";
 
-
-const onClickCalculator = () => {
-
-}
-
 const QuestionToolBar = () => {
-
 	return (
 		<div className={styles.questionToolBar}>
 			<div className={styles.timeRemaining}> Time remaining</div>

@@ -13,10 +13,9 @@ const App = () => {
 			<AuthContextProvider>
 				<Router>
 					<Routes>
-						<Route path='/' element={<Questions />} />
-				
+						<Route path='/' element={<Login />} />
+						<Route path='/questions' element={<Questions />} />
 					</Routes>
-
 				</Router>
 			</AuthContextProvider>
 		</div>

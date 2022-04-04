@@ -1,3 +1,5 @@
+/** @format */
+
 @use "../../../../styles/variables" as variables;
 
 @mixin flexColumn {
@@ -7,32 +9,28 @@
 	flex-direction: column;
 }
 
-
-
 .background {
-position: absolute;
-width: 1440px;
-height: 1024px;
-left: 0px;
-top: 0px;
+	position: absolute;
+	width: 1440px;
+	height: 1024px;
+	left: 0;
+	top: 0;
 
-background: linear-gradient(0deg, #F5F5F5, #F5F5F5), #F5F5F5;
+	background: linear-gradient(0deg, #f5f5f5, #f5f5f5), #f5f5f5;
 }
-
 
 /* Rectangle 13 */
 .questionsBox {
-position: absolute;
-width: 1098px;
-height: 536px;
-left: 221px;
-top: 182px;
+	position: absolute;
+	width: 1098px;
+	height: 536px;
+	left: 221px;
+	top: 182px;
 
-background: #C4C4C4;
-border-radius: 10px;
-@include flexColumn()
+	background: #c4c4c4;
+	border-radius: 10px;
+	@include flexColumn();
 }
-
 
 .questionsToolBar {
 	position: absolute;
@@ -41,21 +39,19 @@ border-radius: 10px;
 	left: 34px;
 	top: 123px;
 
-	background: #B8DFFE;
+	background: #b8dffe;
 	border: 1px solid #000000;
 	box-sizing: border-box;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
 	border-radius: 10px;
 	@include flexColumn;
-
 }
 
 .titleBar {
-position: absolute;
-width: 1440px;
-height: 59px;
-left: 0px;
-top: 1px;
-background: #C4C4C4;
+	position: absolute;
+	width: 1440px;
+	height: 59px;
+	left: 0;
+	top: 1px;
+	background: #c4c4c4;
 }
-
