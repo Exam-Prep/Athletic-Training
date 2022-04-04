@@ -8,9 +8,16 @@ import styles from "./styles.scss";
 
 import AuthWidget from "../../../auth-widget";
 
+import ArrowButton from "../../../arrow-button";
+
 const Login = () => {
 	return (
 		<Page>
+			<ArrowButton
+				onClick={() => alert("clicked")}
+				rotate={true}
+				text={"Next"}
+			/>
 			<div className={styles.header}>
 				<div className={styles.logo}>
 					<div className={styles.athleti}>Athleti</div>
