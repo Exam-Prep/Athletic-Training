@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import styles from "./styles.scss";
 import { useAuth } from "../../AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function readableErrorCode(code: string): string {
 	switch (code) {
@@ -21,12 +22,14 @@ const AuthWidget = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 	const { login, register } = useAuth();
+	const path = "/questions";
+	const navigate = useNavigate();
 
 	const onClickLogin = () => {
 		if (login) {
 			login(email, password)
-				.then((user) => {
-					console.log(user.user);
+				.then(() => {
+					navigate(path);
 				})
 				.catch((error) => {
 					setError(readableErrorCode(error.code));
@@ -37,8 +40,8 @@ const AuthWidget = () => {
 	const onClickRegister = () => {
 		if (register) {
 			register(email, password)
-				.then((user) => {
-					console.log(user.user);
+				.then(() => {
+					navigate(path);
 				})
 				.catch((error) => {
 					setError(readableErrorCode(error.code));
