@@ -9,7 +9,7 @@ const QuestionWriterUI = () => {
 	const [selectedExam, setSelectedExam] = useState<Exam | null>(null);
 	const [question, setQuestion] = useState("");
 	const [answers, setAnswers] = useState(new Map<number, string>());
-	const [correctQuestion, setCorrectQuestion] = useState(0);
+	const [correctQuestion, setCorrectQuestion] = useState(1);
 	const [exams, setExams] = useState<Array<Exam>>([]);
 
 	const onSubmitExam = () => {
