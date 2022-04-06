@@ -1,0 +1,16 @@
+/** @format */
+
+@use "../../styles/variables" as variables;
+
+@mixin flexColumn {
+	display: flex;
+	justify-content: right;
+	align-items: right;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.questionInput {
+	@include flexColumn;
+	margin: 5%;
+}
