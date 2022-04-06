@@ -4,13 +4,16 @@ import { database } from "../firebase/firebase";
 import { set, ref, child, onValue } from "firebase/database";
 import { Answer, Question, QuestionType } from "./Question";
 
+const examSetRefString = "/exam_set";
+const questionRefString = "/questions/";
+
 type PartialExam = {
 	lastQuestion: string;
 	qid: number;
 	title: string;
 };
 export function getPartialExams() {
-	const partialExam = ref(database, "/question_set");
+	const partialExam = ref(database, examSetRefString);
 	const promise = new Promise<Array<Exam>>((resolve, reject) => {
 		onValue(
 			partialExam,
@@ -64,14 +67,14 @@ export class Exam {
 				Math.random() * Math.floor(Math.random() * Date.now()),
 			);
 		}
-		const PartialExamRef = ref(database, "/question_set");
+		const PartialExamRef = ref(database, examSetRefString);
 		set(child(PartialExamRef, this.id.toString()), {
 			title: this.name,
 			lastQuestion: this.currentQuestion?.question ?? "",
 			qID: this.currentQuestion?.id ?? 0,
 		});
 		this.questions.forEach((question) => {
-			const questionsRef = ref(database, "/questions/" + this.id);
+			const questionsRef = ref(database, questionRefString + this.id);
 			set(child(questionsRef, question.id.toString()), {
 				qID: question.id,
 				question: question.question,
@@ -83,7 +86,7 @@ export class Exam {
 
 	private loadQuestions() {
 		const promise = new Promise<Array<Question>>((resolve, reject) => {
-			const reference = ref(database, "/questions/" + this.id);
+			const reference = ref(database, questionRefString + this.id);
 			onValue(
 				reference,
 				(snapshot) => {

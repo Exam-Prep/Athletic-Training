@@ -129,11 +129,11 @@ const QuestionWriterUI = () => {
 				name='correctAnswer'
 				id='correctAnswer'
 			>
-				<option value='1'>Question 1</option>
-				<option value='2'>Question 2</option>
-				<option value='3'>Question 3</option>
-				<option value='4'>Question 4</option>
-				<option value='5'>Question 5</option>
+				<option value='1'>Answer 1</option>
+				<option value='2'>Answer 2</option>
+				<option value='3'>Answer 3</option>
+				<option value='4'>Answer 4</option>
+				<option value='5'>Answer 5</option>
 			</select>
 			<button onClick={onSubmitExam}>
 				{selectedExam === null
