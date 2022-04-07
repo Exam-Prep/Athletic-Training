@@ -22,7 +22,7 @@ const AuthWidget = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 	const { login, register } = useAuth();
-	const path = "/questions";
+	const path = "/exams";
 	const navigate = useNavigate();
 
 	const onClickLogin = () => {

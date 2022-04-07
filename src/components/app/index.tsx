@@ -4,6 +4,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/login";
 import Questions from "./pages/questions";
+import ExamList from "./pages/exam-list";
 import { AuthContextProvider } from "../../AuthContext";
 import styles from "./base.scss";
 
@@ -15,6 +16,7 @@ const App = () => {
 					<Routes>
 						<Route path='/' element={<Login />} />
 						<Route path='/questions' element={<Questions />} />
+						<Route path='/exams' element={<ExamList />} />
 					</Routes>
 				</Router>
 			</AuthContextProvider>
