@@ -15,7 +15,7 @@
 
 .header {
 	width: 100vw;
-	max-height: 10%;
+	height: 10%;
 
 	.logo {
 		position: absolute;
@@ -68,6 +68,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: relative;
+	flex-wrap: wrap;
 
 	.examsBox {
 		width: 20%;
@@ -79,5 +81,7 @@
 		align-items: center;
 		flex-direction: column;
 		position: relative;
+		margin-right: 20px;
+		margin-left: 20px;
 	}
 }

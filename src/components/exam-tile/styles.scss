@@ -33,4 +33,10 @@
 
 		background-color: #1b43ef;
 	}
+
+	.addExamButton {
+		@include button;
+
+		background-color: #fd8606;
+	}
 }

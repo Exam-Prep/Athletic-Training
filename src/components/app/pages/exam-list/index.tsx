@@ -1,15 +1,26 @@
 /** @format */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Page from "../page";
 import styles from "./styles.scss";
 import ExamTile from "../../../exam-tile";
 import { useNavigate } from "react-router-dom";
+import { Exam, getPartialExams } from "../../../../model/Exam";
 
 const ExamList = () => {
 	const navigate = useNavigate();
+	const [exams, setExams] = useState<Exam[]>();
+	useEffect(() => {
+		getPartialExams()
+			.then((x) => setExams(x))
+			.catch(() => console.error("error fetching exams"));
+	}, []);
 
-	const onClick = () => {
+	const navigateToExam = () => {
 		navigate("/questions");
+	};
+
+	const addExam = () => {
+		alert("add exam");
 	};
 
 	return (
@@ -25,8 +36,15 @@ const ExamList = () => {
 				<div className={styles.headerBorder} />
 			</div>
 			<div className={styles.examBackground}>
+				{exams?.map((x) => {
+					return (
+						<div className={styles.examsBox} key={x.id}>
+							<ExamTile onClick={navigateToExam} name={x.name} />
+						</div>
+					);
+				})}
 				<div className={styles.examsBox}>
-					<ExamTile onClick={onClick} />
+					<ExamTile onClick={addExam} name={"Add New Exam"} addExam />
 				</div>
 			</div>
 		</Page>
