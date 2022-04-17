@@ -1,58 +1,62 @@
 /** @format */
 @use "../../styles/variables" as variables;
 
-@mixin flexColumn {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-}
-
-@mixin button {
-	width: 80%;
-	height: 40px;
-	margin-bottom: 10px;
-	border: none;
-	color: #c4c4c4;
-	cursor: pointer;
-}
-
 .toolBoxLine1,
 .toolBoxLine2,
 .toolBoxLine3,
-.toolBoxLine4 {
+.toolBoxLine4,
+.toolHalfBoxLine{
 	position: absolute;
-	width: 146px;
+	width: 100%;
 	height: 0;
-	left: 27px;
 	top: 260px;
 
 	border: 1px solid #ffffff;
 }
 
-.stretch {
-	width: 100%;
-	display: inline-block;
-	font-size: 0;
-	line-height: 0;
+.toolBoxLine1{
+	top: 13%;
+
 }
 
-.questionsToolBar {
-	position: absolute;
+.toolBoxLine2{
+	top: 39%;
+}
+
+.toolHalfBoxLine{
+	left: 8px;
 	width: 80%;
+	top: 26%;
+}
+
+.toolBoxLine3{
+	top: 63%;
+}
+
+.toolBoxLine4{
+	top: 85%;
+}
+
+
+
+.questionsToolBar {
+	position: fixed;
+	width: 100%;
+	min-width: 9%;
 	height: 507px;
 	left: 34px;
 	top: 123px;
+	display: flex;
 
 	background: #b8dffe;
 	border: 1px solid #000000;
 	box-sizing: border-box;
 	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
 	border-radius: 10px;
-	@include flexColumn;
+	
 }
 .questionsNotAnswered {
-	position: absolute;
+	position: fixed;
 	width: 54px;
 	height: 27px;
 	left: 91px;
@@ -68,43 +72,15 @@
 	color: #1b43ef;
 }
 
-.timeRemaining {
-	position: absolute;
-	width: 80%;
-	height: 12px;
-	left: 15%;
-	top: 10px;
-
-	font-family: "Roboto";
-	font-style: italic;
-	font-weight: 400;
-	font-size: 8%;
-	line-height: 14px;
-
-	color: #000000;
-}
-
-.timeLeftOnExam {
-	position: absolute;
-	width: 81px;
-	height: 23px;
-	left: 28%;
-	top: 25px;
-
-	font-family: "Roboto";
-	font-style: normal;
-	font-weight: 700;
-	font-size: 20px;
-	line-height: 23px;
-
-	color: #0158ae;
-}
-
-.questionsCompleted {
+.timeLeftOnExam,
+.questionsCompleted,
+.questionsNotCompleted,
+.questionsFlagged {
+	display: block;
 	position: absolute;
 	width: 54px;
 	height: 27px;
-	left: 40%;
+	left: 42%;
 	top: 14%;
 
 	font-family: "Roboto";
@@ -117,11 +93,17 @@
 	color: #1b43ef;
 }
 
-.questionsCompletedText {
+.questionsCompletedText,
+.questionsNotCompletedText,
+.questionsFlaggedText,
+.timeRemainingText {
+	padding: 5px;
+	display: flex;
 	position: absolute;
-	width: 116px;
+	text-align:center ;
+	width: 30%;
 	height: 16px;
-	left: 3px;
+	left: 28%;
 	top: 20%;
 
 	font-family: "Roboto";
@@ -132,98 +114,83 @@
 
 	color: #000000;
 }
+.timeRemainingText{
+	top: 1%;
+}
+
+.timeLeftOnExam {
+	top: 7%;
+}
+
+
+.questionsCompletedText{
+	width:100%;
+
+}
 
 .questionsNotCompleted {
-	position: absolute;
-	width: 54px;
-	height: 27px;
-	left: 40%;
 	top: 28%;
 
-	font-family: "Roboto";
-	font-style: normal;
-	font-weight: 900;
-	font-size: 24px;
-	line-height: 28px;
-	text-decoration-line: underline;
-
-	color: #1b43ef;
 }
 
 .questionsNotCompletedText {
-	position: absolute;
-	width: 116px;
-	height: 16px;
-	left: 17%;
-	top: 33%;
-
-	font-family: "Roboto";
-	font-style: normal;
-	font-weight: 400;
-	font-size: 8px;
-	line-height: 14px;
-
-	color: #000000;
+	top: 34%;
+	width: 100%;
 }
 
-.flaggedQuestionCount {
+.flaggedIcon {
+
+	font-family: 'FontAwesome';
+	font-size: x-large;
 	position: absolute;
-	width: 14px;
-	height: 28px;
-	left: 99px;
-	top: 355px;
-
-	font-family: "Roboto";
-	font-style: normal;
-	font-weight: 900;
-	font-size: 24px;
-	line-height: 28px;
-	text-decoration-line: underline;
-
-	color: #1b43ef;
+	color:#1b43ef;
+	width: 60%;
+	height: 103px;
+	left: 40%;
+	top: 40%;
+	
 }
 
-.flaggedQuestionText {
-	position: absolute;
-	width: 115px;
-	height: 22px;
-	left: 49px;
-	top: 383px;
+.questionsFlagged {
+	top: 50%;
+}
 
-	font-family: "Roboto";
-	font-style: normal;
-	font-weight: 400;
-	font-size: 12px;
-	line-height: 14px;
-	text-align: center;
+.questionsFlaggedText {
+	top: 55%;
 
 	color: #000000;
 }
 
 .calculatorIcon {
+	
+	font-family: 'FontAwesome';
+	font-size: x-large;
 	position: absolute;
-	width: 40px;
-	height: 33px;
-	left: 86px;
-	top: 429px;
-	background: #c4c4c4;
+	color:#1b43ef;
+	width: 70%;
+	left: 38%;
+	top: 65%;
+	
 }
 
+
+
 .helpIcon {
+	font-family: 'FontAwesome';
+	font-size: x-large;
 	position: absolute;
-	width: 40px;
-	height: 33px;
-	left: 86px;
-	top: 489px;
-	background: #c4c4c4;
+	color:#1b43ef;
+	width: 70%;
+	left: 36%;
+	top: 75%;
 }
 
 .takeBreakIcon {
+	font-family: 'FontAwesome';
+	font-size: x-large;
 	position: absolute;
-	width: 40px;
-	height: 33px;
-	left: 84px;
-	top: 560px;
-
-	background: #c4c4c4;
+	color:#1b43ef;
+	width: 70%;
+	left: 36%;
+	top: 88%;
 }
