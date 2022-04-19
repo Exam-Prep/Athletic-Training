@@ -36,6 +36,8 @@ export class Question {
 			this.id = Math.floor(
 				Math.random() * Math.floor(Math.random() * Date.now()),
 			);
+		} else {
+			this.id = id;
 		}
 	}
 
