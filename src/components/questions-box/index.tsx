@@ -18,7 +18,8 @@ const QuestionWriterUI = () => {
 			exam = new Exam();
 			exam.name = examName;
 		} else {
-			//This is a safe unwrap.
+			// This is a safe unwrap because selectedExam will never be null.
+			// eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
 			exam = selectedExam!;
 		}
 
