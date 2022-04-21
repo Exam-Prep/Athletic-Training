@@ -6,22 +6,28 @@ import ExamTile from "../../../exam-tile";
 import { useNavigate } from "react-router-dom";
 import { Exam, getPartialExams } from "../../../../model/Exam";
 
+
 const ExamList = () => {
 	const navigate = useNavigate();
 	const [exams, setExams] = useState<Exam[]>();
+	
 	useEffect(() => {
 		getPartialExams()
 			.then((x) => setExams(x))
 			.catch(() => console.error("error fetching exams"));
 	}, []);
 
-	const navigateToExam = () => {
-		navigate("/questions");
+	const navigateToExam = (exam: Exam) => {
+		console.log(exam.id);
+		navigate("/questions", { state: exam.id});
 	};
 
 	const addExam = () => {
 		alert("add exam");
 	};
+
+
+
 
 	return (
 		<Page>
@@ -39,7 +45,8 @@ const ExamList = () => {
 				{exams?.map((x) => {
 					return (
 						<div className={styles.examsBox} key={x.id}>
-							<ExamTile onClick={navigateToExam} name={x.name} />
+							<ExamTile onClick={() =>
+								{navigateToExam(x)}} name={x.name} />
 						</div>
 					);
 				})}

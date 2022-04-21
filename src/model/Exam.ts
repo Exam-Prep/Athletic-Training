@@ -45,6 +45,40 @@ export function getPartialExams() {
 
 	return promise;
 }
+
+export function loadPartialExam(examID: number) {
+	const partialExam = ref(database, examSetRefString + "/" + examID)
+	const promise = new Promise<Exam>((resolve, reject) => {
+		onValue(
+			partialExam,
+			(snapshot) => {
+				console.log(snapshot.val());
+				const value: PartialExam = snapshot.val();
+				const exam = new Exam();
+				exam.name = value.title;
+				exam.currentQuestionID = value.qid;
+				exam.currentQuestionString = value.lastQuestion;
+				exam.id = Number(examID);
+
+				resolve(exam);
+				
+			},
+			(error) => {
+				console.log(error);
+				reject(
+					new Error(
+						"Failed to Fetch Exam. Please Try Again"
+					),
+				);
+			},
+		);
+
+	});
+	return promise;
+}
+
+
+
 type JSONQuestion = {
 	qid: number;
 	question: string;
