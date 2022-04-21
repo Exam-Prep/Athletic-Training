@@ -47,7 +47,7 @@ export function getPartialExams() {
 }
 
 export function loadPartialExam(examID: number) {
-	const partialExam = ref(database, examSetRefString + "/" + examID)
+	const partialExam = ref(database, examSetRefString + "/" + examID);
 	const promise = new Promise<Exam>((resolve, reject) => {
 		onValue(
 			partialExam,
@@ -61,23 +61,15 @@ export function loadPartialExam(examID: number) {
 				exam.id = Number(examID);
 
 				resolve(exam);
-				
 			},
 			(error) => {
 				console.log(error);
-				reject(
-					new Error(
-						"Failed to Fetch Exam. Please Try Again"
-					),
-				);
+				reject(new Error("Failed to Fetch Exam. Please Try Again"));
 			},
 		);
-
 	});
 	return promise;
 }
-
-
 
 type JSONQuestion = {
 	qid: number;

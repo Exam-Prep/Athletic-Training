@@ -1,5 +1,5 @@
 /** @format */
-import React, { useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Page from "../page";
 import styles from "./styles.scss";
 import QuestionToolBar from "../../../questions-toolbar";
@@ -19,7 +19,6 @@ const Questions = () => {
 		loadPartialExam(location.state).then((loadedExam) => {
 			loadedExam.downloadExistingQuestionsIfNecessary();
 			setExam(loadedExam);
-			
 		});
 	}, []);
 
@@ -30,14 +29,12 @@ const Questions = () => {
 			</div>
 			<div className={styles.questionsToolBar}></div> */}
 			{console.log(location.state)}
-			<div className={styles.titleBar}>
-				{exam?.name}</div>
+			<div className={styles.titleBar}>{exam?.name}</div>
 			{/* <div className={styles.questionsToolBar}>
 				<QuestionToolBar />
 			</div>
 
 			<div className={styles.questionsToolBar}> </div> */}
-
 		</Page>
 	);
 };
