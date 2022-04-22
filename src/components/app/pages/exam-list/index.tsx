@@ -40,12 +40,22 @@ const ExamList = () => {
 				{exams?.map((x) => {
 					return (
 						<div className={styles.examsBox} key={x.id}>
-							<ExamTile onClick={navigateToExam} name={x.name} />
+							<ExamTile
+								onClick={navigateToExam}
+								name={x.name}
+								currentExam={x}
+								admin={true} // This will need to be changed once we can tell if the user is an admin
+							/>
 						</div>
 					);
 				})}
 				<div className={styles.examsBox}>
-					<ExamTile onClick={addExam} name={"Add New Exam"} addExam />
+					<ExamTile
+						onClick={addExam}
+						name={"Add New Exam"}
+						addExam
+						admin={false}
+					/>
 				</div>
 				<CreateNewExam hide={show} close={closeModal} />
 			</div>
