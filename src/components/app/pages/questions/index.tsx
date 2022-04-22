@@ -6,6 +6,7 @@ import QuestionToolBar from "../../../questions-toolbar";
 import QuestionWriterUI from "../../../questions-box";
 import { Exam, loadPartialExam } from "../../../../model/Exam";
 import { useLocation, useParams } from "react-router-dom";
+import DragUIContainer from "../../../drag-n-drop";
 
 const Questions = () => {
 	const location = useLocation();
@@ -29,9 +30,8 @@ const Questions = () => {
 			<div className={styles.titleBar}>{exam?.name}</div>
 			{/* <div className={styles.questionsToolBar}>
 				<QuestionToolBar />
-			</div>
-
-			<div className={styles.questionsToolBar}> </div> */}
+			</div> */}
+			<DragUIContainer/>
 		</Page>
 	);
 };
