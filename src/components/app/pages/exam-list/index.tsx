@@ -47,12 +47,19 @@ const ExamList = () => {
 									navigateToExam(x);
 								}}
 								name={x.name}
+								currentExam={x}
+								admin={true} // This will need to be changed once we can tell if the user is an admin
 							/>
 						</div>
 					);
 				})}
 				<div className={styles.examsBox}>
-					<ExamTile onClick={addExam} name={"Add New Exam"} addExam />
+					<ExamTile
+						onClick={addExam}
+						name={"Add New Exam"}
+						addExam
+						admin={false}
+					/>
 				</div>
 				<CreateNewExam hide={show} close={closeModal} />
 			</div>
