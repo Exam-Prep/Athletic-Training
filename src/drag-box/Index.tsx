@@ -19,6 +19,7 @@ const DragBox: React.FC<SourceBoxProps> = ({ showCopyIcon }) => {
 			collect: (monitor) => ({
 				opacity: monitor.isDragging() ? 0.4 : 1,
 			}),
+			item: { name: "hello" },
 		}),
 		[showCopyIcon],
 	);
