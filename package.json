@@ -16,6 +16,8 @@
 		"express-validator": "^6.14.0",
 		"firebase": "^9.6.9",
 		"fs": "^0.0.1-security",
+		"i": "^0.3.7",
+		"jquery": "^3.6.0",
 		"path": "^0.12.7",
 		"react": "^17.0.2",
 		"react-bootstrap": "^2.2.2",
@@ -26,6 +28,7 @@
 	},
 	"devDependencies": {
 		"@types/compression": "^1.7.2",
+		"@types/jquery": "^3.5.14",
 		"@types/react-router-dom": "^5.3.3",
 		"@typescript-eslint/eslint-plugin": "^5.15.0",
 		"@typescript-eslint/parser": "^5.15.0",
