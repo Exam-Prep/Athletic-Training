@@ -7,19 +7,17 @@ import QuestionWriterUI from "../../../questions-box";
 import { Exam, loadPartialExam } from "../../../../model/Exam";
 import { useLocation, useParams } from "react-router-dom";
 
-interface QuestionsProps {
-	exam: NavigationPro;
-}
-
 const Questions = () => {
 	const location = useLocation();
 	const [exam, setExam] = useState<Exam | undefined>();
 
 	useEffect(() => {
-		loadPartialExam(location.state).then((loadedExam) => {
-			loadedExam.downloadExistingQuestionsIfNecessary();
-			setExam(loadedExam);
-		});
+		loadPartialExam(parseInt(location.state as string)).then(
+			(loadedExam) => {
+				loadedExam.downloadExistingQuestionsIfNecessary();
+				setExam(loadedExam);
+			},
+		);
 	}, []);
 
 	return (
@@ -28,7 +26,6 @@ const Questions = () => {
 				<QuestionWriterUI />
 			</div>
 			<div className={styles.questionsToolBar}></div> */}
-			{console.log(location.state)}
 			<div className={styles.titleBar}>{exam?.name}</div>
 			{/* <div className={styles.questionsToolBar}>
 				<QuestionToolBar />

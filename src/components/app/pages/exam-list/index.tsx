@@ -17,7 +17,6 @@ const ExamList = () => {
 	}, []);
 
 	const navigateToExam = (exam: Exam) => {
-		console.log(exam.id);
 		navigate("/questions", { state: exam.id });
 	};
 

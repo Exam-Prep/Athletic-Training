@@ -9,7 +9,7 @@ const questionRefString = "/questions/";
 
 type PartialExam = {
 	lastQuestion: string;
-	qid: number;
+	qID: number;
 	title: string;
 };
 export function getPartialExams() {
@@ -25,7 +25,7 @@ export function getPartialExams() {
 				for (const [key, value] of examData.entries()) {
 					const exam = new Exam();
 					exam.name = value.title;
-					exam.currentQuestionID = value.qid;
+					exam.currentQuestionID = value.qID;
 					exam.currentQuestionString = value.lastQuestion;
 					exam.id = Number(key);
 					exams.push(exam);
@@ -52,11 +52,10 @@ export function loadPartialExam(examID: number) {
 		onValue(
 			partialExam,
 			(snapshot) => {
-				console.log(snapshot.val());
 				const value: PartialExam = snapshot.val();
 				const exam = new Exam();
 				exam.name = value.title;
-				exam.currentQuestionID = value.qid;
+				exam.currentQuestionID = value.qID;
 				exam.currentQuestionString = value.lastQuestion;
 				exam.id = Number(examID);
 
@@ -72,7 +71,7 @@ export function loadPartialExam(examID: number) {
 }
 
 type JSONQuestion = {
-	qid: number;
+	qID: number;
 	question: string;
 
 	type: string;
@@ -106,6 +105,7 @@ export class Exam {
 				question: question.question,
 				answers: question.answers,
 				correctAnswers: question.correctAnswers(),
+				type: question.type,
 			});
 		});
 	}
@@ -131,7 +131,7 @@ export class Exam {
 							],
 							value.question,
 							answers,
-							value.qid,
+							value.qID,
 						);
 						questions.push(question);
 					}
@@ -151,8 +151,23 @@ export class Exam {
 	}
 
 	public downloadExistingQuestionsIfNecessary() {
-		this.loadQuestions().then((questions) => {
-			this.questions.concat(questions);
+		const promise = new Promise<Exam>((resolve, reject) => {
+			this.loadQuestions()
+				.then((qs) => {
+					if (this.questions.length < 1) {
+						this.questions = qs;
+					} else {
+						this.questions.concat(qs);
+					}
+					this.currentQuestion = this.questions.filter(
+						(question) => question.id === this.currentQuestionID,
+					)[0];
+					resolve(this);
+				})
+				.catch((error) => {
+					reject(error);
+				});
 		});
+		return promise;
 	}
 }
