@@ -3,12 +3,22 @@ import React, { useState } from "react";
 import styles from "./styles.scss";
 import { Answer, Question, QuestionType } from "../../model/Question";
 import { Exam } from "../../model/Exam";
-import { Modal, Tab, Tabs, Toast } from "react-bootstrap";
+import { Modal, Tab, Tabs, Toast, ToastContainer } from "react-bootstrap";
+import $ from "jquery";
 
 interface QuestionWriterUIProps {
 	hide: boolean;
 	close: () => void;
 	selectedExam: Exam;
+}
+
+function clearInput() {
+	$("textarea").filter("[id*=question-input]").val("");
+	$("textarea").filter("[id*=answer1-input]").val("");
+	$("textarea").filter("[id*=answer2-input]").val("");
+	$("textarea").filter("[id*=answer3-input]").val("");
+	$("textarea").filter("[id*=answer4-input]").val("");
+	$("textarea").filter("[id*=answer5-input]").val("");
 }
 
 const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
@@ -20,12 +30,12 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 	const [answers, setAnswers] = useState(new Map<number, string>());
 	const [correctQuestion, setCorrectQuestion] = useState(1);
 	const [key, setKey] = useState("multiple-choice");
-	const [val, setValue] = useState();
 	const [show, setShow] = useState(false);
+
+	const showToast = () => setShow(true);
 
 	const onSubmitExam = () => {
 		const exam = selectedExam;
-		const showToast = () => setShow(true);
 
 		const typedAnswers = Array<Answer>();
 		answers.forEach((inputedAnswer, answerOrder) => {
@@ -49,7 +59,7 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 		exam.currentQuestion = exam.questions[0];
 		exam.writeExam();
 		showToast();
-		// () => setValue(() => "");
+		clearInput();
 	};
 
 	return (
@@ -57,6 +67,16 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 			<Modal dialogClassName={styles.modal} show={hide} onHide={close}>
 				<Modal.Header>
 					<Modal.Title>Add Question</Modal.Title>
+					<ToastContainer position='top-center'>
+						<Toast
+							onClose={() => setShow(false)}
+							show={show}
+							delay={3000}
+							autohide
+						>
+							<Toast.Body>Question Added!</Toast.Body>
+						</Toast>
+					</ToastContainer>
 				</Modal.Header>
 				<Modal.Body>
 					<Tabs
@@ -70,17 +90,16 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 							<div className={styles.questionInput}>
 								<textarea
 									className={styles.input}
-									rows='3'
-									value={val}
+									id='question-input'
+									rows={3}
 									onChange={(e) =>
 										setQuestion(e.target.value)
 									}
 									placeholder='Question'
 								/>
-								<input
+								<textarea
 									className={styles.input}
-									type='text'
-									value={val}
+									id='answer1-input'
 									onChange={(e) =>
 										setAnswers((existingAnswer) => {
 											existingAnswer.set(
@@ -92,10 +111,9 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 									}
 									placeholder='Answer 1'
 								/>
-								<input
+								<textarea
 									className={styles.input}
-									type='text'
-									value={val}
+									id='answer2-input'
 									onChange={(e) =>
 										setAnswers((existingAnswer) => {
 											existingAnswer.set(
@@ -107,10 +125,9 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 									}
 									placeholder='Answer 2'
 								/>
-								<input
+								<textarea
 									className={styles.input}
-									type='text'
-									value={val}
+									id='answer3-input'
 									onChange={(e) =>
 										setAnswers((existingAnswer) => {
 											existingAnswer.set(
@@ -122,10 +139,9 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 									}
 									placeholder='Answer 3'
 								/>
-								<input
+								<textarea
 									className={styles.input}
-									type='text'
-									value={val}
+									id='answer4-input'
 									onChange={(e) =>
 										setAnswers((existingAnswer) => {
 											existingAnswer.set(
@@ -137,10 +153,9 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 									}
 									placeholder='Answer 4'
 								/>
-								<input
+								<textarea
 									className={styles.input}
-									type='text'
-									value={val}
+									id='answer5-input'
 									onChange={(e) =>
 										setAnswers((existingAnswer) => {
 											existingAnswer.set(
@@ -197,15 +212,6 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 					</button>
 				</Modal.Footer>
 			</Modal>
-			{/* <Toast
-			onClose={() => setShow(false)}
-			show={show}
-			delay={3000}
-			autohide
-		>
-			<Toast.Header>{selectedExam.name}</Toast.Header>
-			<Toast.Body>Question Added!</Toast.Body>
-		</Toast> */}
 		</div>
 	);
 };
