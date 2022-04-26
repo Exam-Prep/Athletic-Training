@@ -2,26 +2,40 @@
 import React, { useState } from "react";
 import styles from "./styles.scss";
 import { Answer, Question, QuestionType } from "../../model/Question";
-import { Exam, getPartialExams } from "../../model/Exam";
+import { Exam } from "../../model/Exam";
+import { Modal, Tab, Tabs, Toast, ToastContainer } from "react-bootstrap";
+import $ from "jquery";
 
-const QuestionWriterUI = () => {
-	const [examName, setExamName] = useState("");
-	const [selectedExam, setSelectedExam] = useState<Exam | null>(null);
+interface QuestionWriterUIProps {
+	hide: boolean;
+	close: () => void;
+	selectedExam: Exam;
+}
+
+function clearInput() {
+	$("textarea").filter("[id*=question-input]").val("");
+	$("textarea").filter("[id*=answer1-input]").val("");
+	$("textarea").filter("[id*=answer2-input]").val("");
+	$("textarea").filter("[id*=answer3-input]").val("");
+	$("textarea").filter("[id*=answer4-input]").val("");
+	$("textarea").filter("[id*=answer5-input]").val("");
+}
+
+const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
+	hide,
+	close,
+	selectedExam,
+}) => {
 	const [question, setQuestion] = useState("");
 	const [answers, setAnswers] = useState(new Map<number, string>());
 	const [correctQuestion, setCorrectQuestion] = useState(1);
-	const [exams, setExams] = useState<Array<Exam>>([]);
+	const [key, setKey] = useState("multiple-choice");
+	const [show, setShow] = useState(false);
+
+	const showToast = () => setShow(true);
 
 	const onSubmitExam = () => {
-		let exam: Exam;
-		if (selectedExam === null) {
-			exam = new Exam();
-			exam.name = examName;
-		} else {
-			// This is a safe unwrap because selectedExam will never be null.
-			// eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
-			exam = selectedExam!;
-		}
+		const exam = selectedExam;
 
 		const typedAnswers = Array<Answer>();
 		answers.forEach((inputedAnswer, answerOrder) => {
@@ -44,118 +58,160 @@ const QuestionWriterUI = () => {
 		exam.questions.push(typedQuestion);
 		exam.currentQuestion = exam.questions[0];
 		exam.writeExam();
-	};
-
-	const onSubmitFetchExams = () => {
-		getPartialExams().then((exams) => {
-			setExams(exams);
-		});
-	};
-
-	const onClickExistingExam = (exam: Exam) => {
-		setExamName(exam.name);
-		setSelectedExam(exam);
-		exam.downloadExistingQuestionsIfNecessary();
+		showToast();
+		clearInput();
 	};
 
 	return (
-		<div className={styles.questionInput}>
-			<input
-				type='text'
-				value={examName}
-				onChange={(e) => {
-					setExamName(e.target.value);
-					setSelectedExam(null);
-				}}
-				placeholder='Exam name'
-			/>
-			<input
-				type='text'
-				onChange={(e) => setQuestion(e.target.value)}
-				placeholder='Question'
-			/>
-			<input
-				type='text'
-				onChange={(e) =>
-					setAnswers((existingAnswer) => {
-						existingAnswer.set(1, e.target.value);
-						return existingAnswer;
-					})
-				}
-				placeholder='Answer 1'
-			/>
-			<input
-				type='text'
-				onChange={(e) =>
-					setAnswers((existingAnswer) => {
-						existingAnswer.set(2, e.target.value);
-						return existingAnswer;
-					})
-				}
-				placeholder='Answer 2'
-			/>
-			<input
-				type='text'
-				onChange={(e) =>
-					setAnswers((existingAnswer) => {
-						existingAnswer.set(3, e.target.value);
-						return existingAnswer;
-					})
-				}
-				placeholder='Answer 3'
-			/>
-			<input
-				type='text'
-				onChange={(e) =>
-					setAnswers((existingAnswer) => {
-						existingAnswer.set(4, e.target.value);
-						return existingAnswer;
-					})
-				}
-				placeholder='Answer 4'
-			/>
-			<input
-				type='text'
-				onChange={(e) =>
-					setAnswers((existingAnswer) => {
-						existingAnswer.set(5, e.target.value);
-						return existingAnswer;
-					})
-				}
-				placeholder='Answer 5'
-			/>
-			<select
-				value={correctQuestion}
-				onChange={(e) => setCorrectQuestion(parseInt(e.target.value))}
-				name='correctAnswer'
-				id='correctAnswer'
-			>
-				<option value='1'>Answer 1</option>
-				<option value='2'>Answer 2</option>
-				<option value='3'>Answer 3</option>
-				<option value='4'>Answer 4</option>
-				<option value='5'>Answer 5</option>
-			</select>
-			<button onClick={onSubmitExam}>
-				{selectedExam === null
-					? "Create New Exam"
-					: "Add Question to " + examName}
-			</button>
-			<button onClick={onSubmitFetchExams}>
-				Download Existing Exams
-			</button>
-			<div>
-				{exams.map((examItem) => (
-					<button
-						key={examItem.id}
-						onClick={() => {
-							onClickExistingExam(examItem);
-						}}
+		<div>
+			<Modal dialogClassName={styles.modal} show={hide} onHide={close}>
+				<Modal.Header>
+					<Modal.Title>Add Question</Modal.Title>
+					<ToastContainer position='top-center'>
+						<Toast
+							onClose={() => setShow(false)}
+							show={show}
+							delay={3000}
+							autohide
+						>
+							<Toast.Body>Question Added!</Toast.Body>
+						</Toast>
+					</ToastContainer>
+				</Modal.Header>
+				<Modal.Body>
+					<Tabs
+						id='question-types'
+						activeKey={key}
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						onSelect={(k) => setKey(k!)}
+						className='mb-3'
 					>
-						{examItem.name}
+						<Tab eventKey='multiple-choice' title='Multiple Choice'>
+							<div className={styles.questionInput}>
+								<textarea
+									className={styles.input}
+									id='question-input'
+									rows={3}
+									onChange={(e) =>
+										setQuestion(e.target.value)
+									}
+									placeholder='Question'
+								/>
+								<textarea
+									className={styles.input}
+									id='answer1-input'
+									onChange={(e) =>
+										setAnswers((existingAnswer) => {
+											existingAnswer.set(
+												1,
+												e.target.value,
+											);
+											return existingAnswer;
+										})
+									}
+									placeholder='Answer 1'
+								/>
+								<textarea
+									className={styles.input}
+									id='answer2-input'
+									onChange={(e) =>
+										setAnswers((existingAnswer) => {
+											existingAnswer.set(
+												2,
+												e.target.value,
+											);
+											return existingAnswer;
+										})
+									}
+									placeholder='Answer 2'
+								/>
+								<textarea
+									className={styles.input}
+									id='answer3-input'
+									onChange={(e) =>
+										setAnswers((existingAnswer) => {
+											existingAnswer.set(
+												3,
+												e.target.value,
+											);
+											return existingAnswer;
+										})
+									}
+									placeholder='Answer 3'
+								/>
+								<textarea
+									className={styles.input}
+									id='answer4-input'
+									onChange={(e) =>
+										setAnswers((existingAnswer) => {
+											existingAnswer.set(
+												4,
+												e.target.value,
+											);
+											return existingAnswer;
+										})
+									}
+									placeholder='Answer 4'
+								/>
+								<textarea
+									className={styles.input}
+									id='answer5-input'
+									onChange={(e) =>
+										setAnswers((existingAnswer) => {
+											existingAnswer.set(
+												5,
+												e.target.value,
+											);
+											return existingAnswer;
+										})
+									}
+									placeholder='Answer 5'
+								/>
+								<select
+									className={styles.select}
+									value={correctQuestion}
+									onChange={(e) =>
+										setCorrectQuestion(
+											parseInt(e.target.value),
+										)
+									}
+									name='correctAnswer'
+									id='correctAnswer'
+								>
+									<option value='1'>Answer 1</option>
+									<option value='2'>Answer 2</option>
+									<option value='3'>Answer 3</option>
+									<option value='4'>Answer 4</option>
+									<option value='5'>Answer 5</option>
+								</select>
+								<button
+									className={styles.addQuestionButton}
+									onClick={onSubmitExam}
+								>
+									Add Question
+								</button>
+							</div>
+						</Tab>
+						<Tab
+							eventKey='select-all'
+							title='Select All that Apply'
+						>
+							This will be Select all that Apply
+						</Tab>
+						<Tab eventKey='drag-and-drop' title='Drag and Drop'>
+							This will be Drag and Drop
+						</Tab>
+						<Tab eventKey='hot-spot' title='Hot Spot'>
+							This will be Hot Spot
+						</Tab>
+					</Tabs>
+				</Modal.Body>
+				<Modal.Footer>
+					<button className={styles.close} onClick={close}>
+						Close
 					</button>
-				))}
-			</div>
+				</Modal.Footer>
+			</Modal>
 		</div>
 	);
 };
