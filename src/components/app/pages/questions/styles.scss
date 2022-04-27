@@ -11,8 +11,8 @@
 
 .background {
 	position: absolute;
-	width: 1440px;
-	height: 1024px;
+	width: 100%;
+	height: 100%;
 	left: 0;
 	top: 0;
 
@@ -22,8 +22,8 @@
 /* Rectangle 13 */
 .questionsBox {
 	position: absolute;
-	width: 1098px;
-	height: 536px;
+	width: 70%;
+	height: 72%;
 	left: 221px;
 	top: 182px;
 
@@ -33,25 +33,26 @@
 }
 
 .questionsToolBar {
-	position: absolute;
-	width: 80px;
+	position: fixed;
+	width: 10%;
+	min-width: 9%;
 	height: 507px;
+	max-height:507px;
 	left: 34px;
 	top: 123px;
+	display: flex;
 
 	background: #b8dffe;
 	border: 1px solid #000000;
 	box-sizing: border-box;
 	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
 	border-radius: 10px;
-	@include flexColumn;
 }
 
 .titleBar {
 	position: absolute;
-	width: 1440px;
-	height: 59px;
-	left: 0;
-	top: 1px;
+	width: 100%;
+	height: 5%;
 	background: #c4c4c4;
+	display: flex;
 }
