@@ -25,12 +25,12 @@ const Questions = () => {
 
 	return (
 		<Page>
-			{/* <div className={styles.questionsBox}>
+			 <div className={styles.questionsBox}>
 				<QuestionWriterUI />
 			</div>
 			<div className={styles.questionsToolBar}></div> */}
 			<div className={styles.titleBar}>{exam?.name}</div>
-			{/* <div className={styles.questionsToolBar}>
+			 <div className={styles.questionsToolBar}>
 				<QuestionToolBar />
 			</div> */}
 			{/* {exam != undefined ? <DragUIContainer exam={exam} /> : ""} */}
