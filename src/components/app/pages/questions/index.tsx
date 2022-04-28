@@ -20,6 +20,8 @@ const Questions = () => {
 			},
 		);
 	}, []);
+	
+	
 
 	return (
 		<Page>
@@ -27,13 +29,13 @@ const Questions = () => {
 				<QuestionWriterUI />
 			</div>
 			<div className={styles.questionsToolBar}></div> */}
-			<div className={styles.titleBar}>{exam?.name}</div>
+			{/* <div className={styles.titleBar}>{exam?.name}</div> */}
 			{/* <div className={styles.questionsToolBar}>
 				<QuestionToolBar />
 			</div> */}
-			<DragUIContainer/>
+			{exam != undefined ? <DragUIContainer exam={exam} /> : ""}
 		</Page>
 	);
-};
+}; 
 
 export default Questions;

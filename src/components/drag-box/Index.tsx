@@ -1,15 +1,15 @@
 /** @format */
 
-import React, { CSSProperties } from "react";
+import React from "react";
 import styles from "./styles.scss";
 import { useDrag } from "react-dnd";
-import { ItemTypes } from "../components/drop-box";
+import { ItemTypes } from "../drop-box";
 
 export interface SourceBoxProps {
-	showCopyIcon?: boolean;
+	name: string;
 }
 
-const DragBox: React.FC<SourceBoxProps> = ({ showCopyIcon }) => {
+const DragBox: React.FC<SourceBoxProps> = ({ name }) => {
 	const [{ opacity }, drag] = useDrag(
 		() => ({
 			type: ItemTypes.BOX,
@@ -19,14 +19,14 @@ const DragBox: React.FC<SourceBoxProps> = ({ showCopyIcon }) => {
 			collect: (monitor) => ({
 				opacity: monitor.isDragging() ? 0.4 : 1,
 			}),
-			item: { name: "hello" },
+			item: { name: name },
 		}),
-		[showCopyIcon],
+		[],
 	);
 
 	return (
-		<div ref={drag} style={{opacity }}>
-			When I am over a drop zone, I have {showCopyIcon ? "copy" : "no"} icon.
+		<div ref={drag} className={styles.dragBox} style={{ opacity }}>
+			{name}
 		</div>
 	);
 };

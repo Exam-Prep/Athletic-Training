@@ -8,21 +8,29 @@ export const ItemTypes = {
 	BOX: "box",
 };
 
-const DropBox = () => {
-	const [name, setName] = useState("");
- 	const [{ isActive }, drop] = useDrop(() => ({
+interface DropBoxProps {
+	name: string;
+	didDrop: (item: string, dropBoxID: string) => void;
+}
+
+const DropBox: React.FC<DropBoxProps> = ({ name, didDrop }) => {
+	const [droppedName, setDroppedName] = useState("");
+	const [{}, drop] = useDrop(() => ({
 		accept: ItemTypes.BOX,
 		collect: (monitor) => ({
 			isActive: monitor.canDrop() && monitor.isOver(),
-			id: monitor.getItem()
+			id: monitor.getItem(),
 		}),
-		drop: (item) => setName(item as string),
+		drop: (item) => {
+			setDroppedName(item.name as string);
+			didDrop(item.name, name);
+		},
 	}));
 
 	return (
 		<div ref={drop} className={styles.dropBox}>
-			{isActive ? "Release to drop" : "Drag item here\n"}
-			{name.name}
+			{droppedName + "\n"}
+			{name}
 		</div>
 	);
 };
