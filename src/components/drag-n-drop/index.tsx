@@ -46,6 +46,7 @@ const DragUIContainer: React.FC<DragUIContainerProps> = ({ exam }) => {
 	const reconcileData = () => {
 		const matchQuestion = new MatchQuestion(question, answerMap, null);
 		exam.questions.push(matchQuestion);
+		exam.writeExam();
 	};
 
 	const didDropValue = (item: string, dropBoxID: string) => {

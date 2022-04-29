@@ -29,11 +29,11 @@ const Questions = () => {
 				<QuestionWriterUI />
 			</div>
 			<div className={styles.questionsToolBar}></div> */}
-			{/* <div className={styles.titleBar}>{exam?.name}</div> */}
+			<div className={styles.titleBar}>{exam?.name}</div>
 			{/* <div className={styles.questionsToolBar}>
 				<QuestionToolBar />
 			</div> */}
-			{exam != undefined ? <DragUIContainer exam={exam} /> : ""}
+			{/* {exam != undefined ? <DragUIContainer exam={exam} /> : ""} */}
 		</Page>
 	);
 }; 

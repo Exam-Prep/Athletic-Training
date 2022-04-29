@@ -5,6 +5,7 @@ import { Answer, Question, QuestionType } from "../../model/Question";
 import { Exam } from "../../model/Exam";
 import { Modal, Tab, Tabs, Toast, ToastContainer } from "react-bootstrap";
 import $ from "jquery";
+import DragUIContainer from "../drag-n-drop";
 
 interface QuestionWriterUIProps {
 	hide: boolean;
@@ -199,7 +200,7 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 							This will be Select all that Apply
 						</Tab>
 						<Tab eventKey='drag-and-drop' title='Drag and Drop'>
-							This will be Drag and Drop
+							<DragUIContainer exam={selectedExam} />
 						</Tab>
 						<Tab eventKey='hot-spot' title='Hot Spot'>
 							This will be Hot Spot

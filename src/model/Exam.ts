@@ -3,6 +3,7 @@
 import { database } from "../firebase/firebase";
 import { set, ref, child, onValue } from "firebase/database";
 import { Answer, Question, QuestionType } from "./Question";
+import MatchQuestion from "./MatchQuestion";
 
 const examSetRefString = "/exam_set";
 const questionRefString = "/questions/";
@@ -77,6 +78,10 @@ type JSONQuestion = {
 	type: string;
 	answers: Map<string, Answer>;
 	correctAnswer: string;
+	answerMap: {
+		key: string;
+		value: string;
+	}[];
 };
 export class Exam {
 	id: number | null = null;
@@ -100,13 +105,24 @@ export class Exam {
 		});
 		this.questions.forEach((question) => {
 			const questionsRef = ref(database, questionRefString + this.id);
-			set(child(questionsRef, question.id.toString()), {
-				qID: question.id,
-				question: question.question,
-				answers: question.answers,
-				correctAnswers: question.correctAnswers(),
-				type: question.type,
-			});
+			if (question.type == QuestionType.MultipleChoice) {
+				set(child(questionsRef, question.id.toString()), {
+					qID: question.id,
+					question: question.question,
+					answers: question.answers,
+					correctAnswers: question.correctAnswers(),
+					type: question.type,
+				});
+			} else if (question.type == QuestionType.Match) {
+				const questionMatch = question as MatchQuestion;
+				console.log(questionMatch.answerMapArray());
+				set(child(questionsRef, question.id.toString()), {
+					qID: questionMatch.id,
+					question: questionMatch.question,
+					answerMap: questionMatch.answerMapArray(),
+					type: question.type,
+				});
+			}
 		});
 	}
 
@@ -121,19 +137,39 @@ export class Exam {
 					);
 					const questions = Array<Question>();
 					for (const value of questionData.values()) {
-						const answers = Array<Answer>();
-						for (const answer of value.answers.values()) {
-							answers.push(answer);
+						const questionType = parseInt(value.type);
+						if (
+							questionType === QuestionType.MultipleChoice ||
+							questionType ===
+								QuestionType.MultipleChoiceMultipleCorrect
+						) {
+							const answers = Array<Answer>();
+							for (const answer of value.answers.values()) {
+								answers.push(answer);
+							}
+							const question = new Question(
+								questionType,
+								value.question,
+								answers,
+								value.qID,
+							);
+							questions.push(question);
+						} else if (questionType === QuestionType.Match) {
+							const answerMap = new Map<string, string>();
+							value.answerMap.forEach((value) => {
+								answerMap.set(value.key, value.value);
+							});
+							const matchQuestion = new MatchQuestion(
+								value.question,
+								answerMap,
+								value.qID,
+							);
+							questions.push(matchQuestion);
+						} else {
+							console.log(
+								"FIXME add support for hot spot questions",
+							);
 						}
-						const question = new Question(
-							QuestionType[
-								value.type as keyof typeof QuestionType
-							],
-							value.question,
-							answers,
-							value.qID,
-						);
-						questions.push(question);
 					}
 					resolve(questions);
 				},

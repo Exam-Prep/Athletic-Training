@@ -18,6 +18,17 @@ class MatchQuestion extends Question {
 		);
 		return [];
 	}
+
+	public answerMapArray(): {
+		key: string;
+		value: string;
+	}[] {
+		const array = Array.from(this.answerMap, ([key, value]) => ({
+			key,
+			value,
+		}));
+		return array;
+	}
 }
 
 export default MatchQuestion;
