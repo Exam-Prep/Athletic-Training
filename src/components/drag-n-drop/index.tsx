@@ -50,9 +50,7 @@ const DragUIContainer: React.FC<DragUIContainerProps> = ({ exam }) => {
 	};
 
 	const didDropValue = (item: string, dropBoxID: string) => {
-		console.log("HELLO");
 		setAnswerMap((existingAnswerMap) => {
-			console.log("HELLO");
 			existingAnswerMap.set(dropBoxID, item);
 			forceUpdate();
 			return existingAnswerMap;

@@ -115,7 +115,6 @@ export class Exam {
 				});
 			} else if (question.type == QuestionType.Match) {
 				const questionMatch = question as MatchQuestion;
-				console.log(questionMatch.answerMapArray());
 				set(child(questionsRef, question.id.toString()), {
 					qID: questionMatch.id,
 					question: questionMatch.question,
