@@ -14,8 +14,11 @@ const Questions = () => {
 	useEffect(() => {
 		loadPartialExam(parseInt(location.state as string)).then(
 			(loadedExam) => {
-				loadedExam.downloadExistingQuestionsIfNecessary();
-				setExam(loadedExam);
+				loadedExam
+					.downloadExistingQuestionsIfNecessary()
+					.then((actualExam) => {
+						setExam(actualExam);
+					});
 			},
 		);
 	}, []);
