@@ -6,7 +6,6 @@ import QuestionToolBar from "../../../questions-toolbar";
 import QuestionWriterUI from "../../../questions-box";
 import { Exam, loadPartialExam } from "../../../../model/Exam";
 import { useLocation, useParams } from "react-router-dom";
-import DragUIContainer from "../../../drag-n-drop";
 
 const Questions = () => {
 	const location = useLocation();
