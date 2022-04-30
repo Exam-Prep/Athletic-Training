@@ -1,3 +1,5 @@
+/** @format */
+
 //Note code is based off of Google firebase docs see https://firebase.google.com/docs/storage/web/upload-files
 import {
 	getStorage,
@@ -9,7 +11,7 @@ import { fileURLToPath } from "url";
 
 //Upload Image and Get URL to store in question field
 
-export function uploadImage(imageFile: File, examName: String) {
+export function uploadImage(imageFile: File, examName: string): string {
 	const storage = getStorage();
 	const storageRef = ref(
 		storage,
@@ -49,5 +51,5 @@ export function uploadImage(imageFile: File, examName: String) {
 			});
 		},
 	);
+	return "";
 }
-

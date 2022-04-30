@@ -7,6 +7,8 @@ import { Modal, Tab, Tabs, Toast, ToastContainer } from "react-bootstrap";
 import $ from "jquery";
 import CreateMatchQuestion from "../create-match-question";
 
+import ImageUploader from "../image-upload";
+import { textSpanIntersection } from "typescript";
 interface QuestionWriterUIProps {
 	hide: boolean;
 	close: () => void;
@@ -32,6 +34,10 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 	const [correctQuestion, setCorrectQuestion] = useState(1);
 	const [key, setKey] = useState("multiple-choice");
 	const [show, setShow] = useState(false);
+
+	const [image, setImage] = useState(false);
+	const showModal = () => setImage(true);
+	const closeModal = () => setImage(false);
 
 	const showToast = () => setShow(true);
 
@@ -187,6 +193,12 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 								</select>
 								<button
 									className={styles.addQuestionButton}
+									onClick={showModal}
+								>
+									Add Image
+								</button>
+								<button
+									className={styles.addQuestionButton}
 									onClick={onSubmitExam}
 								>
 									Add Question
@@ -213,6 +225,7 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 					</button>
 				</Modal.Footer>
 			</Modal>
+			<ImageUploader hide={image} examString={"textSpanIntersection"} closeModal={closeModal} />
 		</div>
 	);
 };
