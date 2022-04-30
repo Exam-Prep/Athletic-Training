@@ -200,7 +200,7 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 							This will be Select all that Apply
 						</Tab>
 						<Tab eventKey='drag-and-drop' title='Drag and Drop'>
-							<CreateMatchQuestion exam={selectedExam}/>
+							<CreateMatchQuestion exam={selectedExam} />
 						</Tab>
 						<Tab eventKey='hot-spot' title='Hot Spot'>
 							This will be Hot Spot

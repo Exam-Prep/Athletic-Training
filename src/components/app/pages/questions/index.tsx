@@ -20,8 +20,6 @@ const Questions = () => {
 			},
 		);
 	}, []);
-	
-	
 
 	return (
 		<Page>
@@ -36,6 +34,6 @@ const Questions = () => {
 			{/* {exam != undefined ? <DragUIContainer exam={exam} /> : ""} */}
 		</Page>
 	);
-}; 
+};
 
 export default Questions;

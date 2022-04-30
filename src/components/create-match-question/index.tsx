@@ -8,9 +8,17 @@ import { Exam } from "../../model/Exam";
 import DragBox from "../drag-box/Index";
 import MatchQuestion from "../../model/MatchQuestion";
 import { didFinishQuestion } from "../../misc/didFinishQuestion";
+import $ from "jquery";
+import { Toast, ToastContainer } from "react-bootstrap";
 
 interface CreateMatchQuestionProps {
 	exam: Exam;
+}
+
+function clearInput() {
+	$("textarea").filter("[id*=question-input]").val("");
+	$("input").filter("[id*=key-input]").val("");
+	$("input").filter("[id*=value-input]").val("");
 }
 
 const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
@@ -23,6 +31,9 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 		new Map<string, string>(),
 	);
 	const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void;
+	const [show, setShow] = useState(false);
+
+	const showToast = () => setShow(true);
 
 	const addDrag = () => {
 		if (!dragNames.includes(currentDragName)) {
@@ -40,6 +51,8 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 		const matchQuestion = new MatchQuestion(question, answerMap, null);
 		exam.questions.push(matchQuestion);
 		exam.writeExam();
+		showToast();
+		clearInput();
 	};
 
 	const didDropValue = (item: string, dropBoxID: string) => {
@@ -52,55 +65,85 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 
 	return (
 		<DndProvider backend={HTML5Backend}>
+			<ToastContainer position='top-center'>
+				<Toast
+					onClose={() => setShow(false)}
+					show={show}
+					delay={3000}
+					autohide
+				>
+					<Toast.Body>Question Added!</Toast.Body>
+				</Toast>
+			</ToastContainer>
 			<div className={styles.dragnDropInput}>
 				<textarea
 					className={styles.input}
 					rows={3}
+					placeholder='Question'
+					id='question-input'
 					onChange={(e) => {
 						setQuestion(e.target.value);
 					}}
 				/>
-				Add Key
-				<input
-					className={styles.input}
-					onChange={(e) => {
-						setCurrentDragName(e.target.value);
-					}}
-				/>
-				<button className={styles.addDraggableBox} onClick={addDrag}>
-					Add Key
-				</button>
-				Add Value
-				<input
-					className={styles.input}
-					onChange={(e) => {
-						setCurrentDropName(e.target.value);
-					}}
-				/>
-				<button className={styles.addDraggableBox} onClick={addDrop}>
-					Add Value
-				</button>
-				<div className={styles.break}></div>
-				<div className={styles.dragnDrop}>
-					{dragNames?.map((x) => {
-						return <DragBox name={x} key={x} />;
-					})}
-				</div>
-				<div className={styles.dragnDrop}>
-					{dropNames?.map((x) => (
-						<DropBox name={x} key={x} didDrop={didDropValue} />
-					))}
-				</div>
-				{didFinishQuestion(dropNames, answerMap) ? (
+				<div className={styles.dragnDropRow}>
+					<input
+						className={styles.keyValueInput}
+						placeholder='Key'
+						id='key-input'
+						onChange={(e) => {
+							setCurrentDragName(e.target.value);
+						}}
+					/>
 					<button
-						className={styles.addDraggableBox}
-						onClick={reconcileData}
+						className={styles.addDraggableButton}
+						onClick={addDrag}
 					>
-						Add Question
+						Add Key
 					</button>
-				) : (
-					""
-				)}
+				</div>
+				<div className={styles.dragnDropRow}>
+					<input
+						className={styles.keyValueInput}
+						placeholder='Value'
+						id='value-input'
+						onChange={(e) => {
+							setCurrentDropName(e.target.value);
+						}}
+					/>
+					<button
+						className={styles.addDraggableButton}
+						onClick={addDrop}
+					>
+						Add Value
+					</button>
+				</div>
+
+				<p className={styles.instruction}>
+					Drag the option on the left onto the corresponding option on
+					the right to link them together:
+				</p>
+				<div className={styles.dragnDropRow}>
+					<div className={styles.dragnDrop}>
+						{dragNames?.map((x) => {
+							return <DragBox name={x} key={x} />;
+						})}
+					</div>
+					<div className={styles.dragnDrop}>
+						{dropNames?.map((x) => (
+							<DropBox name={x} key={x} didDrop={didDropValue} />
+						))}
+					</div>
+				</div>
+				<button
+					className={
+						didFinishQuestion(dropNames, answerMap)
+							? styles.addQuestion
+							: styles.hidden
+					}
+					onClick={reconcileData}
+				>
+					Add Question
+				</button>
 			</div>
 		</DndProvider>
 	);
