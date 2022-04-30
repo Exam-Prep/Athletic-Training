@@ -15,6 +15,7 @@ interface DropBoxProps {
 
 const DropBox: React.FC<DropBoxProps> = ({ name, didDrop }) => {
 	const [droppedName, setDroppedName] = useState("");
+	// eslint-disable-next-line no-empty-pattern
 	const [{}, drop] = useDrop(() => ({
 		accept: ItemTypes.BOX,
 		collect: (monitor) => ({
@@ -29,8 +30,8 @@ const DropBox: React.FC<DropBoxProps> = ({ name, didDrop }) => {
 
 	return (
 		<div ref={drop} className={styles.dropBox}>
-			{droppedName + "\n"}
 			{name}
+			{":" + "\n" + droppedName}
 		</div>
 	);
 };
