@@ -54,9 +54,7 @@ const Questions = () => {
 					</div>
 				</div>
 				<div className={styles.questionRow}>
-					<div className={styles.questionsToolBar}>
-						<QuestionToolBar />
-					</div>
+					<QuestionToolBar />
 					<div className={styles.questionsBox}>
 						{/*insert questions here */}
 					</div>

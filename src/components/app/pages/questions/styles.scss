@@ -50,20 +50,6 @@
 		position: relative;
 		width: 100%;
 
-		.questionsToolBar {
-			position: relative;
-			width: 10%;
-			min-width: 9%;
-			height: 500px;
-			display: flex;
-
-			background: #b8dffe;
-			border: 1px solid #000000;
-			box-sizing: border-box;
-			box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
-			border-radius: 10px;
-		}
-
 		.questionsBox {
 			@include flexColumn;
 			// position: absolute;
