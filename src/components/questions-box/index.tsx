@@ -225,7 +225,7 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 					</button>
 				</Modal.Footer>
 			</Modal>
-			<ImageUploader hide={image} examString={"textSpanIntersection"} closeModal={closeModal} />
+			{selectedExam != undefined ? <ImageUploader hide={image} examString={selectedExam.name} closeModal={closeModal} /> : ""}
 		</div>
 	);
 };

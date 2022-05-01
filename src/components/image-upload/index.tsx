@@ -40,6 +40,7 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 	const [images, setImages] = useState([]);
 	const maxNumber = 69;
 	const [show, setShow] = useState(false);
+	const showToast = () => setShow(true);
 
 	const onChange = (
 		imageList: ImageListType,
@@ -64,6 +65,12 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 			console.log("an error occured");
 		}
 		console.log(downloadURL);
+		if (images.length != 0) {
+			showToast();
+			setTimeout(() => {
+				closeModal();
+			}, 500);
+		}
 	};
 
 	return (
@@ -90,7 +97,7 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 						onHide={close}
 					>
 						<Modal.Header>
-							<Modal.Title>Upload Images</Modal.Title>
+							<Modal.Title>Upload Image</Modal.Title>
 							<ToastContainer position='top-center'>
 								<Toast
 									onClose={() => setShow(false)}
@@ -104,7 +111,11 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 						</Modal.Header>
 						<Modal.Body>
 							<div className='upload__image-wrapper'>
-								<button onClick={fileUpload(images)}>
+								<button
+									onClickCapture={() => {
+										fileUpload(images);
+									}}
+								>
 									{" "}
 									Upload Images{" "}
 								</button>
@@ -121,7 +132,7 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 								</button>
 								&nbsp;
 								<button onClick={onImageRemoveAll}>
-									Remove all images
+									Remove image
 								</button>
 								{imageList.map((image, index) => (
 									<div key={index} className='image-item'>
@@ -151,7 +162,13 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 							</div>
 						</Modal.Body>
 						<Modal.Footer>
-							<button onClick={closeModal}> Close </button>
+							<button
+								className={styles.close}
+								onClick={closeModal}
+							>
+								{" "}
+								Close{" "}
+							</button>
 						</Modal.Footer>
 					</Modal>
 				)}
