@@ -5,7 +5,7 @@
 .toolBoxLine2,
 .toolBoxLine3,
 .toolBoxLine4,
-.toolHalfBoxLine{
+.toolHalfBoxLine {
 	position: absolute;
 	width: 100%;
 	height: 0;
@@ -14,30 +14,27 @@
 	border: 1px solid #ffffff;
 }
 
-.toolBoxLine1{
+.toolBoxLine1 {
 	top: 13%;
-
 }
 
-.toolBoxLine2{
+.toolBoxLine2 {
 	top: 39%;
 }
 
-.toolHalfBoxLine{
+.toolHalfBoxLine {
 	left: 8px;
 	width: 80%;
 	top: 26%;
 }
 
-.toolBoxLine3{
+.toolBoxLine3 {
 	top: 63%;
 }
 
-.toolBoxLine4{
+.toolBoxLine4 {
 	top: 85%;
 }
-
-
 
 .questionsToolBar {
 	position: fixed;
@@ -53,7 +50,6 @@
 	box-sizing: border-box;
 	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
 	border-radius: 10px;
-	
 }
 .questionsNotAnswered {
 	position: fixed;
@@ -100,7 +96,7 @@
 	padding: 5px;
 	display: flex;
 	position: absolute;
-	text-align:center ;
+	text-align: center;
 	width: 30%;
 	height: 16px;
 	left: 28%;
@@ -114,7 +110,7 @@
 
 	color: #000000;
 }
-.timeRemainingText{
+.timeRemainingText {
 	top: 1%;
 }
 
@@ -122,15 +118,12 @@
 	top: 7%;
 }
 
-
-.questionsCompletedText{
-	width:100%;
-
+.questionsCompletedText {
+	width: 100%;
 }
 
 .questionsNotCompleted {
 	top: 28%;
-
 }
 
 .questionsNotCompletedText {
@@ -139,16 +132,14 @@
 }
 
 .flaggedIcon {
-
-	font-family: 'FontAwesome';
+	font-family: "FontAwesome";
 	font-size: x-large;
 	position: absolute;
-	color:#1b43ef;
+	color: #1b43ef;
 	width: 60%;
 	height: 103px;
 	left: 40%;
 	top: 40%;
-	
 }
 
 .questionsFlagged {
@@ -162,34 +153,30 @@
 }
 
 .calculatorIcon {
-	
-	font-family: 'FontAwesome';
+	font-family: "FontAwesome";
 	font-size: x-large;
 	position: absolute;
-	color:#1b43ef;
+	color: #1b43ef;
 	width: 70%;
 	left: 38%;
 	top: 65%;
-	
 }
 
-
-
 .helpIcon {
-	font-family: 'FontAwesome';
+	font-family: "FontAwesome";
 	font-size: x-large;
 	position: absolute;
-	color:#1b43ef;
+	color: #1b43ef;
 	width: 70%;
 	left: 36%;
 	top: 75%;
 }
 
 .takeBreakIcon {
-	font-family: 'FontAwesome';
+	font-family: "FontAwesome";
 	font-size: x-large;
 	position: absolute;
-	color:#1b43ef;
+	color: #1b43ef;
 	width: 70%;
 	left: 36%;
 	top: 88%;

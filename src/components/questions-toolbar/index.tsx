@@ -3,10 +3,19 @@
 import React from "react";
 import styles from "./styles.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalculator, faCoffee, faFileCircleQuestion, faFlag, faHand, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+	faCalculator,
+	faCoffee,
+	faFileCircleQuestion,
+	faFlag,
+	faHand,
+	faQuestionCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></link>
+<link
+	rel='stylesheet'
+	href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
+></link>;
 
 const QuestionToolBar = () => {
 	return (

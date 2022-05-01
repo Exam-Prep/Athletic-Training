@@ -1,6 +1,7 @@
 /** @format */
 
 import React from "react";
+import { unstable_batchedUpdates } from "react-dom";
 import styles from "./styles.scss";
 
 interface ArrowButtonProps {
@@ -22,10 +23,11 @@ const ArrowButton: React.FunctionComponent<ArrowButtonProps> = ({
 			onClick={onClick}
 		>
 			<svg
+				style={{ verticalAlign: "unset" }}
 				xmlns='http://www.w3.org/2000/svg'
-				width='600'
-				height='600'
-				viewBox='0 0 640 640'
+				width='100'
+				height='100'
+				viewBox='0 0 600 600'
 				xmlSpace='preserve'
 			>
 				<path
