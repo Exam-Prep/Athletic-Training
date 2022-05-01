@@ -32,9 +32,8 @@ const Questions = () => {
 			<div className={styles.titleBar}>{exam?.name}</div>
 			{/* <div className={styles.questionsToolBar}>
 				<QuestionToolBar />
-			</div>
-
-			<div className={styles.questionsToolBar}> </div> */}
+			</div> */}
+			{/* {exam != undefined ? <DragUIContainer exam={exam} /> : ""} */}
 		</Page>
 	);
 };
