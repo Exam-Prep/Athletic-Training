@@ -15,7 +15,7 @@ type PartialExam = {
 };
 export function getPartialExams() {
 	const partialExam = ref(database, examSetRefString);
-	const promise = new Promise<Array<Exam>>((resolve, reject) => {
+	return new Promise<Array<Exam>>((resolve, reject) => {
 		onValue(
 			partialExam,
 			(snapshot) => {
@@ -43,13 +43,11 @@ export function getPartialExams() {
 			},
 		);
 	});
-
-	return promise;
 }
 
 export function loadPartialExam(examID: number) {
 	const partialExam = ref(database, examSetRefString + "/" + examID);
-	const promise = new Promise<Exam>((resolve, reject) => {
+	 return new Promise<Exam>((resolve, reject) => {
 		onValue(
 			partialExam,
 			(snapshot) => {
@@ -68,7 +66,6 @@ export function loadPartialExam(examID: number) {
 			},
 		);
 	});
-	return promise;
 }
 
 type JSONQuestion = {

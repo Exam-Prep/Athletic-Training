@@ -12,29 +12,15 @@ import { uploadImage } from "../../model/Image";
 interface ImageUploaderProps {
 	hide: boolean;
 	examString: string;
+	updateImageUrl: (arg:string) => void,
 	closeModal: () => void;
 }
-
-// const UploadImageButton: React.FunctionComponent<UploadImageProps> = ({
-// 	onClick,
-// 	text,
-// }) => {
-// 	return (
-// 		// <button className={styles.submitExam} onClick={onClick}>
-// 		// 	<span className={styles.text}>{text}</span>
-// 		// </button>
-// 		<div>
-// 			{/* <Modal dialogClassName={styles.modal} show={hide} onHide={close}>
-
-// 			</Modal> */}
-// 		</div>
-// 	);
-// };
 
 //code from https://www.npmjs.com/package/react-images-uploading/v/1.0.1
 const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 	hide,
 	examString,
+	updateImageUrl,
 	closeModal,
 }) => {
 	const [images, setImages] = useState([]);
@@ -51,20 +37,20 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 		setImages(imageList as never[]);
 	};
 	const fileUpload = (listOfImages: ImageListType) => {
-		console.log("button to upload pressed");
-		var downloadURL: string = "test";
+		
 		if (listOfImages.length != 0) {
 			for (let imageToUpload of listOfImages) {
 				if (imageToUpload.file != undefined) {
-					downloadURL = uploadImage(imageToUpload.file, examString);
-				} else {
-					console.log("tried to upload an empty image");
+					uploadImage(imageToUpload.file, examString)
+						.then((downloadURL) => updateImageUrl(downloadURL))
+						.catch(() => console.log("tried to upload an empty image"));
+					console.log("button to upload pressed");
+					// } else {
+					// 
+					// }
 				}
 			}
-		} else {
-			console.log("an error occured");
-		}
-		console.log(downloadURL);
+		} 
 		if (images.length != 0) {
 			showToast();
 			setTimeout(() => {
