@@ -11,6 +11,9 @@ import ArrowButton from "../../../arrow-button";
 import CircleButtonManager from "../../../circle-button-manager";
 import { User } from "../../../../model/User";
 import { useAuth } from "../../../../AuthContext";
+import MultipleChoiceMultipleCorrect from "../../../select-all-question";
+import Checkbox from "../../../check-box";
+
 
 const Questions = () => {
 	const location = useLocation();
@@ -55,6 +58,10 @@ const Questions = () => {
 		}
 	};
 
+	const questionsClicked = (question: Question) => {
+		console.log(question)
+	}
+
 	return (
 		<Page>
 			{user === undefined ? loadUser() : ""}
@@ -97,6 +104,10 @@ const Questions = () => {
 				<div className={styles.questionRow}>
 					<QuestionToolBar />
 					<div className={styles.questionsBox}>
+						{exam != undefined ? (
+					<MultipleChoiceMultipleCorrect
+						onClick={questionsClicked}
+						question={exam?.questions[userIndex]}/>):""}
 						{exam?.questions[userIndex].question}
 					</div>
 				</div>

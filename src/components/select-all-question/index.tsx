@@ -2,70 +2,57 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./styles.scss";
-import { Exam, getPartialExams } from "../../../../model/Exam";
+import { Answer, Question, QuestionType } from "../../model/Question";
 import Checkbox from "../check-box";
-import "./styles.css";
-
-import CreateNewExam from "../create-new-exam";
-import Questions from "../app/pages/questions";
- 
 
 
-export default function multipleCorrect() {
-	const [isCheckedA, setIsCheckedA] = useState(false);
-	const handleChangeA = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setIsCheckedA(e.target.checked);
-	};
 
-	const [exams, setExams] = useState<Exam[]>();
-
-	const [isCheckedB, setIsCheckedB] = useState(false);
-	const handleChangeB = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setIsCheckedB(e.target.checked);
-
+interface MultipleChoiceMultipleCorrectProps {
 	
-	};
+	onClick: (question: Question) => void;
+	question: Question;
 
-	useEffect(() => {
-		getPartialExams()
-			.then((x:any) => setExams(x))
-			.catch(() => console.error("error fetching exams"));
-	}, []);
+}
 
+const MultipleChoiceMultipleCorrect: React.FunctionComponent<MultipleChoiceMultipleCorrectProps> = ({
+	onClick,
+	question,
+}) => {
 
+		const [isCheckedA, setIsCheckedA] = useState(false);
+		const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+			setIsCheckedA(e.target.checked);
+		};
+		
 	return (
 		<div>
-			<h2>Question</h2>
+			<div className={styles.questionsContainer}>
+				<h2>Question</h2>
+			</div>
 
-			<div className={styles.container}>
-				{Exam.questions?.map((x:any) => {
-					return (
-						<div className={styles.container} key={x.id}>
-							<div className='container'>
-								<div>
-									<Checkbox
-										handleChange={handleChangeA}
-										isChecked={isCheckedA}
-										label='A'
-									/>
-									Answer1
-										</div>
-									);
-							)
-						<div>
-									<Checkbox
-										handleChange={handleChangeB}
-										isChecked={isCheckedB}
-										label='B'
-									/>
-									Answer2
-										</div>
+			<div className={styles.answerContainer}>
+				<div className={styles.container}>
+					{question.answers?.map((x: any) => {
+						return (
+							<div className={styles.container} key={x.id}>
+								<div className='container'>
+									<div>
+										{console.log(x.answertext)}
+										<Checkbox
+											handleChange={handleChange}
+											isChecked={isCheckedA}
+											label= {x.answerText}
+										/>
+										
+									</div>
+								</div>
 							</div>
-							
+						);
+					})}
 				</div>
 			</div>
 		</div>
-						
-	));
+	);
 }
-		
+export default MultipleChoiceMultipleCorrect;
+
