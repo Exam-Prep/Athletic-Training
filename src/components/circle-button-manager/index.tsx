@@ -7,6 +7,7 @@ import { Question } from "../../model/Question";
 interface CircleButtonManagerProps {
 	onClick: (question: Question) => void;
 	exam: Exam | undefined;
+	
 }
 
 const CircleButtonManager: React.FunctionComponent<
