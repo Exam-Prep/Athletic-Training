@@ -3,16 +3,13 @@
 import React, { useState } from "react";
 import styles from "./styles.scss";
 import { Modal, Toast, ToastContainer } from "react-bootstrap";
-import ImageUploading, {
-	ImageListType,
-	ImageType,
-} from "react-images-uploading";
+import ImageUploading, { ImageListType } from "react-images-uploading";
 import { uploadImage } from "../../model/Image";
 
 interface ImageUploaderProps {
 	hide: boolean;
 	examString: string;
-	updateImageUrl: (arg:string) => void,
+	updateImageURL: (arg: string) => void;
 	closeModal: () => void;
 }
 
@@ -20,7 +17,7 @@ interface ImageUploaderProps {
 const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 	hide,
 	examString,
-	updateImageUrl,
+	updateImageURL,
 	closeModal,
 }) => {
 	const [images, setImages] = useState([]);
@@ -28,29 +25,22 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 	const [show, setShow] = useState(false);
 	const showToast = () => setShow(true);
 
-	const onChange = (
-		imageList: ImageListType,
-		addUpdateIndex: number[] | undefined,
-	) => {
+	const onChange = (imageList: ImageListType) => {
 		// data for submit
-		console.log(imageList, addUpdateIndex);
 		setImages(imageList as never[]);
 	};
 	const fileUpload = (listOfImages: ImageListType) => {
-		
 		if (listOfImages.length != 0) {
-			for (let imageToUpload of listOfImages) {
+			for (const imageToUpload of listOfImages) {
 				if (imageToUpload.file != undefined) {
 					uploadImage(imageToUpload.file, examString)
-						.then((downloadURL) => updateImageUrl(downloadURL))
-						.catch(() => console.log("tried to upload an empty image"));
-					console.log("button to upload pressed");
-					// } else {
-					// 
-					// }
+						.then((downloadURL) => updateImageURL(downloadURL))
+						.catch(() =>
+							console.log("tried to upload an empty image"),
+						);
 				}
 			}
-		} 
+		}
 		if (images.length != 0) {
 			showToast();
 			setTimeout(() => {
@@ -103,19 +93,23 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 									}}
 								>
 									{" "}
-									Upload Images{" "}
+									Upload Image{" "}
 								</button>
-								<button
-									style={
-										isDragging
-											? { color: "red" }
-											: undefined
-									}
-									onClick={onImageUpload}
-									{...dragProps}
-								>
-									Click or Drop here
-								</button>
+								{images.length < 1 ? (
+									<button
+										style={
+											isDragging
+												? { color: "red" }
+												: undefined
+										}
+										onClick={onImageUpload}
+										{...dragProps}
+									>
+										Click or Drop here
+									</button>
+								) : (
+									""
+								)}
 								&nbsp;
 								<button onClick={onImageRemoveAll}>
 									Remove image

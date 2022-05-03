@@ -32,7 +32,7 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 	const [question, setQuestion] = useState("");
 	const [answers, setAnswers] = useState(new Map<number, string>());
 	const [correctQuestion, setCorrectQuestion] = useState(1);
-	const [imageUrl, setImageUrl] = useState<string>("");
+	const [imageURL, setImageURL] = useState<string>("");
 	const [key, setKey] = useState("multiple-choice");
 	const [show, setShow] = useState(false);
 
@@ -40,14 +40,13 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 	const showModal = () => setImage(true);
 	const closeModal = () => setImage(false);
 
-	const updateSetImageUrl = (url: string): void => {
-		setImageUrl(url);
+	const updateSetImageURL = (url: string): void => {
+		setImageURL(url);
 	};
 	const showToast = () => setShow(true);
 
 	const onSubmitExam = () => {
 		const exam = selectedExam;
-		console.log("test image url",imageUrl);
 		const typedAnswers = Array<Answer>();
 		answers.forEach((inputedAnswer, answerOrder) => {
 			const answerID = Math.floor(
@@ -66,7 +65,7 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 			question,
 			typedAnswers,
 			null,
-			imageUrl,
+			imageURL,
 		);
 		exam.questions.push(typedQuestion);
 		exam.currentQuestion = exam.questions[0];
@@ -235,7 +234,8 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 				<ImageUploader
 					hide={image}
 					examString={selectedExam.name}
-					updateImageUrl={updateSetImageUrl} closeModal={closeModal}
+					updateImageURL={updateSetImageURL}
+					closeModal={closeModal}
 				/>
 			) : (
 				""

@@ -29,7 +29,7 @@ export class Question {
 		question: string,
 		answers: Array<Answer>,
 		id: number | null = null,
-		imageURL: string = "",
+		imageURL = "",
 	) {
 		this.imageURL = imageURL;
 		this.type = type;

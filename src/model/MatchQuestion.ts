@@ -8,8 +8,9 @@ class MatchQuestion extends Question {
 		question: string,
 		answerMap: Map<string, string>,
 		id: number | null,
+		imageURL = "",
 	) {
-		super(QuestionType.Match, question, [], id);
+		super(QuestionType.Match, question, [], id, imageURL);
 		this.answerMap = answerMap;
 	}
 	public correctAnswers(): Answer[] {

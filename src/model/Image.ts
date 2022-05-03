@@ -1,18 +1,16 @@
 /** @format */
 
 //Note code is based off of Google firebase docs see https://firebase.google.com/docs/storage/web/upload-files
-import { rejects } from "assert";
 import {
 	getStorage,
 	ref,
 	uploadBytesResumable,
 	getDownloadURL,
 } from "firebase/storage";
-import { fileURLToPath } from "url";
 
 //Upload Image and Get URL to store in question field
 
-export function uploadImage(imageFile: File, examName: string): Promise<string> {
+export function uploadImage(imageFile: File, examName: string) {
 	const storage = getStorage();
 	const storageRef = ref(
 		storage,
@@ -32,28 +30,16 @@ export function uploadImage(imageFile: File, examName: string): Promise<string> 
 				const progress =
 					(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 				console.log("Upload is " + progress + "% done");
-				switch (snapshot.state) {
-					case "paused":
-						console.log("Upload is paused");
-						break;
-					case "running":
-						console.log("Upload is running");
-						break;
-				}
 			},
 			(error) => {
 				// Handle unsuccessful uploads
 				console.log("There was an error!", error.message);
-				reject(
-					new Error("Failed to upload image",
-					),
-				);
+				reject(new Error("Failed to upload image"));
 			},
 			() => {
 				// Handle successful uploads on complete
 				// For instance, get the download URL: https://firebasestorage.googleapis.com/...
 				getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-					console.log(downloadURL)
 					resolve(downloadURL);
 				});
 			},
