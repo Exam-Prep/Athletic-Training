@@ -15,7 +15,7 @@ type PartialExam = {
 };
 export function getPartialExams() {
 	const partialExam = ref(database, examSetRefString);
-	const promise = new Promise<Array<Exam>>((resolve, reject) => {
+	return new Promise<Array<Exam>>((resolve, reject) => {
 		onValue(
 			partialExam,
 			(snapshot) => {
@@ -43,13 +43,11 @@ export function getPartialExams() {
 			},
 		);
 	});
-
-	return promise;
 }
 
 export function loadPartialExam(examID: number) {
 	const partialExam = ref(database, examSetRefString + "/" + examID);
-	const promise = new Promise<Exam>((resolve, reject) => {
+	return new Promise<Exam>((resolve, reject) => {
 		onValue(
 			partialExam,
 			(snapshot) => {
@@ -68,13 +66,12 @@ export function loadPartialExam(examID: number) {
 			},
 		);
 	});
-	return promise;
 }
 
 type JSONQuestion = {
 	qID: number;
 	question: string;
-
+	imageURL: string;
 	type: string;
 	answers: Map<string, Answer>;
 	correctAnswer: string;
@@ -112,6 +109,7 @@ export class Exam {
 					answers: question.answers,
 					correctAnswers: question.correctAnswers(),
 					type: question.type,
+					imageURL: question.imageURL,
 				});
 			} else if (question.type == QuestionType.Match) {
 				const questionMatch = question as MatchQuestion;
@@ -119,6 +117,7 @@ export class Exam {
 					qID: questionMatch.id,
 					question: questionMatch.question,
 					answerMap: questionMatch.answerMapArray(),
+					imageURL: question.imageURL,
 					type: question.type,
 				});
 			}
@@ -126,7 +125,7 @@ export class Exam {
 	}
 
 	private loadQuestions() {
-		const promise = new Promise<Array<Question>>((resolve, reject) => {
+		return new Promise<Array<Question>>((resolve, reject) => {
 			const reference = ref(database, questionRefString + this.id);
 			onValue(
 				reference,
@@ -151,17 +150,22 @@ export class Exam {
 								value.question,
 								answers,
 								value.qID,
+								value.imageURL,
 							);
 							questions.push(question);
 						} else if (questionType === QuestionType.Match) {
 							const answerMap = new Map<string, string>();
-							value.answerMap.forEach((value) => {
-								answerMap.set(value.key, value.value);
+							value.answerMap.forEach((answerMapValue) => {
+								answerMap.set(
+									answerMapValue.key,
+									answerMapValue.value,
+								);
 							});
 							const matchQuestion = new MatchQuestion(
 								value.question,
 								answerMap,
 								value.qID,
+								value.imageURL,
 							);
 							questions.push(matchQuestion);
 						} else {
@@ -182,7 +186,6 @@ export class Exam {
 				},
 			);
 		});
-		return promise;
 	}
 
 	public downloadExistingQuestionsIfNecessary() {

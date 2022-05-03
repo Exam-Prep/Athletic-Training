@@ -7,6 +7,8 @@ import { Modal, Tab, Tabs, Toast, ToastContainer } from "react-bootstrap";
 import $ from "jquery";
 import CreateMatchQuestion from "../create-match-question";
 
+import ImageUploader from "../image-upload";
+import { textSpanIntersection } from "typescript";
 interface QuestionWriterUIProps {
 	hide: boolean;
 	close: () => void;
@@ -30,14 +32,21 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 	const [question, setQuestion] = useState("");
 	const [answers, setAnswers] = useState(new Map<number, string>());
 	const [correctQuestion, setCorrectQuestion] = useState(1);
+	const [imageURL, setImageURL] = useState<string>("");
 	const [key, setKey] = useState("multiple-choice");
 	const [show, setShow] = useState(false);
 
+	const [image, setImage] = useState(false);
+	const showModal = () => setImage(true);
+	const closeModal = () => setImage(false);
+
+	const updateSetImageURL = (url: string): void => {
+		setImageURL(url);
+	};
 	const showToast = () => setShow(true);
 
 	const onSubmitExam = () => {
 		const exam = selectedExam;
-
 		const typedAnswers = Array<Answer>();
 		answers.forEach((inputedAnswer, answerOrder) => {
 			const answerID = Math.floor(
@@ -55,6 +64,8 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 			QuestionType.MultipleChoice,
 			question,
 			typedAnswers,
+			null,
+			imageURL,
 		);
 		exam.questions.push(typedQuestion);
 		exam.currentQuestion = exam.questions[0];
@@ -187,6 +198,12 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 								</select>
 								<button
 									className={styles.addQuestionButton}
+									onClick={showModal}
+								>
+									Add Image
+								</button>
+								<button
+									className={styles.addQuestionButton}
 									onClick={onSubmitExam}
 								>
 									Add Question
@@ -213,6 +230,16 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 					</button>
 				</Modal.Footer>
 			</Modal>
+			{selectedExam != undefined ? (
+				<ImageUploader
+					hide={image}
+					examString={selectedExam.name}
+					updateImageURL={updateSetImageURL}
+					closeModal={closeModal}
+				/>
+			) : (
+				""
+			)}
 		</div>
 	);
 };

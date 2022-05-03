@@ -22,13 +22,16 @@ export class Question {
 	answers: Array<Answer>;
 	id = 0;
 	type: QuestionType;
+	imageURL: string;
 
 	constructor(
 		type: QuestionType,
 		question: string,
 		answers: Array<Answer>,
 		id: number | null = null,
+		imageURL = "",
 	) {
+		this.imageURL = imageURL;
 		this.type = type;
 		this.question = question;
 		this.answers = answers;
