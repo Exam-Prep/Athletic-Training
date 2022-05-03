@@ -57,6 +57,7 @@ const Questions = () => {
 
 	const onExit = () => {
 		closeScoring();
+		navigate("/exams");
 	};
 
 	const showScoringModal = () => setScoring(true);
