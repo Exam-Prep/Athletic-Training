@@ -38,16 +38,9 @@
 		}
 	}
 
-		.section {
-			padding: 10px 0;
-			border-bottom: 1px solid #000000;
-		}
-
-		.lastSection {
-			@extend .section;
-			border-bottom: none;
-		}
-	}
+	.closeButton {
 		@include button;
+
+		background-color: #1b34ef;
 	}
 }
