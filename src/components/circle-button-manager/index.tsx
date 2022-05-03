@@ -1,7 +1,7 @@
 /** @format */
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CircleButton from "../circle-button";
-import { Exam, getPartialExams } from "../../model/Exam";
+import { Exam } from "../../model/Exam";
 import { Question } from "../../model/Question";
 
 interface CircleButtonManagerProps {

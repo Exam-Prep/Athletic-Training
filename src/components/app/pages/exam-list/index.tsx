@@ -37,6 +37,7 @@ const ExamList = () => {
 				</div>
 				<div className={styles.headerBorder} />
 			</div>
+
 			<div className={styles.examBackground}>
 				{exams?.map((x) => {
 					return (

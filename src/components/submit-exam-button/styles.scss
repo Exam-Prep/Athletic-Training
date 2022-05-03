@@ -1,30 +1,15 @@
 /** @format */
 
-@use "../../styles/variables" as variables;
-
-@mixin flexColumn {
+.submitExam {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-}
-@mixin button {
-	width: 20%; //Change this to change the width of the button
 	height: 40px;
-	margin-bottom: 10px;
 	border: none;
+	border-radius: 10%;
 	background-color: #469924;
-	cursor: pointer;
-}
-
-.submitExam {
-	@include button;
-	@include flexColumn;
+	color: #ffffff;
 	filter: drop-shadow(0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.5));
-	.text {
-		position: absolute;
-		width: 50%;
-		font-size: 20px;
-		color: #ffffff;
-	}
+	margin: 4px;
 }
