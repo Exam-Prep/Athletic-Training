@@ -16,11 +16,8 @@ const Questions = () => {
 	useEffect(() => {
 		loadPartialExam(parseInt(location.state as string)).then(
 			(loadedExam) => {
-				loadedExam
-					.downloadExistingQuestionsIfNecessary()
-					.then((actualExam) => {
-						setExam(actualExam);
-					});
+				loadedExam.downloadExistingQuestionsIfNecessary();
+				setExam(loadedExam);
 			},
 		);
 	}, []);
@@ -45,10 +42,10 @@ const Questions = () => {
 						rotate={false}
 						text='Next'
 					/>
-					<CircleButtonManager
+					{/* <CircleButtonManager
 						onClick={() => alert("circle")}
 						exam={exam}
-					/>
+					/> */}
 				</div>
 				<div className={styles.questionRow}>
 					<QuestionToolBar />
