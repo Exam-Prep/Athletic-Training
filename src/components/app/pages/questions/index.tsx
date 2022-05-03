@@ -5,15 +5,17 @@ import styles from "./styles.scss";
 import QuestionToolBar from "../../../questions-toolbar";
 import { Exam, loadPartialExam } from "../../../../model/Exam";
 import { Question } from "../../../../model/Question";
-import { useLocation } from "react-router-dom";
-import SubmitExamButton from "../../../submit-exam-button";
+import { useLocation, useNavigate } from "react-router-dom";
 import ArrowButton from "../../../arrow-button";
 import CircleButtonManager from "../../../circle-button-manager";
+import ScoringModal from "../../../scoring-modal";
 
 const Questions = () => {
 	const location = useLocation();
+	const navigate = useNavigate();
 	const [exam, setExam] = useState<Exam | undefined>();
 	const [userIndex, setUserIndex] = useState(0);
+	const [showScoring, setScoring] = useState(false);
 
 	useEffect(() => {
 		loadPartialExam(parseInt(location.state as string)).then(
@@ -29,12 +31,18 @@ const Questions = () => {
 		setUserIndex(index);
 	};
 
+	const onExit = () => {
+		closeScoring();
+	};
+
+	const showScoringModal = () => setScoring(true);
+	const closeScoring = () => setScoring(false);
+
 	return (
 		<Page>
-			<div className={styles.takeExam}>
 				<div className={styles.titleBar}>
 					<div className={styles.examName}> {exam?.name}</div>
-					<SubmitExamButton onClick={() => alert("submit")} />
+					<SubmitExamButton onClick={showScoringModal} />
 				</div>
 				<div className={styles.circleArrowButtons}>
 					<div>{/*map circle buttons for previous questions*/}</div>
@@ -73,6 +81,7 @@ const Questions = () => {
 						{exam?.questions[userIndex].question}
 					</div>
 				</div>
+				<ScoringModal hide={showScoring} close={onExit} exam={exam!} />
 			</div>
 		</Page>
 	);
