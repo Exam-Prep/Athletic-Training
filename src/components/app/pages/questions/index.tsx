@@ -4,7 +4,7 @@ import Page from "../page";
 import styles from "./styles.scss";
 import QuestionToolBar from "../../../questions-toolbar";
 import { Exam, loadPartialExam } from "../../../../model/Exam";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SubmitExamButton from "../../../submit-exam-button";
 import ArrowButton from "../../../arrow-button";
 import CircleButtonManager from "../../../circle-button-manager";
@@ -45,13 +45,10 @@ const Questions = () => {
 						rotate={false}
 						text='Next'
 					/>
-					<div>
-						{/*map circle buttons for future questions*/}
-						<CircleButtonManager
-							onClick={() => alert("circle")}
-							exam={exam}
-						/>
-					</div>
+					<CircleButtonManager
+						onClick={() => alert("circle")}
+						exam={exam}
+					/>
 				</div>
 				<div className={styles.questionRow}>
 					<QuestionToolBar />
