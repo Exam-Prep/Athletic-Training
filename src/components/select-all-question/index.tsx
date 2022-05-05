@@ -19,16 +19,21 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<MultipleChoiceMulti
 	question,
 }) => {
 
-		const [isCheckedA, setIsCheckedA] = useState(false);
-		const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-			setIsCheckedA(e.target.checked);
-		};
+	const [isCheckedA, setIsCheckedA] = useState(false);
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setIsCheckedA(e.target.checked);
+	};
 		
 	return (
-		<div>
+		<div className = {styles.multipleChoiceMultipleCorrectBox}>
 			<div className={styles.questionsContainer}>
-				<h2>Question</h2>
+				Question
 			</div>
+
+			<div className={styles.directionsText}>
+				Check all that apply
+			</div>
+
 
 			<div className={styles.answerContainer}>
 				<div className={styles.container}>
@@ -37,13 +42,12 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<MultipleChoiceMulti
 							<div className={styles.container} key={x.id}>
 								<div className='container'>
 									<div>
-										{console.log(x.answertext)}
+										{console.log(x.id)}
 										<Checkbox
 											handleChange={handleChange}
-											isChecked={isCheckedA}
-											label= {x.answerText}
+											isCheckedA={isCheckedA}
+											label={x.answerText}
 										/>
-										
 									</div>
 								</div>
 							</div>
