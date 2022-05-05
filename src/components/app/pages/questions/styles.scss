@@ -5,7 +5,7 @@
 @mixin flexColumn {
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 	flex-direction: column;
 }
 
@@ -26,6 +26,8 @@
 	height: 72%;
 	left: 221px;
 	top: 182px;
+
+	padding-left: 50px;
 
 	background: #c4c4c4;
 	border-radius: 10px;
