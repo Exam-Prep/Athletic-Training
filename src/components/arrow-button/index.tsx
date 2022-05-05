@@ -1,7 +1,6 @@
 /** @format */
 
 import React from "react";
-import { unstable_batchedUpdates } from "react-dom";
 import styles from "./styles.scss";
 
 interface ArrowButtonProps {

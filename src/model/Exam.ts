@@ -145,7 +145,7 @@ export class Exam {
 							questionType === QuestionType.MultipleChoice ||
 							questionType ===
 								QuestionType.MultipleChoiceMultipleCorrect
-						) {							
+						) {
 							const answers = Array<Answer>();
 							for (const answer of value.answers.values()) {
 								answers.push(answer);
