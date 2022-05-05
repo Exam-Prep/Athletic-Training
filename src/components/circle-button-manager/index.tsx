@@ -5,13 +5,14 @@ import { Exam } from "../../model/Exam";
 import { Question } from "../../model/Question";
 
 interface CircleButtonManagerProps {
-	onClick: (question: Question) => void;
+	onClick: (question: Question, index: number) => void;
 	exam: Exam | undefined;
+	currentIndex: number;
 }
 
 const CircleButtonManager: React.FunctionComponent<
 	CircleButtonManagerProps
-> = ({ onClick, exam }) => {
+> = ({ onClick, exam, currentIndex }) => {
 	const [didChange, setDidChange] = useState(1);
 
 	return (
@@ -19,14 +20,11 @@ const CircleButtonManager: React.FunctionComponent<
 			{exam?.questions.map((q, index) => (
 				<CircleButton
 					onClick={() => {
-						onClick(q);
-						exam.currentQuestionID = q.id;
+						onClick(q, index);
 						setDidChange(didChange + 1);
 					}}
 					text={(index + 1).toString()}
-					isActive={
-						didChange >= 1 && exam?.currentQuestionID === q.id
-					}
+					isActive={didChange >= 1 && currentIndex === index}
 					key={index}
 				/>
 			))}

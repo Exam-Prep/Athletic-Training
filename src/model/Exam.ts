@@ -135,6 +135,10 @@ export class Exam {
 					);
 					const questions = Array<Question>();
 					for (const value of questionData.values()) {
+						if (value.question === "") {
+							// We don't care about empty questions.
+							break;
+						}
 						const questionType = parseInt(value.type);
 						if (
 							questionType === QuestionType.MultipleChoice ||
