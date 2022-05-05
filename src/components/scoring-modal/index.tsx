@@ -18,6 +18,7 @@ const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 	exam,
 }) => {
 	// get questions from exam
+	console.log(exam);
 
 	return (
 		<Modal dialogClassName={styles.modal} show={hide} onHide={close}>
@@ -27,6 +28,7 @@ const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 			<Modal.Body>
 				<div className={styles.results}>
 					{exam.questions.map((x) => {
+						console.log(x);
 						return (
 							<div key={x.id}>
 								<QuestionScore

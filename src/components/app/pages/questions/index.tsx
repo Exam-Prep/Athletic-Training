@@ -6,6 +6,7 @@ import QuestionToolBar from "../../../questions-toolbar";
 import { Exam, loadPartialExam } from "../../../../model/Exam";
 import { Question } from "../../../../model/Question";
 import { useLocation, useNavigate } from "react-router-dom";
+import SubmitExamButton from "../../../submit-exam-button";
 import ArrowButton from "../../../arrow-button";
 import CircleButtonManager from "../../../circle-button-manager";
 import ScoringModal from "../../../scoring-modal";
@@ -33,6 +34,7 @@ const Questions = () => {
 
 	const onExit = () => {
 		closeScoring();
+		navigate("/exams");
 	};
 
 	const showScoringModal = () => setScoring(true);
@@ -40,6 +42,7 @@ const Questions = () => {
 
 	return (
 		<Page>
+			<div className={styles.takeExam}>
 				<div className={styles.titleBar}>
 					<div className={styles.examName}> {exam?.name}</div>
 					<SubmitExamButton onClick={showScoringModal} />
