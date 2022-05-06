@@ -28,7 +28,5 @@ Code is formatted/linted with [Prettier](https://prettier.io), [ESLint](https://
 ## Building for Production
 
 -   run `yarn build`
--   output will be placed in /dist folder on your coputer
+-   output will be placed in /dist folder on your computer
     -   Note: this file will not be checked into source control
--   run `yarn start` to run the production version
--   navigate to [localhost:3000](https://localhost:3000) to view the production app in browser

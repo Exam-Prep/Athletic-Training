@@ -46,11 +46,10 @@ module.exports = {
 	output: {
 		globalObject: "this",
 		path: path.resolve(__dirname, "dist/"),
-		publicPath: "/",
+		publicPath: "/Athletic-Training/",
 		filename: "main.[contenthash].wp.js",
 		chunkFilename: "chunk.[contenthash].js",
 	},
-	devtool: "source-map",
 	optimization: {
 		innerGraph: true,
 		minimize: true,
