@@ -175,8 +175,14 @@ const Questions = () => {
 					<div className={styles.examName}> {exam?.name}</div>
 					<SubmitExamButton onClick={showScoringModal} />
 				</div>
-				<div className={styles.circleArrowButtons}>
-					<div>{/*map circle buttons for previous questions*/}</div>
+				<div className={styles.circles}>
+					<CircleButtonManager
+						onClick={circleButtonClicked}
+						exam={exam}
+						currentIndex={userIndex}
+					/>
+				</div>
+				<div className={styles.arrowButtons}>
 					<ArrowButton
 						onClick={() =>
 							setUserIndex((currentIndex) => {
@@ -189,7 +195,9 @@ const Questions = () => {
 						rotate={true}
 						text='Previous'
 					/>
-					<div>{/*current question number*/}</div>
+					<div className={styles.currentQuestion}>
+						{userIndex + 1}
+					</div>
 					<ArrowButton
 						onClick={() =>
 							setUserIndex((currentIndex) => {
@@ -200,11 +208,6 @@ const Questions = () => {
 						rotate={false}
 						text='Next'
 					/>
-					<CircleButtonManager
-						onClick={circleButtonClicked}
-						exam={exam}
-						currentIndex={userIndex}
-					/>
 				</div>
 				<div className={styles.questionRow}>
 					<QuestionToolBar />
@@ -213,7 +216,15 @@ const Questions = () => {
 						{renderQuestion(userIndex)}
 					</div>
 				</div>
-				<ScoringModal hide={showScoring} close={onExit} exam={exam!} />
+				{exam != undefined ? (
+					<ScoringModal
+						hide={showScoring}
+						close={onExit}
+						exam={exam}
+					/>
+				) : (
+					""
+				)}
 			</div>
 		</Page>
 	);
