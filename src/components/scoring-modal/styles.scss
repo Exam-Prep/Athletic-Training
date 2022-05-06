@@ -9,6 +9,13 @@
 	cursor: pointer;
 }
 
+@mixin flexColumn {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 .modal {
 	min-width: 80%;
 
@@ -17,6 +24,18 @@
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: flex-start;
+
+		.section {
+			@include flexColumn;
+			width: 100%;
+			padding: 10px 0;
+			border-bottom: 1px solid #000000;
+		}
+
+		.lastSection {
+			@extend .section;
+			border-bottom: none;
+		}
 	}
 
 	.closeButton {

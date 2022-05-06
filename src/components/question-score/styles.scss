@@ -1,25 +1,9 @@
 /** @format */
 
-@mixin flexColumn {
+.scoreBox {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.scoreBox {
-	@include flexColumn;
+	justify-content: flex-start;
+	align-items: flex-start;
 	width: 100%;
-
-	.section {
-		@include flexColumn;
-		width: 100%;
-		padding: 10px 0;
-		border-bottom: 1px solid #ffffff;
-	}
-
-	.lastSection {
-		@extend .section;
-		border-bottom: none;
-	}
 }
