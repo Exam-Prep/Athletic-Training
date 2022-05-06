@@ -44,7 +44,6 @@ module.exports = {
 		extensions: [".tsx", ".ts", ".js"],
 	},
 	output: {
-		globalObject: "this",
 		path: path.resolve(__dirname, "dist/"),
 		publicPath: "/Athletic-Training/",
 		filename: "main.[contenthash].wp.js",
