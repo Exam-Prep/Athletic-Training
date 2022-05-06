@@ -44,6 +44,21 @@
 		@include flexRow;
 		padding: 8px;
 		width: 100%;
+		margin: 8px;
+	}
+
+	.arrowButtons {
+		@include flexRow;
+		width: 100vw;
+
+		.currentQuestion {
+			font-style: normal;
+			font-weight: bold;
+			font-size: xx-large;
+			color: #1b43ef;
+			background-color: transparent;
+			border: none;
+		}
 	}
 
 	.arrowButtons {

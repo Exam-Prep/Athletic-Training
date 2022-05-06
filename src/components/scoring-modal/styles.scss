@@ -26,6 +26,19 @@
 		align-items: flex-start;
 
 		.section {
+			@include flexColumn;
+			width: 100%;
+			padding: 10px 0;
+			border-bottom: 1px solid #000000;
+		}
+
+		.lastSection {
+			@extend .section;
+			border-bottom: none;
+		}
+	}
+
+		.section {
 			padding: 10px 0;
 			border-bottom: 1px solid #000000;
 		}
