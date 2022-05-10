@@ -27,7 +27,22 @@
 
 		width: 80%;
 	}
-
+		// .dropdownToggle {
+		// 	z-index: 999;
+		// }
+		// .dropdownToggle::after {
+		// 	display: none;
+		// }
+	.infoButton {
+		position: absolute;
+		top: 0;
+		left: 0;
+		border: none;
+		background: transparent;
+		// justify-content: flex-end;
+		//outline: 2px deeppink dashed;
+	
+	}
 	.examButton {
 		@include button;
 
