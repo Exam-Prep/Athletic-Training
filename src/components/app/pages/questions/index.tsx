@@ -9,11 +9,14 @@ import { useLocation } from "react-router-dom";
 import SubmitExamButton from "../../../submit-exam-button";
 import ArrowButton from "../../../arrow-button";
 import CircleButtonManager from "../../../circle-button-manager";
+import { User } from "../../../../model/User";
+import { useAuth } from "../../../../AuthContext";
 
 const Questions = () => {
 	const location = useLocation();
 	const [exam, setExam] = useState<Exam | undefined>();
 	const [userIndex, setUserIndex] = useState(0);
+	const [user, setUser] = useState<User | undefined>();
 
 	useEffect(() => {
 		loadPartialExam(parseInt(location.state as string)).then(
@@ -25,12 +28,36 @@ const Questions = () => {
 		);
 	}, []);
 
+	useEffect(() => {
+		if (user != undefined) {
+			user.questionIndex = userIndex;
+		}
+	}, [userIndex]);
+
 	const circleButtonClicked = (question: Question, index: number) => {
 		setUserIndex(index);
 	};
 
+	const loadUser = () => {
+		const userAuth = useAuth().currentUser;
+		if (userAuth != undefined) {
+			userAuth.getIdToken().then((id) => {
+				User.checkForUserForExam(
+					parseInt(location.state as string),
+					userIndex,
+					id,
+					userAuth.email ?? "",
+				).then((user) => {
+					console.log(user);
+					setUser(user);
+				});
+			});
+		}
+	};
+
 	return (
 		<Page>
+			{user === undefined ? loadUser() : ""}
 			<div className={styles.takeExam}>
 				<div className={styles.titleBar}>
 					<div className={styles.examName}> {exam?.name}</div>
