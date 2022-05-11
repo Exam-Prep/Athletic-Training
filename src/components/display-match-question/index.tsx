@@ -9,7 +9,10 @@ import MatchQuestion from "../../model/MatchQuestion";
 import { didFinishQuestion } from "../../misc/didFinishQuestion";
 
 interface DisplayMatchQuestionProps {
-	didAnswer: (answerMap: Map<string, string>) => void;
+	didAnswer: (
+		answerMap: Map<string, string>,
+		matchQuestion: MatchQuestion,
+	) => void;
 	matchQuestion: MatchQuestion;
 }
 
@@ -31,7 +34,7 @@ const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 
 	const checkAnswer = () => {
 		if (didFinishQuestion(dropNames, answerMap)) {
-			didAnswer(answerMap);
+			didAnswer(answerMap, matchQuestion);
 		}
 	};
 

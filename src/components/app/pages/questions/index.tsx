@@ -4,16 +4,17 @@ import Page from "../page";
 import styles from "./styles.scss";
 import QuestionToolBar from "../../../questions-toolbar";
 import { Exam, loadPartialExam } from "../../../../model/Exam";
-import { Question } from "../../../../model/Question";
+import { Question, QuestionType } from "../../../../model/Question";
 import { useLocation } from "react-router-dom";
 import SubmitExamButton from "../../../submit-exam-button";
 import ArrowButton from "../../../arrow-button";
 import CircleButtonManager from "../../../circle-button-manager";
 import { User } from "../../../../model/User";
 import { useAuth } from "../../../../AuthContext";
-import MultipleChoiceMultipleCorrect from "../../../select-all-question";
-import Checkbox from "../../../check-box";
-
+import SelectAllUI from "../../../select-all-question";
+import DisplayMatchQuestion from "../../../display-match-question";
+import MatchQuestion from "../../../../model/MatchQuestion";
+import MultipleChoiceUI from "../../../multiple-choice-ui";
 
 const Questions = () => {
 	const location = useLocation();
@@ -58,9 +59,60 @@ const Questions = () => {
 		}
 	};
 
-	const questionsClicked = (question: Question) => {
-		console.log(question)
-	}
+	const multipleChoiceQuestionClicked = (
+		question: Question,
+		index: number,
+	) => {
+		console.log("MultipleChoice", question, index);
+	};
+
+	const multipleChoiceMultipleCorrectQuestionClicked = (
+		question: Question,
+		index: number,
+	) => {
+		console.log("MULTIPLECHOICEMULTIPLECORRECT", question, index);
+	};
+
+	const matchQuestionAnswered = (
+		answerMap: Map<string, string>,
+		matchQuestion: MatchQuestion,
+	) => {
+		console.log(answerMap, matchQuestion);
+	};
+
+	const renderQuestion = (currentIndex: number) => {
+		if (exam != undefined) {
+			const question = exam.questions[currentIndex];
+			if (question.type == QuestionType.MultipleChoice) {
+				return (
+					<MultipleChoiceUI
+						onClick={multipleChoiceQuestionClicked}
+						question={question}
+					/>
+				);
+			} else if (
+				question.type == QuestionType.MultipleChoiceMultipleCorrect
+			) {
+				return (
+					<SelectAllUI
+						onClick={multipleChoiceMultipleCorrectQuestionClicked}
+						question={exam.questions[currentIndex]}
+					/>
+				);
+			} else if (question.type == QuestionType.Match) {
+				return (
+					<DisplayMatchQuestion
+						didAnswer={matchQuestionAnswered}
+						matchQuestion={question as MatchQuestion}
+					/>
+				);
+			} else if (question.type == QuestionType.HotSpot) {
+				return "hot spot " + question.question;
+			}
+		} else {
+			return "";
+		}
+	};
 
 	return (
 		<Page>
@@ -104,11 +156,8 @@ const Questions = () => {
 				<div className={styles.questionRow}>
 					<QuestionToolBar />
 					<div className={styles.questionsBox}>
-						{exam != undefined ? (
-					<MultipleChoiceMultipleCorrect
-						onClick={questionsClicked}
-						question={exam?.questions[userIndex]}/>):""}
 						{exam?.questions[userIndex].question}
+						{renderQuestion(userIndex)};
 					</div>
 				</div>
 			</div>

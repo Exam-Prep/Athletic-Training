@@ -8,7 +8,6 @@ import $ from "jquery";
 import CreateMatchQuestion from "../create-match-question";
 
 import ImageUploader from "../image-upload";
-import { textSpanIntersection } from "typescript";
 interface QuestionWriterUIProps {
 	hide: boolean;
 	close: () => void;

@@ -5,20 +5,24 @@ import styles from "./styles.scss";
 import { Answer, Question } from "../../model/Question";
 import Checkbox from "../check-box";
 
-interface MultipleChoiceMultipleCorrectProps {
+interface MultipleChoiceProps {
 	onClick: (question: Question, index: number) => void;
 	question: Question;
 }
 
-const SelectAllUI: React.FunctionComponent<
-	MultipleChoiceMultipleCorrectProps
-> = ({ onClick, question }) => {
+const MultipleChoiceUI: React.FunctionComponent<MultipleChoiceProps> = ({
+	onClick,
+	question,
+}) => {
 	const [isChecked, setIsChecked] = useState<Array<boolean>>([]);
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number,
 	) => {
 		setIsChecked((existingIsChecked) => {
+			existingIsChecked = existingIsChecked.map((x) => {
+				return false;
+			});
 			existingIsChecked[index] = e.target.checked;
 			return [...existingIsChecked];
 		});
@@ -42,10 +46,12 @@ const SelectAllUI: React.FunctionComponent<
 	}
 
 	return (
-		<div className={styles.multipleChoiceMultipleCorrectBox}>
+		<div className={styles.multipleChoiceBox}>
 			<div className={styles.questionsContainer}>Question</div>
 
-			<div className={styles.directionsText}>Check all that apply</div>
+			<div className={styles.directionsText}>
+				Select The Correct Answer
+			</div>
 
 			<div className={styles.answerContainer}>
 				<div className={styles.container}>
@@ -71,4 +77,4 @@ const SelectAllUI: React.FunctionComponent<
 		</div>
 	);
 };
-export default SelectAllUI;
+export default MultipleChoiceUI;

@@ -2,23 +2,26 @@
 
 import React from "react";
 
-interface Props {
+interface CheckboxProps {
 	isChecked: boolean;
 	handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	label: string;
 }
 
-const Checkbox = (props: Props) => {
+const Checkbox: React.FunctionComponent<CheckboxProps> = ({
+	isChecked,
+	handleChange,
+	label,
+}) => {
 	return (
 		<div>
-			<label htmlFor={props.label}>{props.label}</label>
 			<input
 				type='checkbox'
-				id={props.label}
-				checked={props.isChecked}
-				onChange={props.handleChange}
+				id={label}
+				checked={isChecked}
+				onChange={handleChange}
 			/>
-			
+			<label htmlFor={label}>{label}</label>
 		</div>
 	);
 };
