@@ -9,7 +9,11 @@ import { useLocation } from "react-router-dom";
 import SubmitExamButton from "../../../submit-exam-button";
 import ArrowButton from "../../../arrow-button";
 import CircleButtonManager from "../../../circle-button-manager";
-import { User } from "../../../../model/User";
+import {
+	AttemptedAnswer,
+	User,
+	writeCurrentProgress,
+} from "../../../../model/User";
 import { useAuth } from "../../../../AuthContext";
 import SelectAllUI from "../../../select-all-question";
 import DisplayMatchQuestion from "../../../display-match-question";
@@ -36,6 +40,12 @@ const Questions = () => {
 		if (user != undefined) {
 			user.questionIndex = userIndex;
 		}
+
+		return () => {
+			if (user != undefined) {
+				writeCurrentProgress(user);
+			}
+		};
 	}, [userIndex]);
 
 	const circleButtonClicked = (question: Question, index: number) => {
@@ -45,16 +55,13 @@ const Questions = () => {
 	const loadUser = () => {
 		const userAuth = useAuth().currentUser;
 		if (userAuth != undefined) {
-			userAuth.getIdToken().then((id) => {
-				User.checkForUserForExam(
-					parseInt(location.state as string),
-					userIndex,
-					id,
-					userAuth.email ?? "",
-				).then((user) => {
-					console.log(user);
-					setUser(user);
-				});
+			User.checkForUserForExam(
+				parseInt(location.state as string),
+				userIndex,
+				userAuth.uid,
+				userAuth.email ?? "",
+			).then((user) => {
+				setUser(user);
 			});
 		}
 	};
@@ -63,21 +70,54 @@ const Questions = () => {
 		question: Question,
 		index: number,
 	) => {
-		console.log("MultipleChoice", question, index);
+		const answer = [question.answers[index]];
+		const correct = question.correctAnswers() === answer;
+		const attemptedAnswer = new AttemptedAnswer(
+			question.id,
+			correct,
+			answer.map((x) => {
+				return x.answerID;
+			}),
+			undefined,
+		);
+		user?.addOrUpdateAnswer(attemptedAnswer);
 	};
 
 	const multipleChoiceMultipleCorrectQuestionClicked = (
 		question: Question,
-		index: number,
+		index: Array<number | undefined>,
 	) => {
-		console.log("MULTIPLECHOICEMULTIPLECORRECT", question, index);
+		const answers = index.flatMap((x) => {
+			return x === undefined ? [] : [question.answers[x]];
+		});
+		let isCorrect = true;
+		answers.forEach((x) => {
+			if (x.isCorrect === false) {
+				isCorrect = false;
+			}
+		});
+		const attemptedAnswer = new AttemptedAnswer(
+			question.id,
+			isCorrect,
+			answers.map((x) => {
+				return x.answerID;
+			}),
+			undefined,
+		);
+		user?.addOrUpdateAnswer(attemptedAnswer);
 	};
 
 	const matchQuestionAnswered = (
 		answerMap: Map<string, string>,
 		matchQuestion: MatchQuestion,
 	) => {
-		console.log(answerMap, matchQuestion);
+		const attemptedAnswer = new AttemptedAnswer(
+			matchQuestion.id,
+			answerMap === matchQuestion.answerMap,
+			undefined,
+			answerMap,
+		);
+		user?.addOrUpdateAnswer(attemptedAnswer);
 	};
 
 	const renderQuestion = (currentIndex: number) => {

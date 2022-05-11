@@ -6,7 +6,10 @@ import { Answer, Question } from "../../model/Question";
 import Checkbox from "../check-box";
 
 interface MultipleChoiceMultipleCorrectProps {
-	onClick: (question: Question, index: number) => void;
+	onClick: (
+		question: Question,
+		selectedValues: Array<number | undefined>,
+	) => void;
 	question: Question;
 }
 
@@ -22,7 +25,10 @@ const SelectAllUI: React.FunctionComponent<
 			existingIsChecked[index] = e.target.checked;
 			return [...existingIsChecked];
 		});
-		onClick(question, index);
+		const selectedValues = isChecked.map((x, isCheckedIndex) => {
+			return x === true ? isCheckedIndex : undefined;
+		});
+		onClick(question, selectedValues);
 	};
 
 	useEffect(() => {

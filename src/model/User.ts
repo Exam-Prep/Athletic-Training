@@ -6,13 +6,13 @@ import { set, ref, child, onValue } from "firebase/database";
 export class AttemptedAnswer {
 	qID: number;
 	isCorrect: boolean;
-	answer: Array<string> | undefined;
+	answer: Array<number> | undefined;
 	answerMap: Map<string, string> | undefined;
 
 	constructor(
 		qID: number,
 		isCorrect: boolean,
-		answer: Array<string> | undefined = undefined,
+		answer: Array<number> | undefined = undefined,
 		answerMap: Map<string, string> | undefined = undefined,
 	) {
 		this.qID = qID;
@@ -82,12 +82,31 @@ export class User {
 				});
 		});
 	}
+
+	public addOrUpdateAnswer(answer: AttemptedAnswer) {
+		const filteredAnswers = this.attemptedAnswers.filter((x) => {
+			return x.qID === answer.qID;
+		});
+		if (filteredAnswers.length === 1) {
+			const answerToDelete = this.attemptedAnswers.indexOf(answer);
+			if (
+				answerToDelete > -1 &&
+				this.attemptedAnswers[answerToDelete] != answer
+			) {
+				this.attemptedAnswers.splice(answerToDelete, 1);
+			}
+		} else if (filteredAnswers.length > 2) {
+			console.log("ERROR length should never be 2.");
+			console.log(this.attemptedAnswers);
+		}
+		this.attemptedAnswers.push(answer);
+	}
 }
 
 type JSONAttemptedAnswer = {
 	type: string;
 	isCorrect: boolean;
-	answer: Array<string>;
+	answer: Array<number>;
 	answerMap: {
 		key: string;
 		value: string;
@@ -103,35 +122,39 @@ export function fetchCurrentUserProgress(examID: number, userID: string) {
 			(snapshot) => {
 				if (snapshot.exists()) {
 					const val = snapshot.val();
-					const attemptedAnswersData: Map<
-						string,
-						JSONAttemptedAnswer
-					> = new Map(Object.entries(val.attemptedAnswers));
 					const attemptedAnswers = Array<AttemptedAnswer>();
-					for (const [
-						key,
-						attemptedAnswerJSON,
-					] of attemptedAnswersData.entries()) {
-						const answerMap = new Map<string, string>();
-						attemptedAnswerJSON.answerMap.forEach(
-							(answerMapValue) => {
-								answerMap.set(
-									answerMapValue.key,
-									answerMapValue.value,
+					if (val.attemptedAnswers != undefined) {
+						const attemptedAnswersData: Map<
+							string,
+							JSONAttemptedAnswer
+						> = new Map(Object.entries(val.attemptedAnswers));
+						for (const [
+							key,
+							attemptedAnswerJSON,
+						] of attemptedAnswersData.entries()) {
+							const answerMap = new Map<string, string>();
+							if (attemptedAnswerJSON.answerMap != undefined) {
+								attemptedAnswerJSON.answerMap.forEach(
+									(answerMapValue) => {
+										answerMap.set(
+											answerMapValue.key,
+											answerMapValue.value,
+										);
+									},
 								);
-							},
-						);
-						const attemptedAnswer = new AttemptedAnswer(
-							parseInt(key),
-							attemptedAnswerJSON.isCorrect,
-							attemptedAnswerJSON.answer,
-							answerMap,
-						);
-						attemptedAnswers.push(attemptedAnswer);
+							}
+							const attemptedAnswer = new AttemptedAnswer(
+								parseInt(key),
+								attemptedAnswerJSON.isCorrect,
+								attemptedAnswerJSON.answer,
+								answerMap,
+							);
+							attemptedAnswers.push(attemptedAnswer);
+						}
 					}
 					const user = new User(
-						val.id,
-						val.examID,
+						userID,
+						examID,
 						attemptedAnswers,
 						val.questionIndex,
 						val.email,
@@ -158,7 +181,7 @@ export function writeCurrentProgress(user: User) {
 	user.attemptedAnswers.forEach((answer) => {
 		set(child(userRef, "attemptedAnswers" + "/" + answer.qID), {
 			isCorrect: answer.isCorrect,
-			answer: answer.answer,
+			answer: answer.answer ?? Array<AttemptedAnswer>(),
 			answerMap: answer.answerMapArray(),
 		});
 	});
