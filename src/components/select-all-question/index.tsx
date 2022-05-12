@@ -43,7 +43,7 @@ const SelectAllUI: React.FunctionComponent<
 				}
 			}),
 		);
-	}, []);
+	}, [question]);
 
 	function readCheckState(index: number) {
 		if (isChecked[index] === undefined) {
