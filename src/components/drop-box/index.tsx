@@ -11,14 +11,15 @@ export const ItemTypes = {
 interface DropBoxProps {
 	name: string;
 	didDrop: (item: string, dropBoxID: string) => void;
+	droppedValue: string;
 }
 
 interface ItemType {
 	name: string;
 }
 
-const DropBox: React.FC<DropBoxProps> = ({ name, didDrop }) => {
-	const [droppedName, setDroppedName] = useState("");
+const DropBox: React.FC<DropBoxProps> = ({ name, didDrop, droppedValue }) => {
+	const [droppedName, setDroppedName] = useState(droppedValue);
 	// eslint-disable-next-line no-empty-pattern
 	const [{}, drop] = useDrop(() => ({
 		accept: ItemTypes.BOX,

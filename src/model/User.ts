@@ -88,18 +88,34 @@ export class User {
 			return x.qID === answer.qID;
 		});
 		if (filteredAnswers.length === 1) {
-			const answerToDelete = this.attemptedAnswers.indexOf(answer);
+			const answerToDelete = this.attemptedAnswers.indexOf(
+				filteredAnswers[0],
+			);
 			if (
 				answerToDelete > -1 &&
 				this.attemptedAnswers[answerToDelete] != answer
 			) {
 				this.attemptedAnswers.splice(answerToDelete, 1);
+			} else {
+				return;
 			}
 		} else if (filteredAnswers.length > 2) {
 			console.log("ERROR length should never be 2.");
 			console.log(this.attemptedAnswers);
 		}
 		this.attemptedAnswers.push(answer);
+	}
+
+	public attemptedAnswerForID(questionID: number) {
+		const filteredAnswers = this.attemptedAnswers.filter((x) => {
+			return x.qID === questionID;
+		});
+
+		if (filteredAnswers.length === 1) {
+			return filteredAnswers[0];
+		} else {
+			return undefined;
+		}
 	}
 }
 

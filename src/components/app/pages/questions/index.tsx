@@ -62,6 +62,7 @@ const Questions = () => {
 				userAuth.email ?? "",
 			).then((user) => {
 				setUser(user);
+				setUserIndex(user.questionIndex);
 			});
 		}
 	};
@@ -123,10 +124,12 @@ const Questions = () => {
 	const renderQuestion = (currentIndex: number) => {
 		if (exam != undefined) {
 			const question = exam.questions[currentIndex];
+			const attemptedAnswer = user?.attemptedAnswerForID(question.id);
 			if (question.type == QuestionType.MultipleChoice) {
 				return (
 					<MultipleChoiceUI
 						onClick={multipleChoiceQuestionClicked}
+						attemptedAnswer={attemptedAnswer}
 						question={question}
 					/>
 				);
@@ -136,6 +139,7 @@ const Questions = () => {
 				return (
 					<SelectAllUI
 						onClick={multipleChoiceMultipleCorrectQuestionClicked}
+						attemptedAnswer={attemptedAnswer}
 						question={exam.questions[currentIndex]}
 					/>
 				);
@@ -143,6 +147,7 @@ const Questions = () => {
 				return (
 					<DisplayMatchQuestion
 						didAnswer={matchQuestionAnswered}
+						attemptedAnswer={attemptedAnswer}
 						matchQuestion={question as MatchQuestion}
 					/>
 				);
@@ -197,7 +202,7 @@ const Questions = () => {
 					<QuestionToolBar />
 					<div className={styles.questionsBox}>
 						{exam?.questions[userIndex].question}
-						{renderQuestion(userIndex)};
+						{renderQuestion(userIndex)}
 					</div>
 				</div>
 			</div>

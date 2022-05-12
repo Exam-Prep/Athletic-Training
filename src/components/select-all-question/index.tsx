@@ -4,18 +4,20 @@ import React, { useEffect, useState } from "react";
 import styles from "./styles.scss";
 import { Answer, Question } from "../../model/Question";
 import Checkbox from "../check-box";
+import { AttemptedAnswer } from "../../model/User";
 
 interface MultipleChoiceMultipleCorrectProps {
 	onClick: (
 		question: Question,
 		selectedValues: Array<number | undefined>,
 	) => void;
+	attemptedAnswer: AttemptedAnswer | undefined;
 	question: Question;
 }
 
 const SelectAllUI: React.FunctionComponent<
 	MultipleChoiceMultipleCorrectProps
-> = ({ onClick, question }) => {
+> = ({ onClick, attemptedAnswer, question }) => {
 	const [isChecked, setIsChecked] = useState<Array<boolean>>([]);
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
@@ -34,7 +36,11 @@ const SelectAllUI: React.FunctionComponent<
 	useEffect(() => {
 		setIsChecked(
 			question.answers?.map((x) => {
-				return false;
+				if (attemptedAnswer?.answer?.includes(x.answerID)) {
+					return true;
+				} else {
+					return false;
+				}
 			}),
 		);
 	}, []);

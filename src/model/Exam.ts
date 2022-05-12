@@ -135,9 +135,9 @@ export class Exam {
 					);
 					const questions = Array<Question>();
 					for (const value of questionData.values()) {
-						if (value.question === "") {
+						if (value.question === "" || value.type === undefined) {
 							// We don't care about empty questions.
-							break;
+							continue;
 						}
 						const questionType = parseInt(value.type);
 						if (
