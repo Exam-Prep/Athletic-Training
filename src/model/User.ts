@@ -1,7 +1,7 @@
 /** @format */
 
 import { database } from "../firebase/firebase";
-import { set, ref, child, onValue } from "firebase/database";
+import { set, ref, child, onValue, remove } from "firebase/database";
 
 export class AttemptedAnswer {
 	qID: number;
@@ -187,6 +187,7 @@ export function fetchCurrentUserProgress(examID: number, userID: string) {
 		);
 	});
 }
+
 export function writeCurrentProgress(user: User) {
 	const examRef = ref(database, userRefString + user.examID);
 	set(child(examRef, user.id), {
@@ -201,4 +202,9 @@ export function writeCurrentProgress(user: User) {
 			answerMap: answer.answerMapArray(),
 		});
 	});
+}
+
+export function deleteUser(user: User) {
+	const userRef = ref(database, userRefString + user.examID + "/" + user.id);
+	return remove(userRef);
 }
