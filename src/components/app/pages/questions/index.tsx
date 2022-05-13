@@ -21,6 +21,7 @@ import DisplayMatchQuestion from "../../../display-match-question";
 import MatchQuestion from "../../../../model/MatchQuestion";
 import MultipleChoiceUI from "../../../multiple-choice-ui";
 import ScoringModal from "../../../scoring-modal";
+import CreateHotSpot from "../../../create-hot-spot";
 
 const Questions = () => {
 	const location = useLocation();
