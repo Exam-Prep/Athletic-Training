@@ -27,9 +27,13 @@ import { textSpanIntersection } from "typescript";
   return result;
 }
 
-interface MultipleCorrectProps {
-	selectedExam: Exam;
-	
+interface MultipleChoiceMultipleCorrectProps {
+	onClick: (
+		question: Question,
+		selectedValues: Array<number | undefined>,
+	) => void;
+	attemptedAnswer: AttemptedAnswer | undefined;
+	question: Question;
 }
 
 function clearInput() {
