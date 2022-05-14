@@ -1,9 +1,8 @@
 /** @format */
 
-import styled from "styled-components";
 import React, { useState } from "react";
 import styles from "./styles.scss";
-import { Button, Dropdown, Modal, ModalContainer } from "react-bootstrap";
+import { Button, Dropdown, Modal } from "react-bootstrap";
 import { Exam } from "../../model/Exam";
 
 //from https://stackoverflow.com/questions/58601704/adding-a-icon-to-react-bootstrap-dropdown
@@ -14,59 +13,61 @@ interface DropdownProps {
 	examToDelete: Exam;
 }
 
-const Toggle = styled(Dropdown.Toggle)`
-	:after {
-		display: none;
-	}
-`;
 const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 	examToDelete,
 }) => {
 	const [show, setShow] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
-	const cancelDelete = () => {
-		console.log("yo you want to cancel delete");
-		closeModal();
-	};
 	const deleteExam = () => {
 		console.log("delete pressed", examToDelete.id);
 		examToDelete.deleteExamQuestions();
 		examToDelete.deleteExam();
 		closeModal();
+		window.location.reload();
 	};
 	const showModal = () => {
-		console.log("what is goingo n??", show);
-		setShow(true);
 		if (isOpen) {
-			setShow(false)
+			setShow(false);
+			setIsOpen(false);
+		} else {
+			setShow(true);
+			setIsOpen(true);
 		}
 	};
 	const closeModal = () => {
 		setIsOpen(true);
 	};
 	return (
-		<Dropdown className={styles.infoButton}>
-			<Toggle />
+		<Dropdown className={styles.dropDown}>
+			<Dropdown.Toggle className={styles.infoButton}>
+				<svg
+					xmlns='http://www.w3.org/2000/svg'
+					width='16'
+					height='16'
+					className='bi bi-info-circle'
+					viewBox='0 0 16 16'
+				>
+					<path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z' />
+					<path d='m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z' />
+				</svg>
+			</Dropdown.Toggle>
 			<Dropdown.Menu>
-				{/* <Dropdown.ItemText >Dropdown item text</Dropdown.ItemText> */}
 				<Dropdown.Item as='button' onClick={showModal}>
 					<Modal
 						onClose={() => setShow(false)}
 						show={show}
-						onHide={closeModal}
+						onHide={showModal}
 					>
 						<Modal.Body>
-							Do you wanat to delete this exam?
+							Do you want to delete this exam?
 						</Modal.Body>
 						<Modal.Footer>
 							<Button onClick={deleteExam}> Delete</Button>
-							<Button onClick={cancelDelete}>Cancel</Button>
+							<Button onClick={showModal}>Cancel</Button>
 						</Modal.Footer>
 					</Modal>
 					Delete
 				</Dropdown.Item>
-				{/* <Dropdown.Item as='button'>Another action</Dropdown.Item> */}
-				{/* <Dropdown.Item as='button'>Something else</Dropdown.Item> */}
 			</Dropdown.Menu>
 		</Dropdown>
 	);

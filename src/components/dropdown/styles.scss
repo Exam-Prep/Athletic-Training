@@ -1,0 +1,18 @@
+/** @format */
+
+.dropDown {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: 100%;
+
+	.infoButton {
+		margin: 4px;
+		border: none;
+		background: transparent;
+		&::after {
+			display: none;
+		}
+	}
+}
