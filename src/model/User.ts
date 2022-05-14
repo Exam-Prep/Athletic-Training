@@ -2,6 +2,7 @@
 
 import { database } from "../firebase/firebase";
 import { set, ref, child, onValue, remove } from "firebase/database";
+import { faLessThanEqual } from "@fortawesome/free-solid-svg-icons";
 
 export class AttemptedAnswer {
 	qID: number;
@@ -41,11 +42,11 @@ export function answerMapsEqual(
 	map1: Map<string, string>,
 	map2: Map<string, string>,
 ) {
-	var testVal;
+	let testVal;
 	if (map1.size !== map2.size) {
 		return false;
 	}
-	for (var [key, val] of map1) {
+	for (const [key, val] of map1) {
 		testVal = map2.get(key);
 		// in cases of an undefined value, make sure the key
 		// actually exists on the object so there are no false positives
