@@ -11,6 +11,7 @@ import ArrowButton from "../../../arrow-button";
 import CircleButtonManager from "../../../circle-button-manager";
 import {
 	AttemptedAnswer,
+	answerMapsEqual,
 	User,
 	writeCurrentProgress,
 } from "../../../../model/User";
@@ -71,14 +72,11 @@ const Questions = () => {
 		question: Question,
 		index: number,
 	) => {
-		const answer = [question.answers[index]];
-		const correct = question.correctAnswers() === answer;
+		const answer = question.answers[index];
 		const attemptedAnswer = new AttemptedAnswer(
 			question.id,
-			correct,
-			answer.map((x) => {
-				return x.answerID;
-			}),
+			answer.isCorrect,
+			[answer.answerID],
 			undefined,
 		);
 		user?.addOrUpdateAnswer(attemptedAnswer);
@@ -114,7 +112,7 @@ const Questions = () => {
 	) => {
 		const attemptedAnswer = new AttemptedAnswer(
 			matchQuestion.id,
-			answerMap === matchQuestion.answerMap,
+			answerMapsEqual(answerMap, matchQuestion.answerMap),
 			undefined,
 			answerMap,
 		);
