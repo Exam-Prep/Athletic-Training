@@ -19,6 +19,7 @@
 
 .examTile {
 	@include flexColumn;
+	justify-content: space-between;
 	width: 100%;
 	height: 100%;
 
@@ -26,21 +27,25 @@
 		@include flexColumn;
 
 		width: 80%;
-	}
 
-	.examButton {
-		@include button;
+		.examButton {
+			@include button;
 
-		background-color: #1b43ef;
-	}
+			background-color: #1b43ef;
+		}
 
-	.addExamButton {
-		@include button;
+		.addExamButton {
+			@include button;
 
-		background-color: #fd8606;
+			background-color: #fd8606;
+		}
 	}
 }
 
-.hidden {
-	visibility: hidden;
+.examTile::after {
+	content: "";
+}
+
+.empty {
+	margin: 10%;
 }

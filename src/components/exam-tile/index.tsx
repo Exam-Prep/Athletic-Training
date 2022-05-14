@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import styles from "./styles.scss";
 import { Exam } from "../../model/Exam";
 import QuestionWriterUI from "../questions-box";
+import DropdownInfo from "../dropdown";
 
 interface ExamTileProps {
 	onClick: () => void;
@@ -26,6 +27,13 @@ const ExamTile: React.FunctionComponent<ExamTileProps> = ({
 
 	return (
 		<div className={styles.examTile}>
+			{addExam ? (
+				<div className={styles.empty} />
+			) : (
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				<DropdownInfo examToDelete={currentExam!} />
+			)}
+
 			<div className={styles.buttonBox}>
 				<button
 					className={
@@ -35,12 +43,14 @@ const ExamTile: React.FunctionComponent<ExamTileProps> = ({
 				>
 					{name}
 				</button>
-				<button
-					className={admin ? styles.addExamButton : styles.hidden}
-					onClick={showModal}
-				>
-					Add Question
-				</button>
+				{admin && (
+					<button
+						className={styles.addExamButton}
+						onClick={showModal}
+					>
+						Add Question
+					</button>
+				)}
 			</div>
 			<QuestionWriterUI
 				hide={show}
