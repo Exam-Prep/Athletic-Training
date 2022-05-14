@@ -1,7 +1,7 @@
 /** @format */
 
 import { database } from "../firebase/firebase";
-import { set, ref, child, onValue } from "firebase/database";
+import { set, ref, child, onValue,remove } from "firebase/database";
 import { Answer, Question, QuestionType } from "./Question";
 import MatchQuestion from "./MatchQuestion";
 
@@ -186,6 +186,14 @@ export class Exam {
 				},
 			);
 		});
+	}
+	public deleteExamQuestions() {
+		const deleteExamQuestionsRef = ref(database, questionRefString + this.id);
+		return remove(deleteExamQuestionsRef);
+	}
+	public deleteExam() { 
+		const deleteExamRef = ref(database, examSetRefString + "/" + this.id);
+		return remove(deleteExamRef);
 	}
 
 	public downloadExistingQuestionsIfNecessary() {
