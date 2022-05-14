@@ -3,10 +3,8 @@
 import React, { useRef, useState } from "react";
 import { Exam } from "../../model/Exam";
 import styles from "./styles.scss";
-import { DndProvider } from "react-dnd";
-import DropBox from "../drop-box";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import DragBox from "../drag-box/Index";
+import ImageUploader from "../image-upload";
+import HotSpotQuestion from "../../model/HotSpotQuestion";
 
 interface CreateHotSpotProps {
 	exam: Exam;
@@ -15,43 +13,113 @@ interface CreateHotSpotProps {
 const CreateHotSpot: React.FunctionComponent<CreateHotSpotProps> = ({
 	exam,
 }) => {
-	const [style, setStyle] = useState({
+	const [imageURL, setImageURL] = useState("");
+	const [question, setQuestion] = useState("");
+	const [image, setImage] = useState(false);
+	const showModal = () => setImage(true);
+	const closeModal = () => setImage(false);
+	const updateSetImageURL = (url: string): void => {
+		setImageURL(url);
+	};
+	const [x, setX] = useState(0);
+	const [y, setY] = useState(0);
+	const [style, setStyle] = useState<React.CSSProperties>({
 		position: "absolute",
 		left: 10,
 		top: 10,
-		width: 10,
-		height: 10,
+		width: HotSpotQuestion.width,
+		height: HotSpotQuestion.height,
+		opacity: 0.5,
+		borderRadius: "50%",
 		background: "red",
 	});
 	const imageClicked = (e: any) => {
+		setX(e.nativeEvent.offsetX - HotSpotQuestion.offset);
+		setY(e.nativeEvent.offsetY - HotSpotQuestion.offset);
 		setStyle({
 			position: "absolute",
-			left: e.nativeEvent.offsetX,
-			top: e.nativeEvent.offsetY,
-			width: 10,
-			height: 10,
+			left: e.nativeEvent.offsetX - HotSpotQuestion.offset,
+			top: e.nativeEvent.offsetY - HotSpotQuestion.offset,
+			width: HotSpotQuestion.width,
+			height: HotSpotQuestion.height,
+			opacity: 0.5,
+			borderRadius: "50%",
 			background: "red",
 		});
 	};
 
+	const renderImage = () => {
+		if (imageURL !== "") {
+			return (
+				<img
+					onClick={imageClicked}
+					src={imageURL}
+					style={{
+						position: "relative",
+						margin: 0,
+						top: 0,
+						left: 0,
+						userSelect: "none",
+						WebkitUserSelect: "none",
+					}}
+					className={"img-fluid"}
+					draggable={false}
+				></img>
+			);
+		} else {
+			return "";
+		}
+	};
+
+	const renderHotSpot = () => {
+		if (imageURL === "") {
+			return "";
+		}
+		return <div style={style}></div>;
+	};
+
+	const addQuestion = () => {
+		const hotSpotQuestion = new HotSpotQuestion(
+			question,
+			null,
+			x,
+			y,
+			imageURL,
+		);
+		exam.questions.push(hotSpotQuestion);
+	};
+
 	return (
-		<div className={styles.container}>
-			<img
-				onClick={imageClicked}
-				src='https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
-				style={{
-					position: "relative",
-					margin: 0,
-					top: 0,
-					left: 0,
-					height: "auto",
-					userSelect: "none",
-					WebkitUserSelect: "none",
-					width: "auto",
+		<div>
+			<textarea
+				className={styles.input}
+				rows={3}
+				placeholder='Question'
+				id='question-input'
+				onChange={(e) => {
+					setQuestion(e.target.value);
 				}}
-				draggable={false}
-			></img>
-			<div style={style}></div>
+			/>
+			<div className={styles.container}>
+				{renderImage()}
+				{renderHotSpot()}
+				{imageURL === "" ? (
+					<button
+						className={styles.addQuestionButton}
+						onClick={showModal}
+					>
+						Add Image
+					</button>
+				) : (
+					""
+				)}
+				<ImageUploader
+					hide={image}
+					examString={exam.name}
+					updateImageURL={updateSetImageURL}
+					closeModal={closeModal}
+				/>
+			</div>
 		</div>
 	);
 };

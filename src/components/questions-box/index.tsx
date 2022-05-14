@@ -9,6 +9,7 @@ import CreateMatchQuestion from "../create-match-question";
 
 import ImageUploader from "../image-upload";
 import MultipleChoiceMultipleCorrect from "../multiple-correct";
+import CreateHotSpot from "../create-hot-spot";
 interface QuestionWriterUIProps {
 	hide: boolean;
 	close: () => void;
@@ -222,7 +223,7 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 							<CreateMatchQuestion exam={selectedExam} />
 						</Tab>
 						<Tab eventKey='hot-spot' title='Hot Spot'>
-							This will be Hot Spot
+							<CreateHotSpot exam={selectedExam} />
 						</Tab>
 					</Tabs>
 				</Modal.Body>

@@ -4,6 +4,7 @@ import { database } from "../firebase/firebase";
 import { set, ref, child, onValue, remove } from "firebase/database";
 import { Answer, Question, QuestionType } from "./Question";
 import MatchQuestion from "./MatchQuestion";
+import HotSpotQuestion from "./HotSpotQuestion";
 
 const examSetRefString = "/exam_set";
 const questionRefString = "/questions/";
@@ -80,6 +81,8 @@ type JSONQuestion = {
 		key: string;
 		value: string;
 	}[];
+	x: number;
+	y: number;
 };
 export class Exam {
 	id: number | null = null;
@@ -115,14 +118,24 @@ export class Exam {
 					type: question.type,
 					imageURL: question.imageURL,
 				});
-			} else if (question.type == QuestionType.Match) {
+			} else if (question.type === QuestionType.Match) {
 				const questionMatch = question as MatchQuestion;
 				set(child(questionsRef, question.id.toString()), {
 					qID: questionMatch.id,
 					question: questionMatch.question,
 					answerMap: questionMatch.answerMapArray(),
-					imageURL: question.imageURL,
-					type: question.type,
+					imageURL: questionMatch.imageURL,
+					type: questionMatch.type,
+				});
+			} else if (question.type === QuestionType.HotSpot) {
+				const hotSpotQuestion = question as HotSpotQuestion;
+				set(child(questionsRef, hotSpotQuestion.id.toString()), {
+					qID: hotSpotQuestion.id,
+					question: hotSpotQuestion.question,
+					imageURL: hotSpotQuestion.imageURL,
+					type: hotSpotQuestion.type,
+					x: hotSpotQuestion.x,
+					y: hotSpotQuestion.y,
 				});
 			}
 		});
@@ -176,9 +189,18 @@ export class Exam {
 								value.imageURL,
 							);
 							questions.push(matchQuestion);
+						} else if (questionType === QuestionType.HotSpot) {
+							const hotSpotQuestion = new HotSpotQuestion(
+								value.question,
+								value.qID,
+								value.x,
+								value.y,
+								value.imageURL,
+							);
+							questions.push(hotSpotQuestion);
 						} else {
 							console.log(
-								"FIXME add support for hot spot questions",
+								"SEVERE ERROR, every question must have a type.",
 							);
 						}
 					}
