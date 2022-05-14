@@ -54,10 +54,6 @@ export const AuthContextProvider: React.FC = ({ children }) => {
 		};
 	}, []);
 
-	useEffect(() => {
-		console.log("The user is ", currentUser);
-	}, [currentUser]);
-
 	function login(email: string, password: string) {
 		return signInWithEmailAndPassword(auth, email, password);
 	}

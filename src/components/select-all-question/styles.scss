@@ -1,0 +1,18 @@
+/** @format */
+
+.answerContainer {
+	flex-direction: column;
+}
+
+.questionsContainer {
+	margin-bottom: 20px;
+}
+
+.directionsText {
+	margin-bottom: 20px;
+}
+
+.multipleChoiceMultipleCorrectBox {
+	display: flex;
+	flex-direction: column;
+}

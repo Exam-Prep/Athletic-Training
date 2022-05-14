@@ -7,14 +7,20 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import DragBox from "../drag-box/Index";
 import MatchQuestion from "../../model/MatchQuestion";
 import { didFinishQuestion } from "../../misc/didFinishQuestion";
+import { AttemptedAnswer } from "../../model/User";
 
 interface DisplayMatchQuestionProps {
-	didAnswer: (answerMap: Map<string, string>) => void;
+	didAnswer: (
+		answerMap: Map<string, string>,
+		matchQuestion: MatchQuestion,
+	) => void;
+	attemptedAnswer: AttemptedAnswer | undefined;
 	matchQuestion: MatchQuestion;
 }
 
 const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 	didAnswer,
+	attemptedAnswer,
 	matchQuestion,
 }) => {
 	const [dragNames, setDragNames] = useState<Array<string>>([]);
@@ -27,11 +33,14 @@ const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 	useEffect(() => {
 		setDragNames(Array.from(matchQuestion.answerMap.values()));
 		setDropNames(Array.from(matchQuestion.answerMap.keys()));
-	}, [matchQuestion]);
+		if (attemptedAnswer?.answerMap != undefined) {
+			setAnswerMap(attemptedAnswer.answerMap);
+		}
+	}, [matchQuestion, attemptedAnswer]);
 
 	const checkAnswer = () => {
 		if (didFinishQuestion(dropNames, answerMap)) {
-			didAnswer(answerMap);
+			didAnswer(answerMap, matchQuestion);
 		}
 	};
 
@@ -43,6 +52,10 @@ const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 		});
 	};
 
+	const getDroppedValue = (dropBoxID: string) => {
+		return answerMap.get(dropBoxID) ?? "";
+	};
+
 	return (
 		<DndProvider backend={HTML5Backend}>
 			<div className={styles.dragnDrop}>
@@ -52,7 +65,12 @@ const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 			</div>
 			<div className={styles.dragnDrop}>
 				{dropNames?.map((x) => (
-					<DropBox name={x} key={x} didDrop={didDropValue} />
+					<DropBox
+						name={x}
+						key={x}
+						didDrop={didDropValue}
+						droppedValue={getDroppedValue(x)}
+					/>
 				))}
 			</div>
 			{checkAnswer()}
