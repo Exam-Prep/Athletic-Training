@@ -48,7 +48,7 @@
 
 	.arrowButtons {
 		@include flexRow;
-		width: 100vw;
+		width: 100%;
 
 		.currentQuestion {
 			font-style: normal;

@@ -218,7 +218,6 @@ const Questions = () => {
 					</div>
 				</div>
 				{exam != undefined && user != undefined ? (
-				{exam != undefined ? (
 					<ScoringModal
 						hide={showScoring}
 						close={onExit}
