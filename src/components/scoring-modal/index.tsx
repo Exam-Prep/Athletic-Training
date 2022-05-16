@@ -3,6 +3,7 @@
 import React from "react";
 import styles from "./styles.scss";
 import { Exam } from "../../model/Exam";
+import { User } from "../../model/User";
 import { Modal } from "react-bootstrap";
 import QuestionScore from "../question-score";
 
@@ -10,13 +11,16 @@ interface ScoringModalProps {
 	hide: boolean;
 	close: () => void;
 	exam: Exam;
+	user: User;
 }
 
 const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 	hide,
 	close,
 	exam,
+	user,
 }) => {
+	const answers = user.attemptedAnswers;
 	return (
 		<Modal dialogClassName={styles.modal} show={hide} onHide={close}>
 			<Modal.Header>
@@ -27,7 +31,10 @@ const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 					{exam.questions.map((x) => {
 						return (
 							<div className={styles.section} key={x.id}>
-								<QuestionScore question={x} />
+								<QuestionScore
+									question={x}
+									attempts={answers}
+								/>
 							</div>
 						);
 					})}

@@ -23,6 +23,7 @@ import MultipleChoiceUI from "../../../multiple-choice-ui";
 import ScoringModal from "../../../scoring-modal";
 
 const Questions = () => {
+	const location = useLocation();
 	const navigate = useNavigate();
 	const [exam, setExam] = useState<Exam | undefined>();
 	const [userIndex, setUserIndex] = useState(0);
@@ -86,7 +87,7 @@ const Questions = () => {
 		const attemptedAnswer = new AttemptedAnswer(
 			question.id,
 			answer.isCorrect,
-			[answer.answerID],
+			[answer.answerText],
 			undefined,
 		);
 		user?.addOrUpdateAnswer(attemptedAnswer);
@@ -109,7 +110,7 @@ const Questions = () => {
 			question.id,
 			isCorrect,
 			answers.map((x) => {
-				return x.answerID;
+				return x.answerText;
 			}),
 			undefined,
 		);
@@ -216,11 +217,12 @@ const Questions = () => {
 						{renderQuestion(userIndex)}
 					</div>
 				</div>
-				{exam != undefined ? (
+				{exam != undefined && user != undefined ? (
 					<ScoringModal
 						hide={showScoring}
 						close={onExit}
 						exam={exam}
+						user={user}
 					/>
 				) : (
 					""

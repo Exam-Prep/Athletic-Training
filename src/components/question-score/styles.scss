@@ -2,8 +2,33 @@
 
 .scoreBox {
 	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: flex-start;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 	width: 100%;
+
+	.scoreText {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		width: 80%;
+
+		.titleText {
+			font-weight: bolder;
+			font-size: larger;
+		}
+
+		.bodyText {
+			margin-left: 10px;
+		}
+	}
+
+	.scoreIcon {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 20%;
+	}
 }

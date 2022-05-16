@@ -2,18 +2,17 @@
 
 import { database } from "../firebase/firebase";
 import { set, ref, child, onValue, remove } from "firebase/database";
-import { faLessThanEqual } from "@fortawesome/free-solid-svg-icons";
 
 export class AttemptedAnswer {
 	qID: number;
 	isCorrect: boolean;
-	answer: Array<number> | undefined;
+	answer: Array<string> | undefined;
 	answerMap: Map<string, string> | undefined;
 
 	constructor(
 		qID: number,
 		isCorrect: boolean,
-		answer: Array<number> | undefined = undefined,
+		answer: Array<string> | undefined = undefined,
 		answerMap: Map<string, string> | undefined = undefined,
 	) {
 		this.qID = qID;
@@ -142,7 +141,7 @@ export class User {
 type JSONAttemptedAnswer = {
 	type: string;
 	isCorrect: boolean;
-	answer: Array<number>;
+	answer: Array<string>;
 	answerMap: {
 		key: string;
 		value: string;

@@ -42,12 +42,13 @@
 
 	.circles {
 		@include flexRow;
-		margin: 8px;
+		padding: 8px;
+		width: 100%;
 	}
 
 	.arrowButtons {
 		@include flexRow;
-		width: 100vw;
+		width: 100%;
 
 		.currentQuestion {
 			font-style: normal;

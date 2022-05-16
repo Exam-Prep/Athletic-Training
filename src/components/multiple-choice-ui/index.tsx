@@ -35,7 +35,7 @@ const MultipleChoiceUI: React.FunctionComponent<MultipleChoiceProps> = ({
 	useEffect(() => {
 		setIsChecked(
 			question.answers?.map((x) => {
-				if (attemptedAnswer?.answer?.includes(x.answerID)) {
+				if (attemptedAnswer?.answer?.includes(x.answerText)) {
 					return true;
 				}
 				return false;
