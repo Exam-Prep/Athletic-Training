@@ -32,9 +32,13 @@
 			border-bottom: 1px solid #000000;
 		}
 
-		.lastSection {
-			@extend .section;
-			border-bottom: none;
+		.titleText {
+			font-weight: bolder;
+			font-size: larger;
+		}
+
+		.bodyText {
+			margin-left: 10px;
 		}
 	}
 
