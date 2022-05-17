@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import styles from "./styles.scss";
 import { Button, Dropdown, Modal } from "react-bootstrap";
 import { Exam } from "../../model/Exam";
+import DeleteQuestionsModal from "../delete-questions-modal";
 
 //from https://stackoverflow.com/questions/58601704/adding-a-icon-to-react-bootstrap-dropdown
 // The forwardRef is important!!
@@ -18,6 +19,7 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 }) => {
 	const [show, setShow] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
+	const [showDeleteQuestions, setShowDeleteQuestions] = useState(false);
 	const deleteExam = () => {
 		console.log("delete pressed", examToDelete.id);
 		examToDelete.deleteExamQuestions();
@@ -36,6 +38,12 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 	};
 	const closeModal = () => {
 		setIsOpen(true);
+	};
+	const showQuestions = () => {
+		setShowDeleteQuestions(true);
+	};
+	const closeQuestions = () => {
+		setShowDeleteQuestions(false);
 	};
 	return (
 		<Dropdown className={styles.dropDown}>
@@ -67,6 +75,13 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 						</Modal.Footer>
 					</Modal>
 					Delete
+				</Dropdown.Item>
+				<Dropdown.Item as='button' onClick={showQuestions}>
+					<DeleteQuestionsModal
+						close={closeQuestions}
+						hide={showDeleteQuestions}
+						exam={examToDelete}
+					/>
 				</Dropdown.Item>
 			</Dropdown.Menu>
 		</Dropdown>
