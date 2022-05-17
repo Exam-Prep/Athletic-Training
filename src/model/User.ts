@@ -6,13 +6,13 @@ import { set, ref, child, onValue, remove } from "firebase/database";
 export class AttemptedAnswer {
 	qID: number;
 	isCorrect: boolean;
-	answer: Array<number> | undefined;
+	answer: Array<string> | undefined;
 	answerMap: Map<string, string> | undefined;
 
 	constructor(
 		qID: number,
 		isCorrect: boolean,
-		answer: Array<number> | undefined = undefined,
+		answer: Array<string> | undefined = undefined,
 		answerMap: Map<string, string> | undefined = undefined,
 	) {
 		this.qID = qID;
@@ -41,11 +41,11 @@ export function answerMapsEqual(
 	map1: Map<string, string>,
 	map2: Map<string, string>,
 ) {
-	var testVal;
+	let testVal;
 	if (map1.size !== map2.size) {
 		return false;
 	}
-	for (var [key, val] of map1) {
+	for (const [key, val] of map1) {
 		testVal = map2.get(key);
 		// in cases of an undefined value, make sure the key
 		// actually exists on the object so there are no false positives
@@ -141,7 +141,7 @@ export class User {
 type JSONAttemptedAnswer = {
 	type: string;
 	isCorrect: boolean;
-	answer: Array<number>;
+	answer: Array<string>;
 	answerMap: {
 		key: string;
 		value: string;

@@ -22,7 +22,7 @@
 	width: 100vw;
 	height: 100vh;
 
-	background: linear-gradient(0deg, #f5f5f5, #f5f5f5), #f5f5f5;
+	background: #f5f5f5;
 
 	.titleBar::before {
 		content: "";
@@ -40,9 +40,24 @@
 		}
 	}
 
-	.circleArrowButtons {
+	.circles {
+		@include flexRow;
+		padding: 8px;
+		width: 100%;
+	}
+
+	.arrowButtons {
 		@include flexRow;
 		width: 100%;
+
+		.currentQuestion {
+			font-style: normal;
+			font-weight: bold;
+			font-size: xx-large;
+			color: #1b43ef;
+			background-color: transparent;
+			border: none;
+		}
 	}
 
 	.questionRow {
@@ -52,6 +67,8 @@
 
 		.questionsBox {
 			@include flexColumn;
+			justify-content: flex-start;
+			align-items: flex-start;
 			width: 70%;
 			min-height: 500px;
 			margin-left: 40px;
