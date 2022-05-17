@@ -51,6 +51,7 @@ export function loadPartialExam(examID: number) {
 		onValue(
 			partialExam,
 			(snapshot) => {
+				// debugger;
 				const value: PartialExam = snapshot.val();
 				const exam = new Exam();
 				exam.name = value.title;
@@ -190,6 +191,16 @@ export class Exam {
 				},
 			);
 		});
+	}
+	public deleteQuestion(question: Question) {
+		const deleteQuestionRef = ref(
+			database,
+			questionRefString + "/" + this.id + "/" + question.id,
+		);
+		this.questions = this.questions.filter((x) => x.id !== question.id);
+		this.currentQuestion = this.questions[0];
+		this.writeExam();
+		return remove(deleteQuestionRef);
 	}
 	public deleteExamQuestions() {
 		const deleteExamQuestionsRef = ref(
