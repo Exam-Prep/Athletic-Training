@@ -6,6 +6,7 @@ import QuestionToolBar from "../../../questions-toolbar";
 import { Exam, loadPartialExam } from "../../../../model/Exam";
 import { Question, QuestionType } from "../../../../model/Question";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 import SubmitExamButton from "../../../submit-exam-button";
 import ArrowButton from "../../../arrow-button";
 import CircleButtonManager from "../../../circle-button-manager";
@@ -29,6 +30,7 @@ const Questions = () => {
 	const [userIndex, setUserIndex] = useState(0);
 	const [user, setUser] = useState<User | undefined>();
 	const [showScoring, setScoring] = useState(false);
+	const [showNotDone, setNotDone] = useState(false);
 
 	useEffect(() => {
 		loadPartialExam(parseInt(location.state as string)).then(
@@ -61,8 +63,13 @@ const Questions = () => {
 		navigate("/exams");
 	};
 
-	const showScoringModal = () => setScoring(true);
+	const showScoringModal = () => {
+		setScoring(true);
+		closeNotDone();
+	};
 	const closeScoring = () => setScoring(false);
+	const showNotDoneModal = () => setNotDone(true);
+	const closeNotDone = () => setNotDone(false);
 
 	const loadUser = () => {
 		const userAuth = useAuth().currentUser;
@@ -174,7 +181,12 @@ const Questions = () => {
 			<div className={styles.takeExam}>
 				<div className={styles.titleBar}>
 					<div className={styles.examName}> {exam?.name}</div>
-					<SubmitExamButton onClick={showScoringModal} />
+					{user?.attemptedAnswers.length ===
+					exam?.questions.length ? (
+						<SubmitExamButton onClick={showScoringModal} />
+					) : (
+						<SubmitExamButton onClick={showNotDoneModal} />
+					)}
 				</div>
 				<div className={styles.circles}>
 					<CircleButtonManager
@@ -217,6 +229,22 @@ const Questions = () => {
 						{renderQuestion(userIndex)}
 					</div>
 				</div>
+				{exam != undefined && user != undefined ? (
+					<Modal show={showNotDone} onHide={closeNotDone}>
+						<Modal.Body>
+							You have{" "}
+							{exam.questions.length -
+								user.attemptedAnswers.length}{" "}
+							unanswered questions! Are you sure you want to
+							submit?
+						</Modal.Body>
+						<Modal.Footer>
+							<SubmitExamButton onClick={showScoringModal} />
+						</Modal.Footer>
+					</Modal>
+				) : (
+					""
+				)}
 				{exam != undefined && user != undefined ? (
 					<ScoringModal
 						hide={showScoring}

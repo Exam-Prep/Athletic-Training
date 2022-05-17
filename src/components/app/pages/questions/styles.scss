@@ -60,6 +60,20 @@
 		}
 	}
 
+	.arrowButtons {
+		@include flexRow;
+		width: 100%;
+
+		.currentQuestion {
+			font-style: normal;
+			font-weight: bold;
+			font-size: xx-large;
+			color: #1b43ef;
+			background-color: transparent;
+			border: none;
+		}
+	}
+
 	.questionRow {
 		@include flexRow;
 		position: relative;

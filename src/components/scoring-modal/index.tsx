@@ -21,6 +21,13 @@ const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 	user,
 }) => {
 	const answers = user.attemptedAnswers;
+	let correctAnswers = 0;
+
+	for (let i = 0; i < answers.length; i++) {
+		if (answers[i].isCorrect) {
+			correctAnswers++;
+		}
+	}
 	return (
 		<Modal dialogClassName={styles.modal} show={hide} onHide={close}>
 			<Modal.Header>
@@ -38,6 +45,10 @@ const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 							</div>
 						);
 					})}
+					<div className={styles.titleText}>Score: </div>
+					<div className={styles.bodyText}>
+						{(correctAnswers / exam.questions.length) * 100}%
+					</div>
 				</div>
 			</Modal.Body>
 			<Modal.Footer>
