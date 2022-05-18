@@ -22,6 +22,8 @@ import MatchQuestion from "../../../../model/MatchQuestion";
 import MultipleChoiceUI from "../../../multiple-choice-ui";
 import ScoringModal from "../../../scoring-modal";
 import CreateHotSpot from "../../../create-hot-spot";
+import DisplayHotSpot from "../../../display-hot-spot";
+import HotSpotQuestion from "../../../../model/HotSpotQuestion";
 
 const Questions = () => {
 	const location = useLocation();
@@ -137,6 +139,22 @@ const Questions = () => {
 		user?.addOrUpdateAnswer(attemptedAnswer);
 	};
 
+	const hotSpotQuestionAnswered = (
+		hotSpotQuestion: HotSpotQuestion,
+		x: number,
+		y: number,
+	) => {
+		const attemptedAnswer = new AttemptedAnswer(
+			hotSpotQuestion.id,
+			hotSpotQuestion.isCoordinateWithinRange(x, y),
+			undefined,
+			undefined,
+			x,
+			y,
+		);
+		user?.addOrUpdateAnswer(attemptedAnswer);
+	};
+
 	const renderQuestion = (currentIndex: number) => {
 		if (exam != undefined) {
 			const question = exam.questions[currentIndex];
@@ -168,7 +186,13 @@ const Questions = () => {
 					/>
 				);
 			} else if (question.type == QuestionType.HotSpot) {
-				return "hot spot " + question.question;
+				return (
+					<DisplayHotSpot
+						question={question as HotSpotQuestion}
+						answer={attemptedAnswer}
+						onClick={hotSpotQuestionAnswered}
+					/>
+				);
 			}
 		} else {
 			return "";

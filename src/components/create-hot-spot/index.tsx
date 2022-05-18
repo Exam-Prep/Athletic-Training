@@ -1,10 +1,11 @@
 /** @format */
 
-import React, { useRef, useState } from "react";
+import React, { useState, useRef } from "react";
 import { Exam } from "../../model/Exam";
 import styles from "./styles.scss";
 import ImageUploader from "../image-upload";
 import HotSpotQuestion from "../../model/HotSpotQuestion";
+import $ from "jquery";
 
 interface CreateHotSpotProps {
 	exam: Exam;
@@ -21,6 +22,7 @@ const CreateHotSpot: React.FunctionComponent<CreateHotSpotProps> = ({
 	const updateSetImageURL = (url: string): void => {
 		setImageURL(url);
 	};
+	const imageRef = useRef<HTMLImageElement | null>(null);
 	const [x, setX] = useState(0);
 	const [y, setY] = useState(0);
 	const [style, setStyle] = useState<React.CSSProperties>({
@@ -62,6 +64,7 @@ const CreateHotSpot: React.FunctionComponent<CreateHotSpotProps> = ({
 						userSelect: "none",
 						WebkitUserSelect: "none",
 					}}
+					ref={imageRef}
 					className={"img-fluid"}
 					draggable={false}
 				></img>
@@ -87,6 +90,12 @@ const CreateHotSpot: React.FunctionComponent<CreateHotSpotProps> = ({
 			imageURL,
 		);
 		exam.questions.push(hotSpotQuestion);
+		exam.writeExam();
+		setImageURL("");
+		setQuestion("");
+		setX(0);
+		setY(0);
+		$("textarea").filter("[id*=question-input]").val("");
 	};
 
 	return (
@@ -113,6 +122,12 @@ const CreateHotSpot: React.FunctionComponent<CreateHotSpotProps> = ({
 				) : (
 					""
 				)}
+				<button
+					className={styles.addQuestionButton}
+					onClick={addQuestion}
+				>
+					Add Question
+				</button>
 				<ImageUploader
 					hide={image}
 					examString={exam.name}

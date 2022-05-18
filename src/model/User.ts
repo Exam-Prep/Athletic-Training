@@ -8,17 +8,22 @@ export class AttemptedAnswer {
 	isCorrect: boolean;
 	answer: Array<string> | undefined;
 	answerMap: Map<string, string> | undefined;
-
+	x: number;
+	y: number;
 	constructor(
 		qID: number,
 		isCorrect: boolean,
 		answer: Array<string> | undefined = undefined,
 		answerMap: Map<string, string> | undefined = undefined,
+		x = 0,
+		y = 0,
 	) {
 		this.qID = qID;
 		this.isCorrect = isCorrect;
 		this.answer = answer;
 		this.answerMap = answerMap;
+		this.x = x;
+		this.y = y;
 	}
 
 	public answerMapArray(): {
@@ -146,6 +151,8 @@ type JSONAttemptedAnswer = {
 		key: string;
 		value: string;
 	}[];
+	x: number;
+	y: number;
 };
 
 const userRefString = "/examState/";
@@ -158,7 +165,7 @@ export function fetchCurrentUserProgress(examID: number, userID: string) {
 				if (snapshot.exists()) {
 					const val = snapshot.val();
 					const attemptedAnswers = Array<AttemptedAnswer>();
-					if (val.attemptedAnswers != undefined) {
+					if (val.attemptedAnswers !== undefined) {
 						const attemptedAnswersData: Map<
 							string,
 							JSONAttemptedAnswer
@@ -183,6 +190,8 @@ export function fetchCurrentUserProgress(examID: number, userID: string) {
 								attemptedAnswerJSON.isCorrect,
 								attemptedAnswerJSON.answer,
 								answerMap,
+								attemptedAnswerJSON.x,
+								attemptedAnswerJSON.y,
 							);
 							attemptedAnswers.push(attemptedAnswer);
 						}
@@ -214,11 +223,14 @@ export function writeCurrentProgress(user: User) {
 		questionIndex: user.questionIndex,
 	});
 	const userRef = ref(database, userRefString + user.examID + "/" + user.id);
+
 	user.attemptedAnswers.forEach((answer) => {
 		set(child(userRef, "attemptedAnswers" + "/" + answer.qID), {
 			isCorrect: answer.isCorrect,
 			answer: answer.answer ?? Array<AttemptedAnswer>(),
 			answerMap: answer.answerMapArray(),
+			x: answer.x,
+			y: answer.y,
 		});
 	});
 }

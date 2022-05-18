@@ -146,7 +146,12 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 					</div>
 					<div className={styles.dragnDrop}>
 						{dropNames?.map((x) => (
-							<DropBox name={x} key={x} didDrop={didDropValue} droppedValue={""}/>
+							<DropBox
+								name={x}
+								key={x}
+								didDrop={didDropValue}
+								droppedValue={""}
+							/>
 						))}
 					</div>
 				</div>

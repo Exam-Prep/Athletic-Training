@@ -17,7 +17,7 @@ class HotSpotQuestion extends Question {
 		imageURL: string,
 	) {
 		super(QuestionType.HotSpot, question, [], id, imageURL);
-		this.x= xCoordinate;
+		this.x = xCoordinate;
 		this.y = yCoordinate;
 	}
 
