@@ -2,11 +2,13 @@
 
 import React, { useState } from "react";
 import styles from "./styles.scss";
-import { Question, QuestionType } from "../../model/Question";
+import { Question, QuestionType, Answer } from "../../model/Question";
 import { Exam } from "../../model/Exam";
 import MatchQuestion from "../../model/MatchQuestion";
 import TrashCanButton from "../trash-can-button";
 import { Modal, Button } from "react-bootstrap";
+import PreviewHotSpotAnswer from "../preview-hot-spot-answer";
+import HotSpotQuestion from "../../model/HotSpotQuestion";
 
 interface DeleteQuestionsProps {
 	question: Question | MatchQuestion;
@@ -19,12 +21,17 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 	exam,
 	loadQuestions,
 }) => {
-	let answer = undefined;
-	let matchAnswer = undefined;
+	let answer: Answer[] | undefined = undefined;
+	let matchAnswer:
+		| {
+				key: string;
+				value: string;
+		  }[]
+		| undefined = undefined;
 	if (question.type === QuestionType.Match) {
-		matchAnswer = question.answerMapArray();
+		matchAnswer = (question as MatchQuestion).answerMapArray();
 	} else {
-		answer = question.answers;
+		answer = question.correctAnswers();
 	}
 
 	const [show, setShow] = useState(false);
@@ -45,37 +52,45 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 		showModal();
 	};
 
+	const renderQuestion = () => {
+		if (answer === undefined) {
+			return matchAnswer?.map((x) => {
+				return (
+					<div className={styles.bodyText} key={x.key}>
+						{x.key} : {x.value}
+					</div>
+				);
+			});
+		} else if (matchAnswer === undefined && answer.length > 0) {
+			return answer?.map((x) => {
+				return (
+					<div
+						className={
+							x.isCorrect ? styles.correctText : styles.bodyText
+						}
+						key={x.answerID}
+					>
+						{x.answerText}{" "}
+					</div>
+				);
+			});
+		} else {
+			return (
+				<PreviewHotSpotAnswer
+					question={question as HotSpotQuestion}
+					answer={undefined}
+				/>
+			);
+		}
+	};
+
 	return (
 		<div className={styles.questionBox}>
 			<div className={styles.questionText}>
 				<div className={styles.titleText}>Question: </div>
 				<div className={styles.bodyText}>{question.question}</div>
 				<div className={styles.titleText}>Answers: </div>
-				{answer === undefined
-					? matchAnswer?.map((x: never) => {
-							return (
-								<div
-									className={styles.bodyText}
-									key={x.answerID}
-								>
-									{x.key} : {x.value}
-								</div>
-							);
-					  })
-					: answer?.map((x) => {
-							return (
-								<div
-									className={
-										x.isCorrect
-											? styles.correctText
-											: styles.bodyText
-									}
-									key={x.answerID}
-								>
-									{x.answerText}{" "}
-								</div>
-							);
-					  })}
+				{renderQuestion()}
 			</div>
 			<div className={styles.deleteButtonArea}>
 				<TrashCanButton click={openModal} />

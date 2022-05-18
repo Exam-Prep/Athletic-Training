@@ -5,17 +5,14 @@ import HotSpotQuestion from "../../model/HotSpotQuestion";
 import { AttemptedAnswer } from "../../model/User";
 import styles from "./styles.scss";
 
-interface DisplayHotSpotProps {
+interface PreviewHotSpotAnswerProps {
 	question: HotSpotQuestion;
 	answer: AttemptedAnswer | undefined;
-	onClick: (question: HotSpotQuestion, x: number, y: number) => void;
 }
 
-const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
-	question,
-	answer,
-	onClick,
-}) => {
+const PreviewHotSpotAnswer: React.FunctionComponent<
+	PreviewHotSpotAnswerProps
+> = ({ question, answer }) => {
 	const imageRef = useRef<HTMLImageElement | null>(null);
 
 	const [style, setStyle] = useState<React.CSSProperties>({
@@ -29,21 +26,16 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 		background: "red",
 	});
 
-	const imageClicked = (e: any) => {
-		const x = e.nativeEvent.offsetX - HotSpotQuestion.offset;
-		const y = e.nativeEvent.offsetY - HotSpotQuestion.offset;
-		setStyle({
-			position: "absolute",
-			left: "calc(" + (x / imageRef.current!.clientWidth) * 100 + "%)",
-			top: "calc(" + (y / imageRef.current!.clientHeight) * 100 + "%)",
-			width: HotSpotQuestion.width,
-			height: HotSpotQuestion.height,
-			opacity: 0.5,
-			borderRadius: "50%",
-			background: "red",
-		});
-		onClick(question, x, y);
-	};
+	const [styleCorrect, setCorrectStyle] = useState<React.CSSProperties>({
+		position: "absolute",
+		left: 0,
+		top: 0,
+		width: HotSpotQuestion.width,
+		height: HotSpotQuestion.height,
+		opacity: 0.5,
+		borderRadius: "50%",
+		background: "green",
+	});
 
 	const renderRedDotIfNecessary = () => {
 		if (answer?.x && answer?.y) {
@@ -51,25 +43,40 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 				position: "absolute",
 				left:
 					"calc(" +
-					(answer?.x / imageRef.current!.clientWidth) * 100 +
+					(answer.x / imageRef.current!.clientWidth) * 100 +
 					"%)",
 				top:
 					"calc(" +
-					(answer?.y / imageRef.current!.clientHeight) * 100 +
+					(answer.y / imageRef.current!.clientHeight) * 100 +
 					"%)",
 				width: HotSpotQuestion.width,
 				height: HotSpotQuestion.height,
 				opacity: 0.5,
 				borderRadius: "50%",
 				background: "red",
-			});			
+			});
 		}
+		setCorrectStyle({
+			position: "absolute",
+			left:
+				"calc(" +
+				(question.x / imageRef.current!.clientWidth) * 100 +
+				"%)",
+			top:
+				"calc(" +
+				(question.y / imageRef.current!.clientHeight) * 100 +
+				"%)",
+			width: HotSpotQuestion.width,
+			height: HotSpotQuestion.height,
+			opacity: 0.5,
+			borderRadius: "50%",
+			background: "green",
+		});
 	};
 
 	return (
 		<div className={styles.container}>
 			<img
-				onClick={imageClicked}
 				src={question.imageURL}
 				ref={imageRef}
 				style={{
@@ -84,9 +91,10 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 				className={"img-fluid"}
 				draggable={false}
 			></img>
-			<div style={style}></div>
+			{answer !== undefined ? <div style={style}></div> : ""}
+			<div style={styleCorrect}></div>
 		</div>
 	);
 };
 
-export default DisplayHotSpot;
+export default PreviewHotSpotAnswer;

@@ -83,7 +83,9 @@ const Questions = () => {
 				userAuth.email ?? "",
 			).then((user) => {
 				setUser(user);
-				setUserIndex(user.questionIndex);
+				if (user.questionIndex < exam?.questions.length) {
+					setUserIndex(user.questionIndex);
+				}
 			});
 		}
 	};
