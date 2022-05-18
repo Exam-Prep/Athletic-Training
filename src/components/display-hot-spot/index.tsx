@@ -62,7 +62,7 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 				opacity: 0.5,
 				borderRadius: "50%",
 				background: "red",
-			});			
+			});
 		}
 	};
 

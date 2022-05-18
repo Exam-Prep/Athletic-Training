@@ -100,15 +100,17 @@ const CreateHotSpot: React.FunctionComponent<CreateHotSpotProps> = ({
 
 	return (
 		<div>
-			<textarea
-				className={styles.input}
-				rows={3}
-				placeholder='Question'
-				id='question-input'
-				onChange={(e) => {
-					setQuestion(e.target.value);
-				}}
-			/>
+			<div className={styles.hotSpot}>
+				<textarea
+					className={styles.input}
+					rows={3}
+					placeholder='Question'
+					id='question-input'
+					onChange={(e) => {
+						setQuestion(e.target.value);
+					}}
+				/>
+			</div>
 			<div className={styles.container}>
 				{renderImage()}
 				{renderHotSpot()}

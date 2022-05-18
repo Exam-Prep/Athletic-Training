@@ -31,7 +31,7 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 	if (question.type === QuestionType.Match) {
 		matchAnswer = (question as MatchQuestion).answerMapArray();
 	} else {
-		answer = question.correctAnswers();
+		answer = question.answers;
 	}
 
 	const [show, setShow] = useState(false);

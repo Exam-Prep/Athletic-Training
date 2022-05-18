@@ -23,7 +23,7 @@ class HotSpotQuestion extends Question {
 
 	public correctAnswers(): Answer[] {
 		console.log(
-			"ERROR: There are no correct answers for a matching question!",
+			"ERROR: There are no correct answers for a hot spot question!",
 		);
 		return [];
 	}

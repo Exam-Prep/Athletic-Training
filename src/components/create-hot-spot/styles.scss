@@ -6,15 +6,24 @@
 	margin-bottom: 10px;
 	border: none;
 	color: #c4c4c4;
-	cursor: pointer;
 }
-.container {
-	position: relative;
+
+.hotSpot {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+
+	.container {
+		position: relative;
+	}
 }
 
 .addQuestionButton {
 	@include button;
-	width: 100%;
+	width: 80%;
+	margin-left: 10%;
 	background-color: #1b43ef;
 }
 
