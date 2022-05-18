@@ -1,0 +1,39 @@
+/** @format */
+
+.questionBox {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+
+	.questionText {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		width: 80%;
+
+		.titleText {
+			font-weight: bolder;
+			font-size: larger;
+		}
+
+		.bodyText {
+			margin-left: 10px;
+		}
+
+		.correctText {
+			@extend .bodyText;
+			color: green;
+		}
+	}
+
+	.deleteButtonArea {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 20%;
+	}
+}

@@ -4,10 +4,7 @@ import React, { useState } from "react";
 import styles from "./styles.scss";
 import { Button, Dropdown, Modal } from "react-bootstrap";
 import { Exam } from "../../model/Exam";
-
-//from https://stackoverflow.com/questions/58601704/adding-a-icon-to-react-bootstrap-dropdown
-// The forwardRef is important!!
-// Dropdown needs access to the DOM node in order to position the Menu
+import DeleteQuestionsModal from "../delete-questions-modal";
 
 interface DropdownProps {
 	examToDelete: Exam;
@@ -18,6 +15,8 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 }) => {
 	const [show, setShow] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
+	const [showDeleteQuestions, setShowDeleteQuestions] = useState(false);
+	const [isQuestionDeleteOpen, setIsQuestionDeleteOpen] = useState(false);
 	const deleteExam = () => {
 		console.log("delete pressed", examToDelete.id);
 		examToDelete.deleteExamQuestions();
@@ -36,6 +35,15 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 	};
 	const closeModal = () => {
 		setIsOpen(true);
+	};
+	const showQuestions = () => {
+		if (isQuestionDeleteOpen) {
+			setShowDeleteQuestions(false);
+			setIsQuestionDeleteOpen(false);
+		} else {
+			setShowDeleteQuestions(true);
+			setIsQuestionDeleteOpen(true);
+		}
 	};
 	return (
 		<Dropdown className={styles.dropDown}>
@@ -67,6 +75,14 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 						</Modal.Footer>
 					</Modal>
 					Delete
+				</Dropdown.Item>
+				<Dropdown.Item as='button' onClick={showQuestions}>
+					<DeleteQuestionsModal
+						close={() => setShowDeleteQuestions(false)}
+						hide={showDeleteQuestions}
+						exam={examToDelete}
+					/>
+					Delete Questions
 				</Dropdown.Item>
 			</Dropdown.Menu>
 		</Dropdown>
