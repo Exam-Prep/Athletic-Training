@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import styles from "./styles.scss";
 import { Exam } from "../../model/Exam";
+import { User } from "../../model/User";
 import QuestionWriterUI from "../questions-box";
 import DropdownInfo from "../dropdown";
 
@@ -25,13 +26,15 @@ const ExamTile: React.FunctionComponent<ExamTileProps> = ({
 	const showModal = () => setShow(true);
 	const closeModal = () => setShow(false);
 
+	//TODO: get current user object
 	return (
 		<div className={styles.examTile}>
 			{addExam ? (
 				<div className={styles.empty} />
 			) : (
+				//TODO: uncomment the user inclusion
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				<DropdownInfo examToDelete={currentExam!} />
+				<DropdownInfo examToDelete={currentExam!} /*user={user}*/ />
 			)}
 
 			<div className={styles.buttonBox}>

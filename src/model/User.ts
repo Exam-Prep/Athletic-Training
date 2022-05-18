@@ -2,6 +2,7 @@
 
 import { database } from "../firebase/firebase";
 import { set, ref, child, onValue, remove } from "firebase/database";
+import { Exam } from "./Exam";
 
 export class AttemptedAnswer {
 	qID: number;
@@ -135,6 +136,15 @@ export class User {
 		} else {
 			return undefined;
 		}
+	}
+
+	// remove a user's progress from firebase
+	public deleteExamProgress(exam: Exam) {
+		const deleteExamProgressRef = ref(
+			database,
+			userRefString + "/" + exam.id + "/" + this.id,
+		);
+		return remove(deleteExamProgressRef);
 	}
 }
 

@@ -4,26 +4,35 @@ import React, { useState } from "react";
 import styles from "./styles.scss";
 import { Button, Dropdown, Modal } from "react-bootstrap";
 import { Exam } from "../../model/Exam";
+import { User } from "../../model/User";
 import DeleteQuestionsModal from "../delete-questions-modal";
+import ClearProgressModal from "../clear-progress-modal";
 
 interface DropdownProps {
-	examToDelete: Exam;
+	examToDelete: Exam; // current exam
+	user: User; // current user
 }
 
 const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 	examToDelete,
+	user,
 }) => {
 	const [show, setShow] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 	const [showDeleteQuestions, setShowDeleteQuestions] = useState(false);
 	const [isQuestionDeleteOpen, setIsQuestionDeleteOpen] = useState(false);
+	const [showClear, setClear] = useState(false);
+	const [isClearOpen, setIsClearOpen] = useState(false);
+	// delete an exam
 	const deleteExam = () => {
-		console.log("delete pressed", examToDelete.id);
+		// delete the questions from an exam
 		examToDelete.deleteExamQuestions();
+		// delete the exam itself
 		examToDelete.deleteExam();
 		closeModal();
 		window.location.reload();
 	};
+	// set state for delete exam modal
 	const showModal = () => {
 		if (isOpen) {
 			setShow(false);
@@ -33,9 +42,11 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 			setIsOpen(true);
 		}
 	};
+	// close delete exam modal
 	const closeModal = () => {
 		setIsOpen(true);
 	};
+	// set state for delete question modal
 	const showQuestions = () => {
 		if (isQuestionDeleteOpen) {
 			setShowDeleteQuestions(false);
@@ -45,8 +56,19 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 			setIsQuestionDeleteOpen(true);
 		}
 	};
+	// set state for clear progress modal
+	const showClearModal = () => {
+		if (isClearOpen) {
+			setClear(false);
+			setIsClearOpen(false);
+		} else {
+			setClear(true);
+			setIsClearOpen(true);
+		}
+	};
 	return (
 		<Dropdown className={styles.dropDown}>
+			{/* Display an info icon as the dropdown button */}
 			<Dropdown.Toggle className={styles.infoButton}>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
@@ -60,6 +82,9 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 				</svg>
 			</Dropdown.Toggle>
 			<Dropdown.Menu>
+				{/* Delete Exam
+					Call the modal that confirms this action
+				*/}
 				<Dropdown.Item as='button' onClick={showModal}>
 					<Modal
 						onClose={() => setShow(false)}
@@ -74,8 +99,11 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 							<Button onClick={showModal}>Cancel</Button>
 						</Modal.Footer>
 					</Modal>
-					Delete
+					Delete Exam
 				</Dropdown.Item>
+				{/* Delete Questions
+					Call the modal that confirms this action
+				*/}
 				<Dropdown.Item as='button' onClick={showQuestions}>
 					<DeleteQuestionsModal
 						close={() => setShowDeleteQuestions(false)}
@@ -83,6 +111,18 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 						exam={examToDelete}
 					/>
 					Delete Questions
+				</Dropdown.Item>
+				{/* Delete Exam Progress
+					Call the modal that confirms this action
+				*/}
+				<Dropdown.Item as='button' onClick={showClearModal}>
+					<ClearProgressModal
+						close={() => setClear(false)}
+						hide={showClear}
+						exam={examToDelete}
+						user={user}
+					/>
+					Delete Exam Progress
 				</Dropdown.Item>
 			</Dropdown.Menu>
 		</Dropdown>
