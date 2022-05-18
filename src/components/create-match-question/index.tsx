@@ -88,7 +88,7 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 				<div className={styles.dragnDropRow}>
 					<input
 						className={styles.keyValueInput}
-						placeholder='Key'
+						placeholder='Drag Object'
 						id='key-input'
 						onChange={(e) => {
 							setCurrentDragName(e.target.value);
@@ -98,13 +98,13 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 						className={styles.addDraggableButton}
 						onClick={addDrag}
 					>
-						Add Key
+						Add Drag Object
 					</button>
 				</div>
 				<div className={styles.dragnDropRow}>
 					<input
 						className={styles.keyValueInput}
-						placeholder='Value'
+						placeholder='Drop Object'
 						id='value-input'
 						onChange={(e) => {
 							setCurrentDropName(e.target.value);
@@ -114,7 +114,7 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 						className={styles.addDraggableButton}
 						onClick={addDrop}
 					>
-						Add Value
+						Add Drop Object
 					</button>
 				</div>
 
