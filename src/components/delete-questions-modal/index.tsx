@@ -31,7 +31,7 @@ const DeleteQuestionsModal: React.FunctionComponent<
 		<Modal dialogClassName={styles.modal} show={hide} onHide={close}>
 			<Modal.Header>Exam Questions</Modal.Header>
 			<Modal.Body>
-				<div className={styles.quetions}>
+				<div className={styles.questions}>
 					{examQuestions?.questions.map((x) => {
 						return (
 							<div className={styles.section} key={x.id}>
