@@ -12,28 +12,13 @@ import Checkbox from "../check-box";
 import ImageUploader from "../image-upload";
 import { textSpanIntersection } from "typescript";
 
- function getSelectValues(select) {
-  var result = [];
-  var options = select && select.options;
-  var opt;
 
-  for (var i=0, tempLength=options.length; i<tempLength; i++) {
-    opt = options[i];
 
-    if (opt.selected) {
-      result.push(opt.value || opt.text);
-    }
-  }
-  return result;
-}
 
 interface MultipleChoiceMultipleCorrectProps {
-	onClick: (
-		question: Question,
-		selectedValues: Array<number | undefined>,
-	) => void;
-	attemptedAnswer: AttemptedAnswer | undefined;
-	question: Question;
+
+	exam: Exam;
+	onClick: (question: Question, index: number) => void;
 }
 
 function clearInput() {
@@ -45,27 +30,40 @@ function clearInput() {
 	$("input[type=checkbox]").prop("checked", false); 
 }
 
-const MultipleCorrect: React.FunctionComponent<MultipleCorrectProps> = ({
-	selectedExam,
+const MultipleChoiceMultipleCorrect: React.FunctionComponent<MultipleChoiceMultipleCorrectProps> = ({
+	exam,
+	onClick,
 }) => {
 	const [question, setQuestion] = useState("");
 	const [answers, setAnswers] = useState(new Map<number, string>());
 	const [correctQuestion, setCorrectQuestion] = useState(1);
 	const [imageURL, setImageURL] = useState<string>("");
-	const [key, setKey] = useState("multiple-correct");
-	const [show, setShow] = useState(false);
-
 	const [image, setImage] = useState(false);
 	const showModal = () => setImage(true);
 	const closeModal = () => setImage(false);
-
 	const updateSetImageURL = (url: string): void => {
 		setImageURL(url);
+	const [isChecked, setIsChecked] = useState<Array<boolean>>([]);
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		index: number,
+	) => {
+		setIsChecked((existingIsChecked) => {
+			existingIsChecked = existingIsChecked.map((x) => {
+				return false;
+			});
+			existingIsChecked[index] = e.target.checked;
+			return [...existingIsChecked];
+		});
+		onClick(question, index);
+	};
+		
 	};
 	const showToast = () => setShow(true);
 	const onSubmitExam = () => {
 		const exam = selectedExam;
 		const typedAnswers = Array<Answer>();
+		
 		answers.forEach((inputedAnswer, answerOrder) => {
 			const answerID = Math.floor(
 				Math.random() * Math.floor(Math.random() * Date.now()),
@@ -79,7 +77,7 @@ const MultipleCorrect: React.FunctionComponent<MultipleCorrectProps> = ({
 			);
 		});
 		const typedQuestion = new Question(
-			QuestionType.MultipleChoice,
+			QuestionType.MultipleChoiceMultipleCorrect,
 			question,
 			typedAnswers,
 			null,
@@ -92,9 +90,22 @@ const MultipleCorrect: React.FunctionComponent<MultipleCorrectProps> = ({
 		clearInput();
 	};
 
+function checkboxItems() {
+    return (
+      <React.Fragment>
+        {Option.map((typedAnswers) => (
+          <Checkbox
+            key={typedAnswers}
+            label={typedAnswers}
+            handleChange={() => handleChange(typedAnswers)}
+            selected={state.isChecked.includes(typedAnswers)}
+          ></Checkbox>
+        ))}
+      </React.Fragment>
+    )
+  }
 
-
-const MultipleCorrect = () => {
+const MultipleChoiceMultipleCorrect = () => {
 	return (
 	<div className={styles.questionInput}>
 								<textarea
@@ -188,7 +199,8 @@ const MultipleCorrect = () => {
 									}
 									name='correctAnswer'
 									id='correctAnswer'
-								>
+			>
+				
 									<option value='1'>Answer 1</option>
 									<option value='2'>Answer 2</option>
 									<option value='3'>Answer 3</option>
@@ -206,4 +218,4 @@ const MultipleCorrect = () => {
 );
 };
 
-export default MultipleCorrect;
+export default MultipleChoiceMultipleCorrect;
