@@ -2,10 +2,12 @@
 
 import React, { useState } from "react";
 import styles from "./styles.scss";
+import { DndProvider } from "react-dnd";
 import { Answer, Question, QuestionType } from "../../model/Question";
 import { Exam } from "../../model/Exam";
-import { Modal, Tab, Tabs, Toast, ToastContainer } from "react-bootstrap";
 import $ from "jquery";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { Toast, ToastContainer } from "react-bootstrap";
 import CreateMatchQuestion from "../create-match-question";
 import Checkbox from "../check-box";
 
@@ -25,6 +27,7 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 	const [image, setImage] = useState(false);
 	const showModal = () => setImage(true);
 	const closeModal = () => setImage(false);
+	const [show, setShow] = useState(false);
 	const [isChecked, setIsChecked] = useState<Array<boolean>>([
 		false,
 		false,
@@ -56,7 +59,8 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 	const updateSetImageURL = (url: string): void => {
 		setImageURL(url);
 	};
-	// const showToast = () => setShow(true);
+	const showToast = () => setShow(true);
+
 	const onSubmitExam = () => {
 		const typedAnswers = Array<Answer>();
 
@@ -78,22 +82,35 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 		exam.questions.push(typedQuestion);
 		exam.currentQuestion = exam.questions[0];
 		exam.writeExam();
+		showToast();
 		// showToast();
 		clearInput();
 	};
 
 	const checkboxItems = () => {
 		return (
-			<div>
-				{isChecked.map((answer, index) => (
-					<Checkbox
-						key={index}
-						label={(index + 1).toString()}
-						handleChange={(e) => handleChange(e, index)}
-						isChecked={answer}
-					></Checkbox>
-				))}
-			</div>
+			<DndProvider backend={HTML5Backend}>
+				<ToastContainer position='top-center'>
+					<Toast
+						onClose={() => setShow(false)}
+						show={show}
+						delay={3000}
+						autohide
+					>
+						<Toast.Body>Question Added!</Toast.Body>
+					</Toast>
+				</ToastContainer>
+				<div>
+					{isChecked.map((answer, index) => (
+						<Checkbox
+							key={index}
+							label={(index + 1).toString()}
+							handleChange={(e) => handleChange(e, index)}
+							isChecked={answer}
+						></Checkbox>
+					))}
+				</div>
+			</DndProvider>
 		);
 	};
 
