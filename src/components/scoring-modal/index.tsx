@@ -20,11 +20,21 @@ const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 	exam,
 	user,
 }) => {
-	const answers = user.attemptedAnswers;
+	// eslint-disable-next-line prefer-const
+	let answers = user.attemptedAnswers;
 	let correctAnswers = 0;
+	let k = 0;
+	for (let i = 0; i < exam.questions.length; i++) {
+		for (let j = 0; j < user.attemptedAnswers.length; j++) {
+			if (exam.questions[i].id === user.attemptedAnswers[j].qID) {
+				answers[k] = user.attemptedAnswers[j];
+				k++;
+			}
+		}
+	}
 
-	for (let i = 0; i < answers.length; i++) {
-		if (answers[i].isCorrect) {
+	for (let i = 0; i < exam.questions.length; i++) {
+		if (answers[i]?.isCorrect) {
 			correctAnswers++;
 		}
 	}
