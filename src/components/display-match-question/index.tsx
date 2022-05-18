@@ -58,21 +58,24 @@ const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 
 	return (
 		<DndProvider backend={HTML5Backend}>
-			<div className={styles.dragnDrop}>
-				{dragNames?.map((x) => {
-					return <DragBox name={x} key={x} />;
-				})}
+			<div className={styles.dragnDropRow}>
+				<div className={styles.dragnDrop}>
+					{dragNames?.map((x) => {
+						return <DragBox name={x} key={x} />;
+					})}
+				</div>
+				<div className={styles.dragnDrop}>
+					{dropNames?.map((x) => (
+						<DropBox
+							name={x}
+							key={x}
+							didDrop={didDropValue}
+							droppedValue={getDroppedValue(x)}
+						/>
+					))}
+				</div>
 			</div>
-			<div className={styles.dragnDrop}>
-				{dropNames?.map((x) => (
-					<DropBox
-						name={x}
-						key={x}
-						didDrop={didDropValue}
-						droppedValue={getDroppedValue(x)}
-					/>
-				))}
-			</div>
+
 			{checkAnswer()}
 		</DndProvider>
 	);
