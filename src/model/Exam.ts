@@ -103,7 +103,7 @@ export class Exam {
 		});
 		this.questions.forEach((question) => {
 			const questionsRef = ref(database, questionRefString + this.id);
-			if (question.type == QuestionType.MultipleChoice) {
+			if (question.type == QuestionType.MultipleChoice || question.type == QuestionType.MultipleChoiceMultipleCorrect) {
 				set(child(questionsRef, question.id.toString()), {
 					qID: question.id,
 					question: question.question,
