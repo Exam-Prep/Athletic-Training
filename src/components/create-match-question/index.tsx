@@ -160,10 +160,7 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 				>
 					Add Question
 				</button>
-				<button
-					className={styles.addImageButton}
-					onClick={showModal}
-				>
+				<button className={styles.addImageButton} onClick={showModal}>
 					Add Image
 				</button>
 				{exam != undefined ? (
