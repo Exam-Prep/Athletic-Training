@@ -58,6 +58,11 @@ const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 
 	return (
 		<DndProvider backend={HTML5Backend}>
+			{matchQuestion.imageURL !== "" ? (
+				<img className={styles.image} src={matchQuestion.imageURL} />
+			) : (
+				""
+			)}
 			<div className={styles.dragnDropRow}>
 				<div className={styles.dragnDrop}>
 					{dragNames?.map((x) => {

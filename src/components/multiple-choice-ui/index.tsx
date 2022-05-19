@@ -54,7 +54,11 @@ const MultipleChoiceUI: React.FunctionComponent<MultipleChoiceProps> = ({
 	return (
 		<div className={styles.multipleChoiceBox}>
 			<div className={styles.questionsContainer}></div>
-
+			{question.imageURL !== "" ? (
+				<img className={styles.image} src={question.imageURL} />
+			) : (
+				""
+			)}
 			<div className={styles.directionsText}>
 				Select The Correct Answer
 			</div>

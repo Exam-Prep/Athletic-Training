@@ -152,6 +152,19 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 					<Toast.Body>Question Added!</Toast.Body>
 				</Toast>
 			</ToastContainer>
+			<button className={styles.addImageButton} onClick={showModal}>
+				Add Image
+			</button>
+			{exam != undefined ? (
+				<ImageUploader
+					hide={image}
+					examString={exam.name}
+					updateImageURL={updateSetImageURL}
+					closeModal={closeModal}
+				/>
+			) : (
+				""
+			)}
 			<button className={styles.addQuestionButton} onClick={onSubmitExam}>
 				Add Question
 			</button>
