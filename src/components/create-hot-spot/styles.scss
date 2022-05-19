@@ -8,16 +8,8 @@
 	color: #c4c4c4;
 }
 
-.hotSpot {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-
-	.container {
-		position: relative;
-	}
+.container {
+	position: relative;
 }
 
 .addQuestionButton {
