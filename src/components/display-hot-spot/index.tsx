@@ -28,16 +28,6 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 		borderRadius: "50%",
 		background: "red",
 	});
-	const [correctStyle, setCorrectStyle] = useState<React.CSSProperties>({
-		position: "absolute",
-		left: 0,
-		top: 0,
-		width: HotSpotQuestion.width,
-		height: HotSpotQuestion.height,
-		opacity: 0.5,
-		borderRadius: "50%",
-		background: "red",
-	});
 
 	const imageClicked = (e: any) => {
 		const x =
@@ -66,27 +56,6 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 			borderRadius: "50%",
 			background: "red",
 		});
-		// console.log(question.x, question.y);
-		// setCorrectStyle({
-		// 	position: "absolute",
-		// 	left:
-		// 		"calc(" +
-		// 		((question.x * imageRef.current!.offsetWidth) /
-		// 			imageRef.current!.offsetWidth) *
-		// 			100 +
-		// 		"%)",
-		// 	top:
-		// 		"calc(" +
-		// 		((question.y * imageRef.current!.offsetHeight) /
-		// 			imageRef.current!.offsetHeight) *
-		// 			100 +
-		// 		"%)",
-		// 	width: HotSpotQuestion.width,
-		// 	height: HotSpotQuestion.height,
-		// 	opacity: 0.5,
-		// 	borderRadius: "50%",
-		// 	background: "green",
-		// });
 		onClick(question, x, y);
 	};
 
@@ -130,7 +99,6 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 				draggable={false}
 			></img>
 			<div style={style}></div>
-			<div style={correctStyle}></div>
 		</div>
 	);
 };
