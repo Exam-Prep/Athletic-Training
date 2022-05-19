@@ -67,6 +67,7 @@ const MultipleChoiceUI: React.FunctionComponent<MultipleChoiceProps> = ({
 								<div className='container'>
 									<div>
 										<Checkbox
+											isRadio
 											handleChange={(e) => {
 												handleChange(e, index);
 											}}

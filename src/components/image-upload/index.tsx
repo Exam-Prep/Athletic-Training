@@ -13,7 +13,7 @@ interface ImageUploaderProps {
 	closeModal: () => void;
 }
 
-//code from https://www.npmjs.com/package/react-images-uploading/v/1.0.1
+//code adapted from https://www.npmjs.com/package/react-images-uploading/v/1.0.1
 const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 	hide,
 	examString,
@@ -62,17 +62,11 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 				{({
 					imageList,
 					onImageUpload,
-					onImageRemoveAll,
 					onImageUpdate,
 					onImageRemove,
-					isDragging,
 					dragProps,
 				}) => (
-					<Modal
-						dialogClassName={styles.modal}
-						show={hide}
-						onHide={close}
-					>
+					<Modal show={hide} onHide={close}>
 						<Modal.Header>
 							<Modal.Title>Upload Image</Modal.Title>
 							<ToastContainer position='top-center'>

@@ -8,23 +8,19 @@
 	background-color: #1b43ef;
 }
 
-.modal {
-	// min-width: 80%;
+.modalLayout {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
 
-	.modalLayout {
+	.buttonRow {
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
+		flex-direction: row;
+		justify-content: space-between;
 		align-items: center;
-		width: 100%;
-
-		.buttonRow {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-			align-items: center;
-			width: 80%;
-			margin-top: 10px;
-		}
+		width: 80%;
+		margin-top: 10px;
 	}
 }
