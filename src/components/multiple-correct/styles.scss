@@ -4,8 +4,8 @@
 
 @mixin flexColumn {
 	display: flex;
-	justify-content: right;
-	align-items: right;
+	justify-content: center;
+	align-items: center;
 	flex-direction: column;
 	gap: 5px;
 }
@@ -26,6 +26,19 @@
 .questionInput {
 	@include flexColumn;
 	margin: 5%;
+}
+
+.checkboxRow {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+
+	.answerInput {
+		@extend .input;
+		margin-left: 10px;
+	}
 }
 
 .input {

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Page from "../page";
 import styles from "./styles.scss";
-import QuestionToolBar from "../../../questions-toolbar";
 import { Exam, loadPartialExam } from "../../../../model/Exam";
 import { Question, QuestionType } from "../../../../model/Question";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -223,10 +222,11 @@ const Questions = () => {
 					/>
 				</div>
 				<div className={styles.questionRow}>
-					<QuestionToolBar />
 					<div className={styles.questionsBox}>
-						{exam?.questions[userIndex].question}
-						{renderQuestion(userIndex)}
+						<div className={styles.questionContent}>
+							{exam?.questions[userIndex].question}
+							{renderQuestion(userIndex)}
+						</div>
 					</div>
 				</div>
 				{exam != undefined && user != undefined ? (

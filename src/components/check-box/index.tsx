@@ -3,12 +3,14 @@
 import React from "react";
 
 interface CheckboxProps {
+	isRadio?: boolean;
 	isChecked: boolean;
 	handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	label: string;
+	label?: string;
 }
 
 const Checkbox: React.FunctionComponent<CheckboxProps> = ({
+	isRadio,
 	isChecked,
 	handleChange,
 	label,
@@ -16,12 +18,14 @@ const Checkbox: React.FunctionComponent<CheckboxProps> = ({
 	return (
 		<div>
 			<input
-				type='checkbox'
+				type={isRadio ? "radio" : "checkbox"}
 				id={label}
 				checked={isChecked}
 				onChange={handleChange}
 			/>
-			<label htmlFor={label}>{label}</label>
+			<label htmlFor={label} style={{ marginLeft: 4 }}>
+				{label}
+			</label>
 		</div>
 	);
 };
