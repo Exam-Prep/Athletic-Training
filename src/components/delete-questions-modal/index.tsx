@@ -5,6 +5,7 @@ import styles from "./styles.scss";
 import { Modal } from "react-bootstrap";
 import { Exam, loadPartialExam } from "../../model/Exam";
 import DeleteQuestions from "../delete-questions";
+import { Question } from "../../model/Question";
 
 interface DeleteQuestionsModalProps {
 	hide: boolean;
@@ -15,7 +16,9 @@ interface DeleteQuestionsModalProps {
 const DeleteQuestionsModal: React.FunctionComponent<
 	DeleteQuestionsModalProps
 > = ({ hide, close, exam }) => {
-	const [examQuestions, setExamQuestions] = useState();
+	const [examQuestions, setExamQuestions] = useState<Exam | undefined>(
+		undefined,
+	);
 	useEffect(() => {
 		loadQuestions(exam);
 	}, []);

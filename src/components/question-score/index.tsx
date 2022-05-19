@@ -1,12 +1,14 @@
 /** @format */
-import React from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import styles from "./styles.scss";
-import { Question, QuestionType } from "../../model/Question";
+import { Question, QuestionType, Answer } from "../../model/Question";
 import { AttemptedAnswer } from "../../model/User";
 import MatchQuestion from "../../model/MatchQuestion";
+import HotSpotQuestion from "../../model/HotSpotQuestion";
+import PreviewHotSpotAnswer from "../preview-hot-spot-answer";
 
 interface QuestionScoreProps {
-	question: Question | MatchQuestion;
+	question: Question;
 	attempts: AttemptedAnswer[];
 }
 
@@ -14,52 +16,92 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 	question,
 	attempts,
 }) => {
-	let answer = undefined;
-	let matchAnswer = undefined;
+	const questionDividerRef = useRef<HTMLDivElement | null>(null);
+	const [questionDividerWidth, setQuestionDividerWidth] = useState(0);
+	let answer: Answer[] | undefined = undefined;
+	let matchAnswer:
+		| {
+				key: string;
+				value: string;
+		  }[]
+		| undefined = undefined;
 	if (question.type === QuestionType.Match) {
-		matchAnswer = question.answerMapArray();
+		matchAnswer = (question as MatchQuestion).answerMapArray();
 	} else {
 		answer = question.correctAnswers();
 	}
 
-	let attempt = undefined;
+	let attempt: AttemptedAnswer | undefined = undefined;
 	for (let i = 0; i < attempts.length; i++) {
 		if (attempts[i].qID === question.id) {
 			attempt = attempts[i];
 			break;
 		}
 	}
+
+	const renderQuestionAnswer = () => {
+		if (answer === undefined && matchAnswer !== undefined) {
+			return matchAnswer.map((x) => {
+				return (
+					<div className={styles.bodyText} key={x.key}>
+						{x.key} : {x.value}
+					</div>
+				);
+			});
+		} else if (answer?.length == 0 && matchAnswer === undefined) {
+			return "";
+		} else {
+			return (
+				<div className={styles.bodyText}>{answer![0].answerText} </div>
+			);
+		}
+	};
+
+	const renderAttemptedAnswer = () => {
+		if (answer === undefined) {
+			return attempt?.answerMapArray().map((x) => {
+				return (
+					<div className={styles.bodyText} key={x.key}>
+						{x.key} : {x.value}
+					</div>
+				);
+			});
+		} else if (attempt?.answer !== undefined) {
+			return <div className={styles.bodyText}>{attempt?.answer[0]}</div>;
+		}
+	};
+
+	useLayoutEffect(() => {
+		setQuestionDividerWidth(questionDividerRef.current!.clientWidth);
+	}, [questionDividerRef.current!]);
+
+	const renderCorrectAndAttemptedAnswer = () => {
+		if (answer?.length == 0 && matchAnswer === undefined) {
+			return (
+				<PreviewHotSpotAnswer
+					question={question as HotSpotQuestion}
+					answer={attempt}
+					parentWidth={questionDividerWidth}
+				/>
+			);
+		} else {
+			return (
+				<div>
+					<div className={styles.titleText}>Correct Answer: </div>
+					{renderQuestionAnswer()}
+					<div className={styles.titleText}>Your Answer: </div>
+					{renderAttemptedAnswer()}
+				</div>
+			);
+		}
+	};
+
 	return (
 		<div className={styles.scoreBox}>
-			<div className={styles.scoreText}>
+			<div className={styles.scoreText} ref={questionDividerRef}>
 				<div className={styles.titleText}>Question: </div>
 				<div className={styles.bodyText}>{question.question}</div>
-				<div className={styles.titleText}>Correct Answer: </div>
-				{answer === undefined ? (
-					matchAnswer?.map((x) => {
-						return (
-							<div className={styles.bodyText} key={x.answerID}>
-								{x.key} : {x.value}
-							</div>
-						);
-					})
-				) : (
-					<div className={styles.bodyText}>
-						{answer[0].answerText}{" "}
-					</div>
-				)}
-				<div className={styles.titleText}>Your Answer: </div>
-				{answer === undefined ? (
-					attempt?.answerMapArray().map((x) => {
-						return (
-							<div className={styles.bodyText} key={x.key}>
-								{x.key} : {x.value}
-							</div>
-						);
-					})
-				) : (
-					<div className={styles.bodyText}>{attempt?.answer[0]}</div>
-				)}
+				{renderCorrectAndAttemptedAnswer()}
 			</div>
 			<div className={styles.scoreIcon}>
 				{attempt?.isCorrect ? (
