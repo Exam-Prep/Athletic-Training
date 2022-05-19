@@ -1,5 +1,5 @@
 /** @format */
-import React from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import styles from "./styles.scss";
 import { Question, QuestionType, Answer } from "../../model/Question";
 import { AttemptedAnswer } from "../../model/User";
@@ -16,6 +16,8 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 	question,
 	attempts,
 }) => {
+	const questionDividerRef = useRef<HTMLDivElement | null>(null);
+	const [questionDividerWidth, setQuestionDividerWidth] = useState(0);
 	let answer: Answer[] | undefined = undefined;
 	let matchAnswer:
 		| {
@@ -69,18 +71,22 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 		}
 	};
 
+	useLayoutEffect(() => {
+		setQuestionDividerWidth(questionDividerRef.current!.clientWidth);
+	}, [questionDividerRef.current!]);
+
 	const renderCorrectAndAttemptedAnswer = () => {
 		if (answer?.length == 0 && matchAnswer === undefined) {
 			return (
 				<PreviewHotSpotAnswer
 					question={question as HotSpotQuestion}
 					answer={attempt}
+					parentWidth={questionDividerWidth}
 				/>
 			);
 		} else {
 			return (
 				<div>
-					{" "}
 					<div className={styles.titleText}>Correct Answer: </div>
 					{renderQuestionAnswer()}
 					<div className={styles.titleText}>Your Answer: </div>
@@ -92,7 +98,7 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 
 	return (
 		<div className={styles.scoreBox}>
-			<div className={styles.scoreText}>
+			<div className={styles.scoreText} ref={questionDividerRef}>
 				<div className={styles.titleText}>Question: </div>
 				<div className={styles.bodyText}>{question.question}</div>
 				{renderCorrectAndAttemptedAnswer()}

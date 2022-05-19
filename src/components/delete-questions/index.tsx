@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import styles from "./styles.scss";
 import { Question, QuestionType, Answer } from "../../model/Question";
 import { Exam } from "../../model/Exam";
@@ -33,7 +33,8 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 	} else {
 		answer = question.answers;
 	}
-
+	const questionDividerRef = useRef<HTMLDivElement | null>(null);
+	const [questionDividerWidth, setQuestionDividerWidth] = useState(0);
 	const [show, setShow] = useState(false);
 
 	const showModal = () => setShow(true);
@@ -51,6 +52,10 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 		loadQuestions(exam);
 		showModal();
 	};
+
+	useLayoutEffect(() => {
+		setQuestionDividerWidth(questionDividerRef.current!.clientWidth);
+	}, [questionDividerRef.current!]);
 
 	const renderQuestion = () => {
 		if (answer === undefined) {
@@ -76,17 +81,20 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 			});
 		} else {
 			return (
-				<PreviewHotSpotAnswer
-					question={question as HotSpotQuestion}
-					answer={undefined}
-				/>
+				<div>
+					<PreviewHotSpotAnswer
+						question={question as HotSpotQuestion}
+						answer={undefined}
+						parentWidth={questionDividerWidth}
+					/>
+				</div>
 			);
 		}
 	};
 
 	return (
 		<div className={styles.questionBox}>
-			<div className={styles.questionText}>
+			<div className={styles.questionText} ref={questionDividerRef}>
 				<div className={styles.titleText}>Question: </div>
 				<div className={styles.bodyText}>{question.question}</div>
 				<div className={styles.titleText}>Answers: </div>

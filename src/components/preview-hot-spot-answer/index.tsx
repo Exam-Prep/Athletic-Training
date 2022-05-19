@@ -8,13 +8,14 @@ import styles from "./styles.scss";
 interface PreviewHotSpotAnswerProps {
 	question: HotSpotQuestion;
 	answer: AttemptedAnswer | undefined;
+	parentWidth: number;
 }
 
 const PreviewHotSpotAnswer: React.FunctionComponent<
 	PreviewHotSpotAnswerProps
-> = ({ question, answer }) => {
+> = ({ question, answer, parentWidth }) => {
 	const imageRef = useRef<HTMLImageElement | null>(null);
-
+	const divRef = useRef<HTMLDivElement | null>(null);
 	const [style, setStyle] = useState<React.CSSProperties>({
 		position: "absolute",
 		left: 0,
@@ -38,16 +39,28 @@ const PreviewHotSpotAnswer: React.FunctionComponent<
 	});
 
 	const renderRedDotIfNecessary = () => {
+		let scaleX = 100;
+		let scaleY = 100;
+		if (imageRef.current!.offsetWidth / parentWidth >= 1) {
+			scaleX = 80;
+			scaleY = 80;
+		}
+		console.log(scaleX);
+		console.log(
+			"THIS IS YOUR bounds width",
+			imageRef.current!.offsetWidth,
+			imageRef.current!.offsetHeight,
+		);
 		if (answer?.x && answer?.y) {
 			setStyle({
 				position: "absolute",
 				left:
 					"calc(" +
-					(answer.x / imageRef.current!.clientWidth) * 100 +
+					(answer.x / imageRef.current!.offsetWidth) * scaleX +
 					"%)",
 				top:
 					"calc(" +
-					(answer.y / imageRef.current!.clientHeight) * 100 +
+					(answer.y / imageRef.current!.offsetHeight) * scaleY +
 					"%)",
 				width: HotSpotQuestion.width,
 				height: HotSpotQuestion.height,
@@ -60,11 +73,11 @@ const PreviewHotSpotAnswer: React.FunctionComponent<
 			position: "absolute",
 			left:
 				"calc(" +
-				(question.x / imageRef.current!.clientWidth) * 100 +
+				(question.x / imageRef.current!.offsetWidth) * scaleX +
 				"%)",
 			top:
 				"calc(" +
-				(question.y / imageRef.current!.clientHeight) * 100 +
+				(question.y / imageRef.current!.offsetHeight) * scaleY +
 				"%)",
 			width: HotSpotQuestion.width,
 			height: HotSpotQuestion.height,
@@ -92,7 +105,7 @@ const PreviewHotSpotAnswer: React.FunctionComponent<
 				draggable={false}
 			></img>
 			{answer !== undefined ? <div style={style}></div> : ""}
-			<div style={styleCorrect}></div>
+			<div ref={divRef} style={styleCorrect}></div>
 		</div>
 	);
 };
