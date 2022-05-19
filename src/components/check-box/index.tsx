@@ -6,7 +6,7 @@ interface CheckboxProps {
 	isRadio?: boolean;
 	isChecked: boolean;
 	handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	label: string;
+	label?: string;
 }
 
 const Checkbox: React.FunctionComponent<CheckboxProps> = ({

@@ -12,7 +12,7 @@ import CreateMatchQuestion from "../create-match-question";
 import Checkbox from "../check-box";
 
 import ImageUploader from "../image-upload";
-import { textSpanIntersection } from "typescript";
+import { isDebuggerStatement, textSpanIntersection } from "typescript";
 
 interface MultipleChoiceMultipleCorrectProps {
 	exam: Exam;
@@ -22,7 +22,15 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 	MultipleChoiceMultipleCorrectProps
 > = ({ exam }) => {
 	const [question, setQuestion] = useState("");
-	const [answers, setAnswers] = useState(new Map<number, string>());
+	const [answers, setAnswers] = useState(
+		new Map<number, string>([
+			[0, ""],
+			[1, ""],
+			[2, ""],
+			[3, ""],
+			[4, ""],
+		]),
+	);
 	const [imageURL, setImageURL] = useState<string>("");
 	const [image, setImage] = useState(false);
 	const showModal = () => setImage(true);
@@ -44,7 +52,20 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 		$("input[type=checkbox]").prop("checked", false);
 		setIsChecked([false, false, false, false, false]);
 		setQuestion("");
-		setAnswers(new Map<number, string>());
+		setAnswers(
+			new Map<number, string>([
+				[0, ""],
+				[1, ""],
+				[2, ""],
+				[3, ""],
+				[4, ""],
+			]),
+		);
+		$("textarea").filter("[id*=answer1-input]").val("");
+		$("textarea").filter("[id*=answer2-input]").val("");
+		$("textarea").filter("[id*=answer3-input]").val("");
+		$("textarea").filter("[id*=answer4-input]").val("");
+		$("textarea").filter("[id*=answer5-input]").val("");
 	};
 
 	const handleChange = (
@@ -83,35 +104,7 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 		exam.currentQuestion = exam.questions[0];
 		exam.writeExam();
 		showToast();
-		// showToast();
 		clearInput();
-	};
-
-	const checkboxItems = () => {
-		return (
-			<DndProvider backend={HTML5Backend}>
-				<ToastContainer position='top-center'>
-					<Toast
-						onClose={() => setShow(false)}
-						show={show}
-						delay={3000}
-						autohide
-					>
-						<Toast.Body>Question Added!</Toast.Body>
-					</Toast>
-				</ToastContainer>
-				<div>
-					{isChecked.map((answer, index) => (
-						<Checkbox
-							key={index}
-							label={(index + 1).toString()}
-							handleChange={(e) => handleChange(e, index)}
-							isChecked={answer}
-						></Checkbox>
-					))}
-				</div>
-			</DndProvider>
-		);
 	};
 
 	return (
@@ -120,81 +113,45 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 				className={styles.input}
 				id='question-input'
 				rows={3}
+				value={question}
 				onChange={(e) => setQuestion(e.target.value)}
 				placeholder='Question'
 			/>
-
-			<textarea
-				className={styles.input}
-				id='answer1-input'
-				onChange={(e) =>
-					setAnswers((existingAnswer) => {
-						existingAnswer.set(0, e.target.value);
-						return existingAnswer;
-					})
-				}
-				placeholder='Answer 1'
-			/>
-			<textarea
-				className={styles.input}
-				id='answer2-input'
-				onChange={(e) =>
-					setAnswers((existingAnswer) => {
-						existingAnswer.set(1, e.target.value);
-						return existingAnswer;
-					})
-				}
-				placeholder='Answer 2'
-			/>
-			<textarea
-				className={styles.input}
-				id='answer3-input'
-				onChange={(e) =>
-					setAnswers((existingAnswer) => {
-						existingAnswer.set(2, e.target.value);
-						return existingAnswer;
-					})
-				}
-				placeholder='Answer 3'
-			/>
-			<textarea
-				className={styles.input}
-				id='answer4-input'
-				onChange={(e) =>
-					setAnswers((existingAnswer) => {
-						existingAnswer.set(3, e.target.value);
-						return existingAnswer;
-					})
-				}
-				placeholder='Answer 4'
-			/>
-			<textarea
-				className={styles.input}
-				id='answer5-input'
-				onChange={(e) =>
-					setAnswers((existingAnswer) => {
-						existingAnswer.set(4, e.target.value);
-						return existingAnswer;
-					})
-				}
-				placeholder='Answer 5'
-			/>
-
-			{/* <select
-				className={styles.select}
-				value={correctQuestion}
-				onChange={(e) => setCorrectQuestion(parseInt(e.target.value))}
-				name='correctAnswer'
-				id='correctAnswer'
-			>
-				<option value='1'>Answer 1</option>
-				<option value='2'>Answer 2</option>
-				<option value='3'>Answer 3</option>
-				<option value='4'>Answer 4</option>
-				<option value='5'>Answer 5</option>
-			</select> */}
-			{checkboxItems()}
-
+			{isChecked.map((answer, index) => (
+				<div className={styles.checkboxRow} key={index}>
+					<Checkbox
+						key={index}
+						handleChange={(e) => handleChange(e, index)}
+						isChecked={answer}
+					/>
+					<textarea
+						className={styles.answerInput}
+						id={`answer${index + 1}-input`}
+						// value={answers.get(index)}
+						onChange={(e) =>
+							setAnswers((existingAnswers) => {
+								existingAnswers?.set(
+									index,
+									existingAnswers?.get(index) +
+										e.target.value,
+								);
+								return existingAnswers;
+							})
+						}
+						placeholder={`Answer ${index + 1}`}
+					/>
+				</div>
+			))}
+			<ToastContainer position='top-center'>
+				<Toast
+					onClose={() => setShow(false)}
+					show={show}
+					delay={3000}
+					autohide
+				>
+					<Toast.Body>Question Added!</Toast.Body>
+				</Toast>
+			</ToastContainer>
 			<button className={styles.addQuestionButton} onClick={onSubmitExam}>
 				Add Question
 			</button>
