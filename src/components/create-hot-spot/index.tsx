@@ -15,6 +15,7 @@ const CreateHotSpot: React.FunctionComponent<CreateHotSpotProps> = ({
 	exam,
 }) => {
 	const [imageURL, setImageURL] = useState("");
+	const imageRef = useRef<HTMLImageElement | null>(null);
 	const [question, setQuestion] = useState("");
 	const [image, setImage] = useState(false);
 	const showModal = () => setImage(true);
@@ -22,7 +23,6 @@ const CreateHotSpot: React.FunctionComponent<CreateHotSpotProps> = ({
 	const updateSetImageURL = (url: string): void => {
 		setImageURL(url);
 	};
-	const imageRef = useRef<HTMLImageElement | null>(null);
 	const [x, setX] = useState(0);
 	const [y, setY] = useState(0);
 	const [style, setStyle] = useState<React.CSSProperties>({
@@ -36,8 +36,15 @@ const CreateHotSpot: React.FunctionComponent<CreateHotSpotProps> = ({
 		background: "red",
 	});
 	const imageClicked = (e: any) => {
-		setX(e.nativeEvent.offsetX - HotSpotQuestion.offset);
-		setY(e.nativeEvent.offsetY - HotSpotQuestion.offset);
+		const percentageX =
+			(e.nativeEvent.offsetX - HotSpotQuestion.offset) /
+			imageRef.current!.offsetWidth;
+		const percentageY =
+			(e.nativeEvent.offsetY - HotSpotQuestion.offset) /
+			imageRef.current!.offsetHeight;
+		console.log(percentageX, percentageY);
+		setX(percentageX);
+		setY(percentageY);
 		setStyle({
 			position: "absolute",
 			left: e.nativeEvent.offsetX - HotSpotQuestion.offset,

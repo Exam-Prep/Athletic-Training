@@ -45,22 +45,20 @@ const PreviewHotSpotAnswer: React.FunctionComponent<
 			scaleX = 80;
 			scaleY = 80;
 		}
-		console.log(scaleX);
-		console.log(
-			"THIS IS YOUR bounds width",
-			imageRef.current!.offsetWidth,
-			imageRef.current!.offsetHeight,
-		);
 		if (answer?.x && answer?.y) {
 			setStyle({
 				position: "absolute",
 				left:
 					"calc(" +
-					(answer.x / imageRef.current!.offsetWidth) * scaleX +
+					((answer.x * imageRef.current!.offsetWidth) /
+						imageRef.current!.offsetWidth) *
+						scaleX +
 					"%)",
 				top:
 					"calc(" +
-					(answer.y / imageRef.current!.offsetHeight) * scaleY +
+					((answer.y * imageRef.current!.offsetHeight) /
+						imageRef.current!.offsetHeight) *
+						scaleY +
 					"%)",
 				width: HotSpotQuestion.width,
 				height: HotSpotQuestion.height,
@@ -73,11 +71,15 @@ const PreviewHotSpotAnswer: React.FunctionComponent<
 			position: "absolute",
 			left:
 				"calc(" +
-				(question.x / imageRef.current!.offsetWidth) * scaleX +
+				((question.x * imageRef.current!.offsetWidth) /
+					imageRef.current!.offsetWidth) *
+					scaleX +
 				"%)",
 			top:
 				"calc(" +
-				(question.y / imageRef.current!.offsetHeight) * scaleY +
+				((question.y * imageRef.current!.offsetHeight) /
+					imageRef.current!.offsetHeight) *
+					scaleY +
 				"%)",
 			width: HotSpotQuestion.width,
 			height: HotSpotQuestion.height,

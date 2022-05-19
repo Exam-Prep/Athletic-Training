@@ -28,20 +28,65 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 		borderRadius: "50%",
 		background: "red",
 	});
+	const [correctStyle, setCorrectStyle] = useState<React.CSSProperties>({
+		position: "absolute",
+		left: 0,
+		top: 0,
+		width: HotSpotQuestion.width,
+		height: HotSpotQuestion.height,
+		opacity: 0.5,
+		borderRadius: "50%",
+		background: "red",
+	});
 
 	const imageClicked = (e: any) => {
-		const x = e.nativeEvent.offsetX - HotSpotQuestion.offset;
-		const y = e.nativeEvent.offsetY - HotSpotQuestion.offset;
+		const x =
+			(e.nativeEvent.offsetX - HotSpotQuestion.offset) /
+			imageRef.current!.offsetWidth;
+		const y =
+			(e.nativeEvent.offsetY - HotSpotQuestion.offset) /
+			imageRef.current!.offsetWidth;
 		setStyle({
 			position: "absolute",
-			left: "calc(" + (x / imageRef.current!.clientWidth) * 100 + "%)",
-			top: "calc(" + (y / imageRef.current!.clientHeight) * 100 + "%)",
+			left:
+				"calc(" +
+				((x * imageRef.current!.offsetWidth) /
+					imageRef.current!.offsetWidth) *
+					100 +
+				"%)",
+			top:
+				"calc(" +
+				((y * imageRef.current!.offsetHeight) /
+					imageRef.current!.offsetHeight) *
+					100 +
+				"%)",
 			width: HotSpotQuestion.width,
 			height: HotSpotQuestion.height,
 			opacity: 0.5,
 			borderRadius: "50%",
 			background: "red",
 		});
+		// console.log(question.x, question.y);
+		// setCorrectStyle({
+		// 	position: "absolute",
+		// 	left:
+		// 		"calc(" +
+		// 		((question.x * imageRef.current!.offsetWidth) /
+		// 			imageRef.current!.offsetWidth) *
+		// 			100 +
+		// 		"%)",
+		// 	top:
+		// 		"calc(" +
+		// 		((question.y * imageRef.current!.offsetHeight) /
+		// 			imageRef.current!.offsetHeight) *
+		// 			100 +
+		// 		"%)",
+		// 	width: HotSpotQuestion.width,
+		// 	height: HotSpotQuestion.height,
+		// 	opacity: 0.5,
+		// 	borderRadius: "50%",
+		// 	background: "green",
+		// });
 		onClick(question, x, y);
 	};
 
@@ -51,11 +96,11 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 				position: "absolute",
 				left:
 					"calc(" +
-					(answer?.x / imageRef.current!.clientWidth) * 100 +
+					(answer?.x / imageRef.current!.offsetWidth) * 100 +
 					"%)",
 				top:
 					"calc(" +
-					(answer?.y / imageRef.current!.clientHeight) * 100 +
+					(answer?.y / imageRef.current!.offsetHeight) * 100 +
 					"%)",
 				width: HotSpotQuestion.width,
 				height: HotSpotQuestion.height,
@@ -85,6 +130,7 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 				draggable={false}
 			></img>
 			<div style={style}></div>
+			<div style={correctStyle}></div>
 		</div>
 	);
 };
