@@ -55,10 +55,13 @@ const SelectAllUI: React.FunctionComponent<
 
 	return (
 		<div className={styles.multipleChoiceMultipleCorrectBox}>
+			{question.imageURL !== "" ? (
+				<img className={styles.image} src={question.imageURL} />
+			) : (
+				""
+			)}{" "}
 			<div className={styles.questionsContainer}>Question</div>
-
 			<div className={styles.directionsText}>Check all that apply</div>
-
 			<div className={styles.answerContainer}>
 				<div className={styles.container}>
 					{question.answers?.map((x: Answer, index) => {

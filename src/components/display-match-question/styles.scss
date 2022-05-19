@@ -20,11 +20,16 @@
 	@include flexRow;
 	width: 90%;
 	margin-top: 10px;
+}
+.image {
+	display: flex;
+	width: 600px;
+	height: 400px;
+}
 
-	.dragnDrop {
-		@include flexColumn;
-		width: 50%;
-		height: 100%;
-		flex-direction: column;
-	}
+.dragnDrop {
+	@include flexColumn;
+	width: 50%;
+	height: 100%;
+	flex-direction: column;
 }

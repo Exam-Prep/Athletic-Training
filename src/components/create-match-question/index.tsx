@@ -10,6 +10,7 @@ import MatchQuestion from "../../model/MatchQuestion";
 import { didFinishQuestion } from "../../misc/didFinishQuestion";
 import $ from "jquery";
 import { Toast, ToastContainer } from "react-bootstrap";
+import ImageUploader from "../image-upload";
 
 interface CreateMatchQuestionProps {
 	exam: Exam;
@@ -30,10 +31,20 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 	const [answerMap, setAnswerMap] = useState<Map<string, string>>(
 		new Map<string, string>(),
 	);
+	const [imageURL, setImageURL] = useState<string>("");
+
 	const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void;
 	const [show, setShow] = useState(false);
 
 	const showToast = () => setShow(true);
+
+	const [image, setImage] = useState(false);
+	const showModal = () => setImage(true);
+	const closeModal = () => setImage(false);
+
+	const updateSetImageURL = (url: string): void => {
+		setImageURL(url);
+	};
 
 	const addDrag = () => {
 		if (!dragNames.includes(currentDragName)) {
@@ -48,7 +59,12 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 	};
 
 	const reconcileData = () => {
-		const matchQuestion = new MatchQuestion(question, answerMap, null);
+		const matchQuestion = new MatchQuestion(
+			question,
+			answerMap,
+			null,
+			imageURL,
+		);
 		exam.questions.push(matchQuestion);
 		exam.writeExam();
 		showToast();
@@ -144,6 +160,19 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 				>
 					Add Question
 				</button>
+				<button className={styles.addImageButton} onClick={showModal}>
+					Add Image
+				</button>
+				{exam != undefined ? (
+					<ImageUploader
+						hide={image}
+						examString={exam.name}
+						updateImageURL={updateSetImageURL}
+						closeModal={closeModal}
+					/>
+				) : (
+					""
+				)}
 			</div>
 		</DndProvider>
 	);
