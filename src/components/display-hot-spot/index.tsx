@@ -19,15 +19,17 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 	const imageRef = useRef<HTMLImageElement | null>(null);
 
 	const [style, setStyle] = useState<React.CSSProperties>({
-		position: "absolute",
 		left: 0,
 		top: 0,
 		width: HotSpotQuestion.width,
 		height: HotSpotQuestion.height,
-		opacity: 0.5,
-		borderRadius: "50%",
-		background: "red",
 	});
+
+	const getOffsetWidth = (x: any): string =>
+		x.nativeEvent.offsetX - HotSpotQuestion.offset;
+
+	const getOffsetHeight = (x: any): string =>
+		x.nativeEvent.offsetY - HotSpotQuestion.offset;
 
 	const imageClicked = (e: any) => {
 		const x =
@@ -35,48 +37,34 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 			imageRef.current!.offsetWidth;
 		const y =
 			(e.nativeEvent.offsetY - HotSpotQuestion.offset) /
-			imageRef.current!.offsetWidth;
-		setStyle({
-			position: "absolute",
-			left:
-				"calc(" +
-				((x * imageRef.current!.offsetWidth) /
-					imageRef.current!.offsetWidth) *
-					100 +
-				"%)",
-			top:
-				"calc(" +
-				((y * imageRef.current!.offsetHeight) /
-					imageRef.current!.offsetHeight) *
-					100 +
-				"%)",
-			width: HotSpotQuestion.width,
-			height: HotSpotQuestion.height,
-			opacity: 0.5,
-			borderRadius: "50%",
-			background: "red",
-		});
+			imageRef.current!.offsetHeight;
+		setStyle((prevStyle) => ({
+			...prevStyle,
+			left: getOffsetWidth(e),
+			top: getOffsetHeight(e),
+		}));
 		onClick(question, x, y);
 	};
 
 	const renderRedDotIfNecessary = () => {
 		if (answer?.x && answer?.y) {
-			setStyle({
-				position: "absolute",
+			setStyle((prevStyle) => ({
+				...prevStyle,
+				// left: getOffsetWidth(answer.x),
+				// top: getOffsetHeight(answer.y),
 				left:
 					"calc(" +
-					(answer?.x / imageRef.current!.offsetWidth) * 100 +
+					((answer.x * imageRef.current!.offsetWidth) /
+						imageRef.current!.offsetWidth) *
+						100 +
 					"%)",
 				top:
 					"calc(" +
-					(answer?.y / imageRef.current!.offsetHeight) * 100 +
+					((answer.y * imageRef.current!.offsetHeight) /
+						imageRef.current!.offsetHeight) *
+						100 +
 					"%)",
-				width: HotSpotQuestion.width,
-				height: HotSpotQuestion.height,
-				opacity: 0.5,
-				borderRadius: "50%",
-				background: "red",
-			});
+			}));
 		}
 	};
 
@@ -98,7 +86,7 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 				className={"img-fluid"}
 				draggable={false}
 			></img>
-			<div style={style}></div>
+			<div className={styles.hotspotDot} style={style}></div>
 		</div>
 	);
 };

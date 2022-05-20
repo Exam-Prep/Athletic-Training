@@ -19,7 +19,9 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 	const [isQuestionDeleteOpen, setIsQuestionDeleteOpen] = useState(false);
 	const deleteExam = () => {
 		console.log("delete pressed", examToDelete.id);
-		examToDelete.deleteExamQuestions();
+		if (examToDelete.questions !== undefined) {
+			examToDelete.deleteExamQuestions();
+		}
 		examToDelete.deleteExam();
 		closeModal();
 		window.location.reload();

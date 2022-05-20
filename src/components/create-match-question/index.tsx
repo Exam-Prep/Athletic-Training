@@ -155,6 +155,19 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 						))}
 					</div>
 				</div>
+				{exam !== undefined ? (
+					<ImageUploader
+						hide={image}
+						examString={exam.name}
+						updateImageURL={updateSetImageURL}
+						closeModal={closeModal}
+					/>
+				) : (
+					""
+				)}
+				<button className={styles.addQuestion} onClick={showModal}>
+					Add Image
+				</button>
 				<button
 					className={
 						didFinishQuestion(dropNames, answerMap)
@@ -165,19 +178,6 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 				>
 					Add Question
 				</button>
-				<button className={styles.addImageButton} onClick={showModal}>
-					Add Image
-				</button>
-				{exam != undefined ? (
-					<ImageUploader
-						hide={image}
-						examString={exam.name}
-						updateImageURL={updateSetImageURL}
-						closeModal={closeModal}
-					/>
-				) : (
-					""
-				)}
 			</div>
 		</DndProvider>
 	);

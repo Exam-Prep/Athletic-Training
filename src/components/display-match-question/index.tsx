@@ -80,7 +80,6 @@ const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 					))}
 				</div>
 			</div>
-
 			{checkAnswer()}
 		</DndProvider>
 	);

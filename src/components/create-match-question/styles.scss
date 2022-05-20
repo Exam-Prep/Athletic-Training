@@ -24,11 +24,6 @@
 	flex-direction: row;
 	flex-flow: wrap;
 }
-.addImageButton {
-	@include button;
-	width: 50%;
-	background-color: #1b43ef;
-}
 
 .dragnDropInput {
 	@include flexColumn;
@@ -82,7 +77,7 @@
 	@include button;
 
 	width: 50%;
-	margin-top: 20px;
+	margin: 20px 10px 0 10px;
 	background-color: #1b43ef;
 }
 

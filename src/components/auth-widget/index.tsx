@@ -88,9 +88,9 @@ const AuthWidget = () => {
 				>
 					Register
 				</button>
-				<button className={styles.forgotPassword}>
+				{/* <button className={styles.forgotPassword}>
 					Forgot Password?
-				</button>
+				</button> */}
 			</div>
 		</div>
 	);

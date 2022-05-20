@@ -9,12 +9,7 @@ import { Modal } from "react-bootstrap";
 import SubmitExamButton from "../../../submit-exam-button";
 import ArrowButton from "../../../arrow-button";
 import CircleButtonManager from "../../../circle-button-manager";
-import {
-	AttemptedAnswer,
-	answerMapsEqual,
-	User,
-	writeCurrentProgress,
-} from "../../../../model/User";
+import { AttemptedAnswer, answerMapsEqual, User } from "../../../../model/User";
 import { useAuth } from "../../../../AuthContext";
 import SelectAllUI from "../../../select-all-question";
 import DisplayMatchQuestion from "../../../display-match-question";
@@ -44,17 +39,17 @@ const Questions = () => {
 		);
 	}, []);
 
-	useEffect(() => {
-		if (user != undefined) {
-			user.questionIndex = userIndex;
-		}
+	// useEffect(() => {
+	// 	if (user != undefined) {
+	// 		user.questionIndex = userIndex;
+	// 	}
 
-		return () => {
-			if (user != undefined) {
-				writeCurrentProgress(user);
-			}
-		};
-	}, [userIndex]);
+	// 	return () => {
+	// 		if (user !== undefined) {
+	// 			writeCurrentProgress(user);
+	// 		}
+	// 	};
+	// }, [userIndex]);
 
 	const circleButtonClicked = (question: Question, index: number) => {
 		setUserIndex(index);
@@ -108,6 +103,7 @@ const Questions = () => {
 		question: Question,
 		index: Array<number | undefined>,
 	) => {
+		// debugger;
 		const answers = index.flatMap((x) => {
 			return x === undefined ? [] : [question.answers[x]];
 		});
@@ -119,7 +115,7 @@ const Questions = () => {
 			}
 		});
 		// if not all correct answers were selected, wrong
-		if (answers.length !== question.answers.length) {
+		if (answers.length !== question.correctAnswers().length) {
 			isCorrect = false;
 		}
 		// if no answer, wrong
@@ -216,12 +212,12 @@ const Questions = () => {
 			<div className={styles.takeExam}>
 				<div className={styles.titleBar}>
 					<div className={styles.examName}> {exam?.name}</div>
-					{user?.attemptedAnswers.length ===
-					exam?.questions.length ? (
-						<SubmitExamButton onClick={showScoringModal} />
-					) : (
-						<SubmitExamButton onClick={showNotDoneModal} />
-					)}
+					{/* {user?.attemptedAnswers.length === */}
+					{/* exam?.questions.length ? ( */}
+					<SubmitExamButton onClick={showScoringModal} />
+					{/* ) : ( */}
+					{/* <SubmitExamButton onClick={showNotDoneModal} /> */}
+					{/* )} */}
 				</div>
 				<div className={styles.circles}>
 					<CircleButtonManager
@@ -259,7 +255,14 @@ const Questions = () => {
 				</div>
 				<div className={styles.questionRow}>
 					<div className={styles.questionsBox}>
-						<div className={styles.questionContent}>
+						<div
+							className={
+								exam?.questions[userIndex].type ===
+								QuestionType.Match
+									? styles.matchQuestionContent
+									: styles.questionContent
+							}
+						>
 							{exam?.questions[userIndex].question}
 							{renderQuestion(userIndex)}
 						</div>
