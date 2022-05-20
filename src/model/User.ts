@@ -117,17 +117,16 @@ export class User {
 			);
 			if (
 				answerToDelete > -1 &&
-				this.attemptedAnswers[answerToDelete] != answer
+				this.attemptedAnswers[answerToDelete] !== answer
 			) {
-				this.attemptedAnswers.splice(answerToDelete, 1);
-			} else {
-				return;
+				// this.attemptedAnswers.splice(answerToDelete, 1);
+				this.attemptedAnswers[answerToDelete] = answer;
 			}
 		} else if (filteredAnswers.length > 2) {
 			console.log("ERROR length should never be 2.");
 			console.log(this.attemptedAnswers);
 		}
-		this.attemptedAnswers.push(answer);
+		// this.attemptedAnswers.push(answer);
 	}
 
 	public attemptedAnswerForID(questionID: number) {
