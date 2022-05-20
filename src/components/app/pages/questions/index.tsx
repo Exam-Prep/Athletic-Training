@@ -112,11 +112,20 @@ const Questions = () => {
 			return x === undefined ? [] : [question.answers[x]];
 		});
 		let isCorrect = true;
+		// if one of the selected answers is false, wrong
 		answers.forEach((x) => {
 			if (x.isCorrect === false) {
 				isCorrect = false;
 			}
 		});
+		// if not all correct answers were selected, wrong
+		if (answers.length !== question.answers.length) {
+			isCorrect = false;
+		}
+		// if no answer, wrong
+		if (answers === undefined) {
+			isCorrect = false;
+		}
 		const attemptedAnswer = new AttemptedAnswer(
 			question.id,
 			isCorrect,
@@ -158,10 +167,10 @@ const Questions = () => {
 	};
 
 	const renderQuestion = (currentIndex: number) => {
-		if (exam != undefined) {
+		if (exam !== undefined) {
 			const question = exam.questions[currentIndex];
 			const attemptedAnswer = user?.attemptedAnswerForID(question.id);
-			if (question.type == QuestionType.MultipleChoice) {
+			if (question.type === QuestionType.MultipleChoice) {
 				return (
 					<MultipleChoiceUI
 						onClick={multipleChoiceQuestionClicked}
@@ -170,7 +179,7 @@ const Questions = () => {
 					/>
 				);
 			} else if (
-				question.type == QuestionType.MultipleChoiceMultipleCorrect
+				question.type === QuestionType.MultipleChoiceMultipleCorrect
 			) {
 				return (
 					<SelectAllUI
@@ -179,7 +188,7 @@ const Questions = () => {
 						question={exam.questions[currentIndex]}
 					/>
 				);
-			} else if (question.type == QuestionType.Match) {
+			} else if (question.type === QuestionType.Match) {
 				return (
 					<DisplayMatchQuestion
 						didAnswer={matchQuestionAnswered}
@@ -187,7 +196,7 @@ const Questions = () => {
 						matchQuestion={question as MatchQuestion}
 					/>
 				);
-			} else if (question.type == QuestionType.HotSpot) {
+			} else if (question.type === QuestionType.HotSpot) {
 				return (
 					<DisplayHotSpot
 						question={question as HotSpotQuestion}

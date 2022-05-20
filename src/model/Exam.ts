@@ -52,7 +52,6 @@ export function loadPartialExam(examID: number) {
 		onValue(
 			partialExam,
 			(snapshot) => {
-				// debugger;
 				const value: PartialExam = snapshot.val();
 				const exam = new Exam();
 				exam.name = value.title;

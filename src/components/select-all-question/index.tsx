@@ -18,7 +18,20 @@ interface MultipleChoiceMultipleCorrectProps {
 const SelectAllUI: React.FunctionComponent<
 	MultipleChoiceMultipleCorrectProps
 > = ({ onClick, attemptedAnswer, question }) => {
-	const [isChecked, setIsChecked] = useState<Array<boolean>>([]);
+	const [isChecked, setIsChecked] = useState<Array<boolean>>(() => {
+		const checks = [false, false, false, false, false];
+		for (let i = 0; i < attemptedAnswer?.answer?.length; i++) {
+			for (let j = 0; j < question.answers.length; j++) {
+				if (
+					question.answers[j].answerText ===
+					attemptedAnswer?.answer[i]
+				) {
+					checks[j] = true;
+				}
+			}
+		}
+		return checks;
+	});
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number,
@@ -27,23 +40,31 @@ const SelectAllUI: React.FunctionComponent<
 			existingIsChecked[index] = e.target.checked;
 			return [...existingIsChecked];
 		});
+	};
+
+	useEffect(() => {
 		const selectedValues = isChecked.map((x, isCheckedIndex) => {
 			return x === true ? isCheckedIndex : undefined;
 		});
 		onClick(question, selectedValues);
-	};
+	}, [isChecked]);
 
 	useEffect(() => {
-		setIsChecked(
-			question.answers?.map((x) => {
-				if (attemptedAnswer?.answer?.includes(x.answerID)) {
-					return true;
-				} else {
-					return false;
+		setIsChecked(() => {
+			const checks = [false, false, false, false, false];
+			for (let i = 0; i < attemptedAnswer?.answer?.length; i++) {
+				for (let j = 0; j < question.answers.length; j++) {
+					if (
+						question.answers[j].answerText ===
+						attemptedAnswer?.answer[i]
+					) {
+						checks[j] = true;
+					}
 				}
-			}),
-		);
-	}, [question]);
+			}
+			return checks;
+		});
+	}, [attemptedAnswer]);
 
 	function readCheckState(index: number) {
 		if (isChecked[index] === undefined) {
@@ -60,7 +81,6 @@ const SelectAllUI: React.FunctionComponent<
 			) : (
 				""
 			)}{" "}
-			<div className={styles.questionsContainer}>Question</div>
 			<div className={styles.directionsText}>Check all that apply</div>
 			<div className={styles.answerContainer}>
 				<div className={styles.container}>

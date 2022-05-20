@@ -41,6 +41,7 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 
 	const renderQuestionAnswer = () => {
 		if (answer === undefined && matchAnswer !== undefined) {
+			// print all match answer mappings
 			return matchAnswer.map((x) => {
 				return (
 					<div className={styles.bodyText} key={x.key}>
@@ -48,12 +49,18 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 					</div>
 				);
 			});
-		} else if (answer?.length == 0 && matchAnswer === undefined) {
+		} else if (answer?.length === 0 && matchAnswer === undefined) {
+			// print nothing if no answer
 			return "";
 		} else {
-			return (
-				<div className={styles.bodyText}>{answer![0].answerText} </div>
-			);
+			// print all correct answers
+			return answer?.map((x) => {
+				return (
+					<div className={styles.bodyText} key={x.answerID}>
+						{x.answerText}
+					</div>
+				);
+			});
 		}
 	};
 
@@ -67,7 +74,13 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 				);
 			});
 		} else if (attempt?.answer !== undefined) {
-			return <div className={styles.bodyText}>{attempt?.answer[0]}</div>;
+			return attempt.answer.map((x) => {
+				return (
+					<div className={styles.bodyText} key={x}>
+						{x}
+					</div>
+				);
+			});
 		}
 	};
 
@@ -76,7 +89,7 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 	}, [questionDividerRef.current!]);
 
 	const renderCorrectAndAttemptedAnswer = () => {
-		if (answer?.length == 0 && matchAnswer === undefined) {
+		if (answer?.length === 0 && matchAnswer === undefined) {
 			return (
 				<PreviewHotSpotAnswer
 					question={question as HotSpotQuestion}

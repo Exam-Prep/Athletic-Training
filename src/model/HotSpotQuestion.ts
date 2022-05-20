@@ -29,11 +29,14 @@ class HotSpotQuestion extends Question {
 	}
 
 	public isCoordinateWithinRange(x: number, y: number) {
-		const XSquared = (x - this.x) * (x - this.x);
-		const YSquared = (y - this.y) * (y - this.y);
-		const distance = Math.sqrt(XSquared + YSquared);
-		console.log(distance, distance <= 50);
-		return distance <= HotSpotQuestion.width;
+		const correctThreshold = 0.08;
+		const xCorrect = Math.abs(x - this.x);
+		const yCorrect = Math.abs(y - this.y);
+		// if x and y are within 8% of each other, correct
+		if (xCorrect < correctThreshold && yCorrect < correctThreshold) {
+			return true;
+		}
+		return false;
 	}
 }
 
