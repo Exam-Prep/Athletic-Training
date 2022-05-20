@@ -93,6 +93,11 @@
 			.questionContent {
 				margin: 10px;
 			}
+
+			.matchQuestionContent {
+				@extend .questionContent;
+				width: 100%;
+			}
 		}
 	}
 }

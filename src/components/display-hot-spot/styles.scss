@@ -2,4 +2,11 @@
 
 .container {
 	position: relative;
+
+	.hotspotDot {
+		position: absolute;
+		opacity: 0.5;
+		border-radius: 50%;
+		background: red;
+	}
 }

@@ -17,7 +17,20 @@ const MultipleChoiceUI: React.FunctionComponent<MultipleChoiceProps> = ({
 	attemptedAnswer,
 	question,
 }) => {
-	const [isChecked, setIsChecked] = useState<Array<boolean>>([]);
+	const [isChecked, setIsChecked] = useState<Array<boolean>>(() => {
+		const checked = [false, false, false, false, false];
+		for (let i = 0; i < question.answers.length; i++) {
+			for (let j = 0; j < attemptedAnswer?.answer?.length; j++) {
+				if (
+					question.answers[i].answerText ===
+					attemptedAnswer?.answer[j]
+				) {
+					checked[i] = true;
+				}
+			}
+		}
+		return checked;
+	});
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number,

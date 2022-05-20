@@ -108,25 +108,18 @@ export class User {
 	}
 
 	public addOrUpdateAnswer(answer: AttemptedAnswer) {
-		const filteredAnswers = this.attemptedAnswers.filter((x) => {
-			return x.qID === answer.qID;
-		});
-		if (filteredAnswers.length === 1) {
-			const answerToDelete = this.attemptedAnswers.indexOf(
-				filteredAnswers[0],
-			);
-			if (
-				answerToDelete > -1 &&
-				this.attemptedAnswers[answerToDelete] !== answer
-			) {
-				// this.attemptedAnswers.splice(answerToDelete, 1);
-				this.attemptedAnswers[answerToDelete] = answer;
+		let found = false;
+		for (let i = 0; i < this.attemptedAnswers.length; i++) {
+			if (this.attemptedAnswers[i].qID === answer.qID) {
+				this.attemptedAnswers[i] = answer;
+				found = true;
+				break;
 			}
-		} else if (filteredAnswers.length > 2) {
-			console.log("ERROR length should never be 2.");
-			console.log(this.attemptedAnswers);
 		}
-		// this.attemptedAnswers.push(answer);
+		if (!found) {
+			this.attemptedAnswers.push(answer);
+		}
+		writeCurrentProgress(this);
 	}
 
 	public attemptedAnswerForID(questionID: number) {
@@ -215,7 +208,7 @@ export function fetchCurrentUserProgress(examID: number, userID: string) {
 	});
 }
 
-export function writeCurrentProgress(user: User) {
+function writeCurrentProgress(user: User) {
 	const examRef = ref(database, userRefString + user.examID);
 	set(child(examRef, user.id), {
 		email: user.email,
