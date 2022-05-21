@@ -15,9 +15,11 @@ interface MultipleChoiceMultipleCorrectProps {
 	question: Question;
 }
 
+// component with multiple checkboxes to allow user to select multiple answers
 const SelectAllUI: React.FunctionComponent<
 	MultipleChoiceMultipleCorrectProps
 > = ({ onClick, attemptedAnswer, question }) => {
+	// use previous attempted answers for this question to set initial state if any exist
 	const [isChecked, setIsChecked] = useState<Array<boolean>>(() => {
 		const checks = [false, false, false, false, false];
 		for (let i = 0; i < attemptedAnswer?.answer?.length; i++) {
@@ -32,6 +34,8 @@ const SelectAllUI: React.FunctionComponent<
 		}
 		return checks;
 	});
+
+	// update state when any checkbox is clicked
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number,
@@ -42,6 +46,7 @@ const SelectAllUI: React.FunctionComponent<
 		});
 	};
 
+	// call on click prop function when isChecked changes
 	useEffect(() => {
 		const selectedValues = isChecked.map((x, isCheckedIndex) => {
 			return x === true ? isCheckedIndex : undefined;
@@ -49,6 +54,7 @@ const SelectAllUI: React.FunctionComponent<
 		onClick(question, selectedValues);
 	}, [isChecked]);
 
+	// update state when any attempted answers are modified
 	useEffect(() => {
 		setIsChecked(() => {
 			const checks = [false, false, false, false, false];
@@ -66,6 +72,7 @@ const SelectAllUI: React.FunctionComponent<
 		});
 	}, [attemptedAnswer]);
 
+	// get if a specific checkbox is checked or not by index
 	function readCheckState(index: number) {
 		if (isChecked[index] === undefined) {
 			return false;

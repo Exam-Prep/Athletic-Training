@@ -17,6 +17,7 @@ const CircleButtonManager: React.FunctionComponent<
 
 	return (
 		<div>
+			{/* map out the proper amount of circle buttons based on number of questions */}
 			{exam?.questions.map((q, index) => (
 				<CircleButton
 					onClick={() => {

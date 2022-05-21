@@ -16,6 +16,7 @@ interface QuestionWriterUIProps {
 	selectedExam: Exam;
 }
 
+// use jquery to clear all inputs
 function clearInput() {
 	$("textarea").filter("[id*=question-input]").val("");
 	$("textarea").filter("[id*=answer1-input]").val("");
@@ -25,30 +26,36 @@ function clearInput() {
 	$("textarea").filter("[id*=answer5-input]").val("");
 }
 
+// modal that allows a user to create questions for an exam
 const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 	hide,
 	close,
 	selectedExam,
 }) => {
+	// set initial state
+	// no previous state needs to be loaded here it can be new every time
 	const [question, setQuestion] = useState("");
 	const [answers, setAnswers] = useState(new Map<number, string>());
 	const [correctQuestion, setCorrectQuestion] = useState(1);
 	const [imageURL, setImageURL] = useState<string>("");
 	const [key, setKey] = useState("multiple-choice");
 	const [show, setShow] = useState(false);
-
 	const [image, setImage] = useState(false);
 	const showModal = () => setImage(true);
 	const closeModal = () => setImage(false);
 
+	// used to update image url when received from Firebase
 	const updateSetImageURL = (url: string): void => {
 		setImageURL(url);
 	};
 	const showToast = () => setShow(true);
 
+	// handles saving exam data to firebase when exam is finished
 	const onSubmitExam = () => {
 		const exam = selectedExam;
 		const typedAnswers = Array<Answer>();
+
+		// assign each answer an id and push to array
 		answers.forEach((inputedAnswer, answerOrder) => {
 			const answerID = Math.floor(
 				Math.random() * Math.floor(Math.random() * Date.now()),
@@ -68,6 +75,8 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 			null,
 			imageURL,
 		);
+
+		// push all questions to exam and save
 		exam.questions.push(typedQuestion);
 		exam.currentQuestion = exam.questions[0];
 		exam.writeExam();
@@ -91,7 +100,9 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 						</Toast>
 					</ToastContainer>
 				</Modal.Header>
+				{/* main portion of this component where tabs and question creating components are housed */}
 				<Modal.Body>
+					{/* tabs to allow selection for which question type you would like to create */}
 					<Tabs
 						id='question-types'
 						activeKey={key}
@@ -233,6 +244,7 @@ const QuestionWriterUI: React.FunctionComponent<QuestionWriterUIProps> = ({
 					</button>
 				</Modal.Footer>
 			</Modal>
+			{/* allows an image to be uploaded to a question */}
 			{selectedExam != undefined ? (
 				<ImageUploader
 					hide={image}

@@ -28,6 +28,7 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 				value: string;
 		  }[]
 		| undefined = undefined;
+	// determine what value to delete from the database based on question type
 	if (question.type === QuestionType.Match) {
 		matchAnswer = (question as MatchQuestion).answerMapArray();
 	} else {
@@ -40,6 +41,7 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 	const showModal = () => setShow(true);
 	const closeModal = () => setShow(false);
 
+	// delete the chosen question and reload the existing list
 	const deleteQuestion = (e: Event) => {
 		e.stopPropagation();
 		exam.deleteQuestion(question);
@@ -58,6 +60,7 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 	}, [questionDividerRef.current!]);
 
 	const renderQuestion = () => {
+		// display match answer if answer is undefined
 		if (answer === undefined) {
 			return matchAnswer?.map((x) => {
 				return (
@@ -66,11 +69,13 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 					</div>
 				);
 			});
+			// display answer if match is undefined and there is an answer
 		} else if (matchAnswer === undefined && answer.length > 0) {
 			return answer?.map((x) => {
 				return (
 					<div
 						className={
+							// make the correct answers green
 							x.isCorrect ? styles.correctText : styles.bodyText
 						}
 						key={x.answerID}
@@ -80,6 +85,7 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 				);
 			});
 		} else {
+			// if not matching, multiple choice, or select all, then hot spot
 			return (
 				<div>
 					<PreviewHotSpotAnswer
@@ -94,15 +100,18 @@ const DeleteQuestions: React.FunctionComponent<DeleteQuestionsProps> = ({
 
 	return (
 		<div className={styles.questionBox}>
+			{/* display the question and its answers */}
 			<div className={styles.questionText} ref={questionDividerRef}>
 				<div className={styles.titleText}>Question: </div>
 				<div className={styles.bodyText}>{question.question}</div>
 				<div className={styles.titleText}>Answers: </div>
 				{renderQuestion()}
 			</div>
+			{/* button to delete */}
 			<div className={styles.deleteButtonArea}>
 				<TrashCanButton click={openModal} />
 			</div>
+			{/* force a confirmation before deleting */}
 			<Modal
 				onClose={() => setShow(false)}
 				show={show}

@@ -7,6 +7,7 @@ interface SubmitExamButtonProps {
 	onClick: () => void;
 }
 
+// button used to submit exam when compelete
 const SubmitExamButton: React.FunctionComponent<SubmitExamButtonProps> = ({
 	onClick,
 }) => {

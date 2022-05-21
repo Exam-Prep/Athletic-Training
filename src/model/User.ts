@@ -3,6 +3,7 @@
 import { database } from "../firebase/firebase";
 import { set, ref, child, onValue, remove } from "firebase/database";
 
+// shape attempted answers should conform to
 export class AttemptedAnswer {
 	qID: number;
 	isCorrect: boolean;
@@ -10,6 +11,9 @@ export class AttemptedAnswer {
 	answerMap: Map<string, string> | undefined;
 	x: number;
 	y: number;
+
+	// constructor for creating new AttemptedAnswer
+	// some defaults are set because not all answers need all variables
 	constructor(
 		qID: number,
 		isCorrect: boolean,
@@ -26,6 +30,7 @@ export class AttemptedAnswer {
 		this.y = y;
 	}
 
+	// map key value pairs into an array
 	public answerMapArray(): {
 		key: string;
 		value: string;
@@ -42,6 +47,7 @@ export class AttemptedAnswer {
 	}
 }
 
+// compare two answer maps to determine if they are the same
 export function answerMapsEqual(
 	map1: Map<string, string>,
 	map2: Map<string, string>,
@@ -61,7 +67,7 @@ export function answerMapsEqual(
 	return true;
 }
 
-// A user objectis specific to a given exam.
+// A user object is specific to a given exam.
 export class User {
 	id: string;
 	email: string;
@@ -69,6 +75,8 @@ export class User {
 	questionIndex: number;
 	attemptedAnswers: Array<AttemptedAnswer>;
 
+	// allow for the creation of a new user
+	// all values are required
 	constructor(
 		id: string,
 		examID: number,
@@ -83,6 +91,7 @@ export class User {
 		this.email = email;
 	}
 
+	// check to see if this user has any progress saved for an exam
 	static checkForUserForExam(
 		examID: number,
 		userIndex: number,
@@ -107,21 +116,30 @@ export class User {
 		});
 	}
 
+	// add a new answer attempt if one does not exist and update it if it does
 	public addOrUpdateAnswer(answer: AttemptedAnswer) {
 		let found = false;
+
+		// scan through all attempted answers to see if one has this question's id
 		for (let i = 0; i < this.attemptedAnswers.length; i++) {
+			// if the id matches, update instead of creating a new entry
+			// since only the most recent AttemptedAnswer is saved, we can break if we find it
 			if (this.attemptedAnswers[i].qID === answer.qID) {
 				this.attemptedAnswers[i] = answer;
 				found = true;
 				break;
 			}
 		}
+		// no matching id was found, so add this one to the array
 		if (!found) {
 			this.attemptedAnswers.push(answer);
 		}
+		// save to Firebase
 		writeCurrentProgress(this);
 	}
 
+	// get a user's attempted answer for a specific question
+	// returns undefined if not found
 	public attemptedAnswerForID(questionID: number) {
 		const filteredAnswers = this.attemptedAnswers.filter((x) => {
 			return x.qID === questionID;
@@ -148,11 +166,14 @@ type JSONAttemptedAnswer = {
 };
 
 const userRefString = "/examState/";
+// load the current user's data from Firebase for an exam
 export function fetchCurrentUserProgress(examID: number, userID: string) {
 	return new Promise<User>((resolve, reject) => {
+		// get reference to data in Firebase
 		const userRef = ref(database, userRefString + examID + "/" + userID);
 		onValue(
 			userRef,
+			// use data snapshot to populate our class
 			(snapshot) => {
 				if (snapshot.exists()) {
 					const val = snapshot.val();
@@ -188,6 +209,7 @@ export function fetchCurrentUserProgress(examID: number, userID: string) {
 							attemptedAnswers.push(attemptedAnswer);
 						}
 					}
+					// put all this data on a user
 					const user = new User(
 						userID,
 						examID,
@@ -195,11 +217,15 @@ export function fetchCurrentUserProgress(examID: number, userID: string) {
 						val.questionIndex,
 						val.email,
 					);
+
+					// resolve new user for caller
 					resolve(user);
 				} else {
+					// reject promise if user does not exist
 					reject(new Error("User does not exist in database"));
 				}
 			},
+			// catch any errors and reject with error message
 			(error) => {
 				console.log(error);
 				reject(error);
@@ -208,14 +234,20 @@ export function fetchCurrentUserProgress(examID: number, userID: string) {
 	});
 }
 
+// save user's data to Firebase
+// private
+// should be called whenever data is updated by the user
 function writeCurrentProgress(user: User) {
+	// get reference to data in Firebase
 	const examRef = ref(database, userRefString + user.examID);
+	// write data for this user
 	set(child(examRef, user.id), {
 		email: user.email,
 		questionIndex: user.questionIndex,
 	});
 	const userRef = ref(database, userRefString + user.examID + "/" + user.id);
 
+	// save user's attempted answers for this exam
 	user.attemptedAnswers.forEach((answer) => {
 		set(child(userRef, "attemptedAnswers" + "/" + answer.qID), {
 			isCorrect: answer.isCorrect,
@@ -227,6 +259,8 @@ function writeCurrentProgress(user: User) {
 	});
 }
 
+// delete a user from Firebase
+// DANGER!
 export function deleteUser(user: User) {
 	const userRef = ref(database, userRefString + user.examID + "/" + user.id);
 	return remove(userRef);

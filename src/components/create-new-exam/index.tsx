@@ -17,6 +17,7 @@ const CreateNewExam: React.FunctionComponent<CreateNewExamProps> = ({
 	const [examName, setExamName] = useState("");
 	const [selectedExam, setSelectedExam] = useState<Exam | null>(null);
 
+	// set the new exam
 	const onSubmitExam = () => {
 		let exam: Exam;
 		if (selectedExam === null) {
@@ -31,6 +32,7 @@ const CreateNewExam: React.FunctionComponent<CreateNewExamProps> = ({
 		exam.writeExam();
 	};
 
+	// create a new exam, close the modal, reload the page
 	const create = () => {
 		onSubmitExam();
 		close();
@@ -43,6 +45,7 @@ const CreateNewExam: React.FunctionComponent<CreateNewExamProps> = ({
 				<Modal.Title>Create New Exam</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
+				{/* give your new exam a name */}
 				<input
 					className={styles.input}
 					type='text'

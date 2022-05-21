@@ -19,6 +19,7 @@
 	cursor: pointer;
 }
 
+// make the modal wide
 .modal {
 	min-width: 80%;
 }
@@ -28,6 +29,7 @@
 	margin: 5%;
 }
 
+// put the checkbox in front of the answer text area
 .checkboxRow {
 	display: flex;
 	flex-direction: row;

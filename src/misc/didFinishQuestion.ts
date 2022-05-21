@@ -1,4 +1,6 @@
 /** @format */
+
+// calculate if the question has been finished
 export function didFinishQuestion(
 	dropNames: string[],
 	answerMap: Map<string, string>,

@@ -9,14 +9,18 @@ import HotSpotQuestion from "./HotSpotQuestion";
 const examSetRefString = "/exam_set";
 const questionRefString = "/questions/";
 
+// partial exam holds only the exam name, and a question/its id
 type PartialExam = {
 	lastQuestion: string;
 	qID: number;
 	title: string;
 };
+// generate partial exams for an exam
 export function getPartialExams() {
+	// reference the correct spot in firebase
 	const partialExam = ref(database, examSetRefString);
 	return new Promise<Array<Exam>>((resolve, reject) => {
+		// load an array of partial exams from firebase
 		onValue(
 			partialExam,
 			(snapshot) => {
@@ -34,6 +38,7 @@ export function getPartialExams() {
 				}
 				resolve(exams);
 			},
+			// display the error message if something went wrong
 			(error) => {
 				console.log(error);
 				reject(
@@ -46,9 +51,12 @@ export function getPartialExams() {
 	});
 }
 
+// get a partial exam from the database
 export function loadPartialExam(examID: number) {
+	// reference the correct spot in firebase
 	const partialExam = ref(database, examSetRefString + "/" + examID);
 	return new Promise<Exam>((resolve, reject) => {
+		// create a new partial exam if we get the data
 		onValue(
 			partialExam,
 			(snapshot) => {
@@ -61,6 +69,7 @@ export function loadPartialExam(examID: number) {
 
 				resolve(exam);
 			},
+			// display the error message if something went wrong
 			(error) => {
 				console.log(error);
 				reject(new Error("Failed to Fetch Exam. Please Try Again"));
@@ -69,6 +78,7 @@ export function loadPartialExam(examID: number) {
 	});
 }
 
+// structure of a question
 type JSONQuestion = {
 	qID: number;
 	question: string;
@@ -83,7 +93,10 @@ type JSONQuestion = {
 	x: number;
 	y: number;
 };
+
+// structure of an exam
 export class Exam {
+	// necessary components of an exam object
 	id: number | null = null;
 	currentQuestionID = 0;
 	currentQuestionString = "";
@@ -91,20 +104,26 @@ export class Exam {
 	questions = Array<Question>();
 	currentQuestion: Question | null = null;
 
+	// write to an exam
 	public writeExam() {
+		// assign an id if there is not one
 		if (this.id == null) {
 			this.id = Math.floor(
 				Math.random() * Math.floor(Math.random() * Date.now()),
 			);
 		}
+		// reference the partial exam
 		const PartialExamRef = ref(database, examSetRefString);
+		// set the data from the partial exam to this exam
 		set(child(PartialExamRef, this.id.toString()), {
 			title: this.name,
 			lastQuestion: this.currentQuestion?.question ?? "",
 			qID: this.currentQuestion?.id ?? 0,
 		});
+		// set all questions within the exam
 		this.questions.forEach((question) => {
 			const questionsRef = ref(database, questionRefString + this.id);
+			// set different data based on question type
 			if (
 				question.type == QuestionType.MultipleChoice ||
 				question.type == QuestionType.MultipleChoiceMultipleCorrect
@@ -140,6 +159,7 @@ export class Exam {
 		});
 	}
 
+	// load all questions for this exam
 	private loadQuestions() {
 		return new Promise<Array<Question>>((resolve, reject) => {
 			const reference = ref(database, questionRefString + this.id);
@@ -156,6 +176,7 @@ export class Exam {
 							continue;
 						}
 						const questionType = parseInt(value.type);
+						// make the answers array if multiple choice/multiple correct
 						if (
 							questionType === QuestionType.MultipleChoice ||
 							questionType ===
@@ -173,6 +194,7 @@ export class Exam {
 								value.imageURL,
 							);
 							questions.push(question);
+							// make the answer map if matching
 						} else if (questionType === QuestionType.Match) {
 							const answerMap = new Map<string, string>();
 							value.answerMap.forEach((answerMapValue) => {
@@ -188,6 +210,7 @@ export class Exam {
 								value.imageURL,
 							);
 							questions.push(matchQuestion);
+							// set coordinates if a hot spot
 						} else if (questionType === QuestionType.HotSpot) {
 							const hotSpotQuestion = new HotSpotQuestion(
 								value.question,
@@ -197,6 +220,7 @@ export class Exam {
 								value.imageURL,
 							);
 							questions.push(hotSpotQuestion);
+							// questions without a type are bad
 						} else {
 							console.log(
 								"SEVERE ERROR, every question must have a type.",
@@ -216,16 +240,23 @@ export class Exam {
 			);
 		});
 	}
+	// delete a specific question
 	public deleteQuestion(question: Question) {
+		// reference the correct question
 		const deleteQuestionRef = ref(
 			database,
 			questionRefString + "/" + this.id + "/" + question.id,
 		);
+		// set questions to all the questions but the one being deleted
 		this.questions = this.questions.filter((x) => x.id !== question.id);
+		// reset the current question of the exam
 		this.currentQuestion = this.questions[0];
+		// save these changes
 		this.writeExam();
+		// delete the question from the database
 		return remove(deleteQuestionRef);
 	}
+	// reference the questions in the database and delete
 	public deleteExamQuestions() {
 		const deleteExamQuestionsRef = ref(
 			database,
@@ -233,15 +264,18 @@ export class Exam {
 		);
 		return remove(deleteExamQuestionsRef);
 	}
+	// reference the correct spot in the database and delete
 	public deleteExam() {
 		const deleteExamRef = ref(database, examSetRefString + "/" + this.id);
 		return remove(deleteExamRef);
 	}
 
+	// download questions from the database
 	public downloadExistingQuestionsIfNecessary() {
 		const promise = new Promise<Exam>((resolve, reject) => {
 			this.loadQuestions()
 				.then((qs) => {
+					// if no questions here, just take all of them
 					if (this.questions.length < 1) {
 						this.questions = qs;
 					} else {

@@ -5,7 +5,7 @@ import styles from "./styles.scss";
 
 interface ArrowButtonProps {
 	onClick: () => void;
-	rotate: boolean;
+	rotate: boolean; // rotate the arrow 180 if prompted
 	text: string;
 }
 
@@ -15,6 +15,7 @@ const ArrowButton: React.FunctionComponent<ArrowButtonProps> = ({
 	text,
 }) => {
 	return (
+		// display a button with the arrow svg inside of it
 		<button
 			className={`${styles.transparent} ${
 				rotate ? styles.leftArrow : null

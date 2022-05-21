@@ -14,6 +14,7 @@ interface ScoringModalProps {
 	user: User;
 }
 
+// modal that is used to display final score with correct and incorrect answers
 const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 	hide,
 	close,
@@ -24,6 +25,8 @@ const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 	let answers = user.attemptedAnswers;
 	let correctAnswers = 0;
 	let k = 0;
+
+	// get all answers for questions
 	for (let i = 0; i < exam.questions.length; i++) {
 		for (let j = 0; j < user.attemptedAnswers.length; j++) {
 			if (exam.questions[i].id === user.attemptedAnswers[j].qID) {
@@ -33,6 +36,7 @@ const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 		}
 	}
 
+	// calculate number of correct answers
 	for (let i = 0; i < exam.questions.length; i++) {
 		if (answers[i]?.isCorrect) {
 			correctAnswers++;
@@ -45,6 +49,7 @@ const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 			</Modal.Header>
 			<Modal.Body>
 				<div className={styles.results}>
+					{/* create a QuestionScore component for each question */}
 					{exam.questions.map((x) => {
 						return (
 							<div className={styles.section} key={x.id}>
@@ -56,6 +61,7 @@ const ScoringModal: React.FunctionComponent<ScoringModalProps> = ({
 						);
 					})}
 					<div className={styles.titleText}>Score: </div>
+					{/* calculate and display overall score */}
 					<div className={styles.bodyText}>
 						{(correctAnswers / exam.questions.length) * 100}%
 					</div>

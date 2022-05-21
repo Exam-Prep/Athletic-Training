@@ -3,7 +3,7 @@
 import React from "react";
 
 interface CheckboxProps {
-	isRadio?: boolean;
+	isRadio?: boolean; // change to radio if multiple choice
 	isChecked: boolean;
 	handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	label?: string;
@@ -17,6 +17,9 @@ const Checkbox: React.FunctionComponent<CheckboxProps> = ({
 }) => {
 	return (
 		<div>
+			{/* set the checkbox/radio with an id, a boolean for
+				if it is chose, and a function to handle change
+			*/}
 			<input
 				type={isRadio ? "radio" : "checkbox"}
 				id={label}

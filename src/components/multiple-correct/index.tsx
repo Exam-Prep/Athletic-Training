@@ -24,6 +24,7 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 	const showModal = () => setImage(true);
 	const closeModal = () => setImage(false);
 	const [show, setShow] = useState(false);
+	// default state is all false
 	const [isChecked, setIsChecked] = useState<Array<boolean>>([
 		false,
 		false,
@@ -31,6 +32,7 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 		false,
 		false,
 	]);
+	// clear checkboxes, text input to be false/empty
 	const clearInput = () => {
 		$("input[type=checkbox]").prop("checked", false);
 		$("input[type=checkbox]").prop("checked", false);
@@ -48,6 +50,7 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 		$("textarea").filter("[id*=answer5-input]").val("");
 	};
 
+	// when something changes, record that in state
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		index: number,
@@ -57,19 +60,25 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 			return [...existingIsChecked];
 		});
 	};
+	// set the image URL if an image is added
 	const updateSetImageURL = (url: string): void => {
 		setImageURL(url);
 	};
+	// show success toast
 	const showToast = () => setShow(true);
 
+	// record input and write to the database
 	const onSubmitExam = () => {
 		const typedAnswers = Array<Answer>();
 		for (let i = 0; i < 5; i++) {
+			// generate an answer id
 			const answerID = Math.floor(
 				Math.random() * Math.floor(Math.random() * Date.now()),
 			);
+			// record the content of this answer
 			typedAnswers.push(new Answer(answers[i], isChecked[i], answerID));
 		}
+		// create a new question with the entered data
 		const typedQuestion = new Question(
 			QuestionType.MultipleChoiceMultipleCorrect,
 			question,
@@ -77,6 +86,7 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 			null,
 			imageURL,
 		);
+		// put the data in the exam and write to the database
 		exam.questions.push(typedQuestion);
 		exam.currentQuestion = exam.questions[0];
 		exam.writeExam();
@@ -86,6 +96,7 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 
 	return (
 		<div className={styles.questionInput}>
+			{/* question input */}
 			<textarea
 				className={styles.input}
 				id='question-input'
@@ -94,8 +105,10 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 				onChange={(e) => setQuestion(e.target.value)}
 				placeholder='Question'
 			/>
+			{/* map the select all inputs */}
 			{isChecked.map((answer, index) => (
 				<div className={styles.checkboxRow} key={index}>
+					{/* put a checkbox in front of a text input */}
 					<Checkbox
 						key={index}
 						handleChange={(e) => handleChange(e, index)}
@@ -116,6 +129,7 @@ const MultipleChoiceMultipleCorrect: React.FunctionComponent<
 					/>
 				</div>
 			))}
+			{/* toast to show success */}
 			<ToastContainer position='top-center'>
 				<Toast
 					onClose={() => setShow(false)}

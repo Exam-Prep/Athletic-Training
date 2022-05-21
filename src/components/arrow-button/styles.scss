@@ -2,11 +2,13 @@
 
 @use "../../styles/variables" as variables;
 
+// move the arrow text if arrow is rotated
 .leftArrow > .text {
 	transform: rotate(180deg);
 	text-align: right;
 }
 
+// rotate the arrow to the left if asked
 .leftArrow {
 	transform: rotate(180deg);
 }
@@ -16,6 +18,7 @@ svg {
 	margin-bottom: 4px;
 }
 
+// make the button transparent except for the svg/text
 .transparent {
 	position: relative;
 	display: flex;
@@ -26,6 +29,7 @@ svg {
 	cursor: pointer;
 }
 
+// style the text on the button
 .text {
 	position: absolute;
 	width: 50%;

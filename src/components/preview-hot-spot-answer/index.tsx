@@ -11,9 +11,11 @@ interface PreviewHotSpotAnswerProps {
 	parentWidth: number;
 }
 
+// display answer that user gave for hotspot question and correct answer
 const PreviewHotSpotAnswer: React.FunctionComponent<
 	PreviewHotSpotAnswerProps
 > = ({ question, answer, parentWidth }) => {
+	// set initial state with refs after first render
 	const imageRef = useRef<HTMLImageElement | null>(null);
 	const divRef = useRef<HTMLDivElement | null>(null);
 	const [style, setStyle] = useState<React.CSSProperties>({
@@ -27,6 +29,7 @@ const PreviewHotSpotAnswer: React.FunctionComponent<
 		background: "red",
 	});
 
+	// set style for correct (green) circle
 	const [styleCorrect, setCorrectStyle] = useState<React.CSSProperties>({
 		position: "absolute",
 		left: 0,
@@ -38,6 +41,7 @@ const PreviewHotSpotAnswer: React.FunctionComponent<
 		background: "green",
 	});
 
+	// render user's answer dot
 	const renderRedDotIfNecessary = () => {
 		let scaleX = 100;
 		let scaleY = 100;
@@ -45,6 +49,8 @@ const PreviewHotSpotAnswer: React.FunctionComponent<
 			scaleX = 80;
 			scaleY = 80;
 		}
+
+		// do math to display dots in correct location no matter screen size
 		if (answer?.x && answer?.y) {
 			setStyle({
 				position: "absolute",
@@ -89,6 +95,7 @@ const PreviewHotSpotAnswer: React.FunctionComponent<
 		});
 	};
 
+	// load image and put dots on if answered by user
 	return (
 		<div className={styles.container}>
 			<img

@@ -19,10 +19,12 @@ const DeleteQuestionsModal: React.FunctionComponent<
 	const [examQuestions, setExamQuestions] = useState<Exam | undefined>(
 		undefined,
 	);
+	// load the questions into the exam
 	useEffect(() => {
 		loadQuestions(exam);
 	}, []);
 
+	// download the exam questions from the database if it hasn't been done already
 	const loadQuestions = (loadExam: Exam) => {
 		loadPartialExam(loadExam.id!).then((loadedExam) => {
 			loadedExam
@@ -37,6 +39,7 @@ const DeleteQuestionsModal: React.FunctionComponent<
 				<div className={styles.questions}>
 					{examQuestions?.questions.map((x) => {
 						return (
+							// display the data in the deleteQuestions component
 							<div className={styles.section} key={x.id}>
 								<DeleteQuestions
 									question={x}
@@ -50,7 +53,7 @@ const DeleteQuestionsModal: React.FunctionComponent<
 			</Modal.Body>
 			<Modal.Footer>
 				<button className={styles.closeButton} onClick={close}>
-					Cancel
+					Close
 				</button>
 			</Modal.Footer>
 		</Modal>

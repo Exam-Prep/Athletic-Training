@@ -28,6 +28,7 @@
 	height: 400px;
 }
 
+// put drag/drop objects in a column
 .dragnDrop {
 	@include flexColumn;
 	width: 50%;

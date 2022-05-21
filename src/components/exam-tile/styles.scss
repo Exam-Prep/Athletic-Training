@@ -17,6 +17,7 @@
 	cursor: pointer;
 }
 
+// display content in a column
 .examTile {
 	@include flexColumn;
 	justify-content: space-between;
@@ -28,12 +29,14 @@
 
 		width: 80%;
 
+		// color of exam name button
 		.examButton {
 			@include button;
 
 			background-color: #1b43ef;
 		}
 
+		// alternate color
 		.addExamButton {
 			@include button;
 
@@ -42,6 +45,7 @@
 	}
 }
 
+// put an empty space at the bottom of tiles to make them lay out properly
 .examTile::after {
 	content: "";
 }

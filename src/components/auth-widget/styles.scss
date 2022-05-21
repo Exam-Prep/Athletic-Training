@@ -17,6 +17,7 @@
 	cursor: pointer;
 }
 
+// style the entire box
 .authWidget {
 	@include flexColumn;
 	width: 100%;
@@ -32,6 +33,7 @@
 		padding-left: 10px;
 	}
 
+	// style the button box
 	.buttonBox {
 		@include flexColumn;
 
@@ -58,6 +60,7 @@
 	}
 }
 
+// style the error messages
 .errorHandling {
 	@include flexColumn;
 	width: 80%;

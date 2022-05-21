@@ -8,6 +8,7 @@ import styles from "./styles.scss";
 
 import AuthWidget from "../../../auth-widget";
 
+// login page
 const Login = () => {
 	return (
 		<Page>
@@ -22,6 +23,7 @@ const Login = () => {
 				<div className={styles.headerBorder} />
 			</div>
 			<div className={styles.loginBackground}>
+				{/* display the box with username/password inputs */}
 				<div className={styles.loginBox}>
 					<AuthWidget />
 				</div>

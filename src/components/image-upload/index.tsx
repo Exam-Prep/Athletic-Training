@@ -31,7 +31,9 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 		setImages(imageList as never[]);
 	};
 
+	// upload the file to firebase
 	const fileUpload = (listOfImages: ImageListType) => {
+		// currently only let users upload one image at a time
 		if (listOfImages.length !== 0) {
 			for (const imageToUpload of listOfImages) {
 				if (imageToUpload.file != undefined) {
@@ -69,6 +71,7 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 					<Modal show={hide} onHide={close}>
 						<Modal.Header>
 							<Modal.Title>Upload Image</Modal.Title>
+							{/* Toast to notify of success */}
 							<ToastContainer position='top-center'>
 								<Toast
 									onClose={() => setShow(false)}
@@ -81,6 +84,7 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 							</ToastContainer>
 						</Modal.Header>
 						<Modal.Body className={styles.modalLayout}>
+							{/* let users add an image if there is not one uploaded yet */}
 							{images.length < 1 ? (
 								<Button onClick={onImageUpload} {...dragProps}>
 									Click or Drop here
@@ -90,12 +94,14 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 							)}
 							{imageList.map((image, index) => (
 								<div className={styles.modalLayout} key={index}>
+									{/* display the image being added */}
 									<img
 										src={image.dataURL}
 										alt=''
 										width='100%'
 									/>
 									<div className={styles.buttonRow}>
+										{/* upload the chosen image */}
 										<Button
 											variant='success'
 											onClickCapture={() => {
@@ -104,12 +110,14 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 										>
 											Upload Image
 										</Button>
+										{/* replace the image with a different one */}
 										<Button
 											variant='outline-primary'
 											onClick={() => onImageUpdate(index)}
 										>
 											Change Image
 										</Button>
+										{/* remove the image entirely */}
 										<Button
 											variant='danger'
 											onClick={() => onImageRemove(index)}
@@ -121,6 +129,7 @@ const ImageUploader: React.FunctionComponent<ImageUploaderProps> = ({
 							))}
 						</Modal.Body>
 						<Modal.Footer>
+							{/* close the modal */}
 							<Button
 								variant='outline-primary'
 								onClick={closeModal}

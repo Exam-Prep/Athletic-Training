@@ -17,6 +17,7 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 	const [isOpen, setIsOpen] = useState(false);
 	const [showDeleteQuestions, setShowDeleteQuestions] = useState(false);
 	const [isQuestionDeleteOpen, setIsQuestionDeleteOpen] = useState(false);
+	// delete an exam and its questions if they exist
 	const deleteExam = () => {
 		console.log("delete pressed", examToDelete.id);
 		if (examToDelete.questions !== undefined) {
@@ -26,6 +27,7 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 		closeModal();
 		window.location.reload();
 	};
+	// show the delete modal
 	const showModal = () => {
 		if (isOpen) {
 			setShow(false);
@@ -35,9 +37,11 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 			setIsOpen(true);
 		}
 	};
+	// close the delete modal
 	const closeModal = () => {
 		setIsOpen(true);
 	};
+	// show the question delete modal
 	const showQuestions = () => {
 		if (isQuestionDeleteOpen) {
 			setShowDeleteQuestions(false);
@@ -50,6 +54,7 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 	return (
 		<Dropdown className={styles.dropDown}>
 			<Dropdown.Toggle className={styles.infoButton}>
+				{/* info button svg */}
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					width='16'
@@ -63,6 +68,7 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 			</Dropdown.Toggle>
 			<Dropdown.Menu>
 				<Dropdown.Item as='button' onClick={showModal}>
+					{/* delete exam modal */}
 					<Modal
 						onClose={() => setShow(false)}
 						show={show}
@@ -79,6 +85,7 @@ const DropdownInfo: React.FunctionComponent<DropdownProps> = ({
 					Delete
 				</Dropdown.Item>
 				<Dropdown.Item as='button' onClick={showQuestions}>
+					{/* delete questions modal */}
 					<DeleteQuestionsModal
 						close={() => setShowDeleteQuestions(false)}
 						hide={showDeleteQuestions}

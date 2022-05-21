@@ -30,6 +30,7 @@ const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 	);
 	const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void;
 
+	// set the drag and drop objects when a match question is opened, or an attempted asnwer is changed
 	useEffect(() => {
 		setDragNames(Array.from(matchQuestion.answerMap.values()));
 		setDropNames(Array.from(matchQuestion.answerMap.keys()));
@@ -44,6 +45,7 @@ const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 		}
 	};
 
+	// if a value was dropped, update the objects
 	const didDropValue = (item: string, dropBoxID: string) => {
 		setAnswerMap((existingAnswerMap) => {
 			existingAnswerMap.set(dropBoxID, item);
@@ -52,6 +54,7 @@ const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 		});
 	};
 
+	// get the value dropped in the drop box
 	const getDroppedValue = (dropBoxID: string) => {
 		return answerMap.get(dropBoxID) ?? "";
 	};
@@ -65,11 +68,13 @@ const DisplayMatchQuestion: React.FC<DisplayMatchQuestionProps> = ({
 			)}
 			<div className={styles.dragnDropRow}>
 				<div className={styles.dragnDrop}>
+					{/* map all drag objects */}
 					{dragNames?.map((x) => {
 						return <DragBox name={x} key={x} />;
 					})}
 				</div>
 				<div className={styles.dragnDrop}>
+					{/* map all drop objects */}
 					{dropNames?.map((x) => (
 						<DropBox
 							name={x}

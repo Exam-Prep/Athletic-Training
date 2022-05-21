@@ -1,5 +1,6 @@
 /** @format */
 
+// group reused styles in mixins
 @mixin button {
 	width: 50%;
 	height: 40px;
@@ -16,9 +17,11 @@
 	align-items: center;
 }
 
+// ensure modal is at least 80% of its parent's width
 .modal {
 	min-width: 80%;
 
+	// flex this and most children to ensure everything is dynamically centered
 	.results {
 		display: flex;
 		flex-direction: column;

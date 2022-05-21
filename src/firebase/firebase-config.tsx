@@ -1,5 +1,7 @@
 /** @format */
 
+// generated Firebase configuration
+// DO NOT EDIT!
 export const firebaseConfig = {
 	apiKey: "AIzaSyDNo3OIlcsgsZkV1gPacS0lZW7UQZuIe14",
 	authDomain: "athletitrain.firebaseapp.com",

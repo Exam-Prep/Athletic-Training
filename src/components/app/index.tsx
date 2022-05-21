@@ -14,6 +14,11 @@ const App = () => {
 			<AuthContextProvider>
 				<Router>
 					<Routes>
+						{/* Routes for the three pages in our project
+							default / is login
+							/questions is the exam taking page
+							/exams is where available exams are listed
+						*/}
 						<Route path='/' element={<Login />} />
 						<Route path='/questions' element={<Questions />} />
 						<Route path='/exams' element={<ExamList />} />

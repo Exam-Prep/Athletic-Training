@@ -16,6 +16,7 @@ interface CreateMatchQuestionProps {
 	exam: Exam;
 }
 
+// clear text areas for another question to be added
 function clearInput() {
 	$("textarea").filter("[id*=question-input]").val("");
 	$("input").filter("[id*=key-input]").val("");
@@ -23,6 +24,7 @@ function clearInput() {
 }
 
 const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
+	// arrays of drag and drop objects
 	const [dragNames, setDragNames] = useState<Array<string>>([]);
 	const [dropNames, setDropNames] = useState<Array<string>>([]);
 	const [question, setQuestion] = useState("");
@@ -46,18 +48,21 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 		setImageURL(url);
 	};
 
+	// add a new drag to the array
 	const addDrag = () => {
 		if (!dragNames.includes(currentDragName)) {
 			setDragNames([...dragNames, currentDragName]);
 		}
 	};
 
+	// add a new drop to the array
 	const addDrop = () => {
 		if (!dropNames.includes(currentDropName)) {
 			setDropNames([...dropNames, currentDropName]);
 		}
 	};
 
+	// write the question to the database and clear text fields
 	const reconcileData = () => {
 		const matchQuestion = new MatchQuestion(
 			question,
@@ -71,6 +76,7 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 		clearInput();
 	};
 
+	// update the database to show that a drag was mapped to a drop
 	const didDropValue = (item: string, dropBoxID: string) => {
 		setAnswerMap((existingAnswerMap) => {
 			existingAnswerMap.set(dropBoxID, item);
@@ -81,6 +87,7 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 
 	return (
 		<DndProvider backend={HTML5Backend}>
+			{/* toast to tell the user if they were successful */}
 			<ToastContainer position='top-center'>
 				<Toast
 					onClose={() => setShow(false)}
@@ -92,6 +99,7 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 				</Toast>
 			</ToastContainer>
 			<div className={styles.dragnDropInput}>
+				{/* question input */}
 				<textarea
 					className={styles.input}
 					rows={3}
@@ -102,6 +110,7 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 					}}
 				/>
 				<div className={styles.dragnDropRow}>
+					{/* drag input */}
 					<input
 						className={styles.keyValueInput}
 						placeholder='Drag Object'
@@ -118,6 +127,7 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 					</button>
 				</div>
 				<div className={styles.dragnDropRow}>
+					{/* drop input */}
 					<input
 						className={styles.keyValueInput}
 						placeholder='Drop Object'
@@ -133,18 +143,20 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 						Add Drop Object
 					</button>
 				</div>
-
+				{/* instructions to help the user figure out how to map drag and drop together */}
 				<p className={styles.instruction}>
 					Drag the option on the left onto the corresponding option on
 					the right to link them together:
 				</p>
 				<div className={styles.dragnDropRow}>
 					<div className={styles.dragnDrop}>
+						{/* display all drag boxes */}
 						{dragNames?.map((x) => {
 							return <DragBox name={x} key={x} />;
 						})}
 					</div>
 					<div className={styles.dragnDrop}>
+						{/* display all drop boxes */}
 						{dropNames?.map((x) => (
 							<DropBox
 								name={x}
@@ -156,6 +168,7 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 					</div>
 				</div>
 				{exam !== undefined ? (
+					// image uploader to let users add an image to their question
 					<ImageUploader
 						hide={image}
 						examString={exam.name}
@@ -169,6 +182,7 @@ const CreateMatchQuestion: React.FC<CreateMatchQuestionProps> = ({ exam }) => {
 					Add Image
 				</button>
 				<button
+					// only display the add question button if all drop objects are mapped to a drag object
 					className={
 						didFinishQuestion(dropNames, answerMap)
 							? styles.addQuestion

@@ -1,7 +1,9 @@
 /** @format */
 
+// import commonly reused variables
 @use "../../styles/variables" as variables;
 
+// define styles to be reused as mixins
 @mixin flexColumn {
 	display: flex;
 	justify-content: right;
@@ -19,6 +21,7 @@
 	cursor: pointer;
 }
 
+// ensure modal is large enough to house everything
 .modal {
 	min-width: 80%;
 }

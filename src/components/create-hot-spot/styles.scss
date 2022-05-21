@@ -12,6 +12,7 @@
 	position: relative;
 }
 
+// button styles
 .addQuestionButton {
 	@include button;
 	width: 80%;
@@ -19,6 +20,7 @@
 	background-color: #1b43ef;
 }
 
+// text input styles
 .input {
 	width: 90%;
 	height: 62px;

@@ -37,6 +37,7 @@
 			background-color: #1b43ef;
 		}
 
+		// drag/drop text input
 		.keyValueInput {
 			width: 70%;
 			height: 62px;
@@ -49,6 +50,7 @@
 		}
 	}
 
+	// question input
 	.input {
 		width: 90%;
 		height: 62px;
@@ -60,12 +62,14 @@
 	}
 }
 
+// instruction text
 .instruction {
 	width: 90%;
 	justify-content: flex-start;
 	margin-top: 20px;
 }
 
+// put drag or drop objects in a column
 .dragnDrop {
 	@include flexColumn;
 	width: 50%;
@@ -73,6 +77,7 @@
 	flex-direction: column;
 }
 
+// button
 .addQuestion {
 	@include button;
 

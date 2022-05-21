@@ -3,6 +3,8 @@
 @use "../../styles/variables" as variables;
 @import "~bootstrap/scss/bootstrap";
 
+// Base styles that are assigned everywhere unless overridden
+
 * {
 	font-family: variables.$default-font;
 	margin: 0;

@@ -1,12 +1,15 @@
 /** @format */
 
+// allow for 4 question types
 export enum QuestionType {
 	MultipleChoice,
 	MultipleChoiceMultipleCorrect,
 	Match,
 	HotSpot,
 }
+// An answer to a question
 export class Answer {
+	// answers have the text of the chosen answer, whether or not it is correct, and an id
 	answerText: string;
 	isCorrect: boolean;
 	answerID: number;
@@ -17,6 +20,7 @@ export class Answer {
 		this.answerID = answerID;
 	}
 }
+// A question has question text, an array of answers, id, type, and image urls
 export class Question {
 	question: string;
 	answers: Array<Answer>;
@@ -35,6 +39,7 @@ export class Question {
 		this.type = type;
 		this.question = question;
 		this.answers = answers;
+		// assign a random id
 		if (id === null) {
 			this.id = Math.floor(
 				Math.random() * Math.floor(Math.random() * Date.now()),
@@ -44,6 +49,7 @@ export class Question {
 		}
 	}
 
+	// get correct answers array
 	public correctAnswers() {
 		return this.answers.filter((answer) => {
 			return answer.isCorrect;

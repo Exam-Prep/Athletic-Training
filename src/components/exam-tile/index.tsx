@@ -30,11 +30,13 @@ const ExamTile: React.FunctionComponent<ExamTileProps> = ({
 			{addExam ? (
 				<div className={styles.empty} />
 			) : (
+				// display the info button if this is an exam
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				<DropdownInfo examToDelete={currentExam!} />
 			)}
 
 			<div className={styles.buttonBox}>
+				{/* name of the exam */}
 				<button
 					className={
 						addExam ? styles.addExamButton : styles.examButton
@@ -43,6 +45,7 @@ const ExamTile: React.FunctionComponent<ExamTileProps> = ({
 				>
 					{name}
 				</button>
+				{/* add question button is visible if user is an admin */}
 				{admin && (
 					<button
 						className={styles.addExamButton}
@@ -52,6 +55,7 @@ const ExamTile: React.FunctionComponent<ExamTileProps> = ({
 					</button>
 				)}
 			</div>
+			{/* open the question creation modal if you click add question */}
 			<QuestionWriterUI
 				hide={show}
 				close={closeModal}

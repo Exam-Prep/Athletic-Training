@@ -7,6 +7,7 @@ class HotSpotQuestion extends Question {
 	static height = 50;
 	static offset = 25;
 
+	// (x,y) coordinates to record clicks
 	x: number;
 	y: number;
 	constructor(
@@ -21,6 +22,7 @@ class HotSpotQuestion extends Question {
 		this.y = yCoordinate;
 	}
 
+	// hot spot questions don't have this object
 	public correctAnswers(): Answer[] {
 		console.log(
 			"ERROR: There are no correct answers for a hot spot question!",

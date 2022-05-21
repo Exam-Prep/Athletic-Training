@@ -10,6 +10,8 @@ import {
 	faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
+// currently not finished and not used
+// all buttons exist and are layed out properly but are unfunctionalized
 const QuestionToolBar = () => {
 	return (
 		<div className={styles.questionToolBar}>

@@ -5,7 +5,6 @@ import styles from "./styles.scss";
 import { Exam, loadPartialExam } from "../../../../model/Exam";
 import { Question, QuestionType } from "../../../../model/Question";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Modal } from "react-bootstrap";
 import SubmitExamButton from "../../../submit-exam-button";
 import ArrowButton from "../../../arrow-button";
 import CircleButtonManager from "../../../circle-button-manager";
@@ -16,7 +15,6 @@ import DisplayMatchQuestion from "../../../display-match-question";
 import MatchQuestion from "../../../../model/MatchQuestion";
 import MultipleChoiceUI from "../../../multiple-choice-ui";
 import ScoringModal from "../../../scoring-modal";
-import CreateHotSpot from "../../../create-hot-spot";
 import DisplayHotSpot from "../../../display-hot-spot";
 import HotSpotQuestion from "../../../../model/HotSpotQuestion";
 
@@ -27,8 +25,10 @@ const Questions = () => {
 	const [userIndex, setUserIndex] = useState(0);
 	const [user, setUser] = useState<User | undefined>();
 	const [showScoring, setScoring] = useState(false);
-	const [showNotDone, setNotDone] = useState(false);
+	// this feature will remain unimplimented at this time
+	// const [showNotDone, setNotDone] = useState(false);
 
+	// download questions for the exam we are in
 	useEffect(() => {
 		loadPartialExam(parseInt(location.state as string)).then(
 			(loadedExam) => {
@@ -39,35 +39,28 @@ const Questions = () => {
 		);
 	}, []);
 
-	// useEffect(() => {
-	// 	if (user != undefined) {
-	// 		user.questionIndex = userIndex;
-	// 	}
-
-	// 	return () => {
-	// 		if (user !== undefined) {
-	// 			writeCurrentProgress(user);
-	// 		}
-	// 	};
-	// }, [userIndex]);
-
+	// set the new question index for the user if they click on one of the numbered circles
 	const circleButtonClicked = (question: Question, index: number) => {
 		setUserIndex(index);
 	};
 
+	// close the scoring modal and exit the exam when a user submits it
 	const onExit = () => {
 		closeScoring();
 		navigate("/exams");
 	};
 
+	// show the scoring modal
 	const showScoringModal = () => {
 		setScoring(true);
-		closeNotDone();
+		// closeNotDone();
 	};
+	// close the scoring modal
 	const closeScoring = () => setScoring(false);
-	const showNotDoneModal = () => setNotDone(true);
-	const closeNotDone = () => setNotDone(false);
+	// const showNotDoneModal = () => setNotDone(true);
+	// const closeNotDone = () => setNotDone(false);
 
+	// load the user into the exam so that answers are set for the correct person
 	const loadUser = () => {
 		const userAuth = useAuth().currentUser;
 		if (userAuth != undefined) {
@@ -85,10 +78,12 @@ const Questions = () => {
 		}
 	};
 
+	// if an answer is clicked on a multiple choice question
 	const multipleChoiceQuestionClicked = (
 		question: Question,
 		index: number,
 	) => {
+		// record the answer the user clicked
 		const answer = question.answers[index];
 		const attemptedAnswer = new AttemptedAnswer(
 			question.id,
@@ -96,14 +91,16 @@ const Questions = () => {
 			[answer.answerText],
 			undefined,
 		);
+		// check if we need to write this answer to the database
 		user?.addOrUpdateAnswer(attemptedAnswer);
 	};
 
+	// when a select all that apply checkbox is clicked
 	const multipleChoiceMultipleCorrectQuestionClicked = (
 		question: Question,
 		index: Array<number | undefined>,
 	) => {
-		// debugger;
+		// record the array of answers chosen
 		const answers = index.flatMap((x) => {
 			return x === undefined ? [] : [question.answers[x]];
 		});
@@ -130,27 +127,33 @@ const Questions = () => {
 			}),
 			undefined,
 		);
+		// push data to the database if necessary
 		user?.addOrUpdateAnswer(attemptedAnswer);
 	};
 
+	// when a match question is answered
 	const matchQuestionAnswered = (
 		answerMap: Map<string, string>,
 		matchQuestion: MatchQuestion,
 	) => {
+		// record the answer map that was generated
 		const attemptedAnswer = new AttemptedAnswer(
 			matchQuestion.id,
 			answerMapsEqual(answerMap, matchQuestion.answerMap),
 			undefined,
 			answerMap,
 		);
+		// push to the database if necessary
 		user?.addOrUpdateAnswer(attemptedAnswer);
 	};
 
+	// when a hot spot question is clicked
 	const hotSpotQuestionAnswered = (
 		hotSpotQuestion: HotSpotQuestion,
 		x: number,
 		y: number,
 	) => {
+		// record the (x,y) clicked on the image
 		const attemptedAnswer = new AttemptedAnswer(
 			hotSpotQuestion.id,
 			hotSpotQuestion.isCoordinateWithinRange(x, y),
@@ -159,13 +162,17 @@ const Questions = () => {
 			x,
 			y,
 		);
+		// push to the database if necessary
 		user?.addOrUpdateAnswer(attemptedAnswer);
 	};
 
+	// load the right question type based on what question we are on currently
 	const renderQuestion = (currentIndex: number) => {
 		if (exam !== undefined) {
+			// get the question and attempted answer
 			const question = exam.questions[currentIndex];
 			const attemptedAnswer = user?.attemptedAnswerForID(question.id);
+			// check what question type we need to load
 			if (question.type === QuestionType.MultipleChoice) {
 				return (
 					<MultipleChoiceUI
@@ -202,12 +209,14 @@ const Questions = () => {
 				);
 			}
 		} else {
+			// display nothing if the question is invalid
 			return "";
 		}
 	};
 
 	return (
 		<Page>
+			{/* Load the user if they are undefined */}
 			{user === undefined ? loadUser() : ""}
 			<div className={styles.takeExam}>
 				<div className={styles.titleBar}>
@@ -219,6 +228,7 @@ const Questions = () => {
 					{/* <SubmitExamButton onClick={showNotDoneModal} /> */}
 					{/* )} */}
 				</div>
+				{/* display the circle buttons for how many questions there are */}
 				<div className={styles.circles}>
 					<CircleButtonManager
 						onClick={circleButtonClicked}
@@ -226,6 +236,7 @@ const Questions = () => {
 						currentIndex={userIndex}
 					/>
 				</div>
+				{/* display arrow buttons to move to previous and next with the current question */}
 				<div className={styles.arrowButtons}>
 					<ArrowButton
 						onClick={() =>
@@ -256,6 +267,7 @@ const Questions = () => {
 				<div className={styles.questionRow}>
 					<div className={styles.questionsBox}>
 						<div
+							// change the styling to match question if we have a match question
 							className={
 								exam?.questions[userIndex].type ===
 								QuestionType.Match
@@ -263,12 +275,14 @@ const Questions = () => {
 									: styles.questionContent
 							}
 						>
+							{/* display the question */}
 							{exam?.questions[userIndex].question}
 							{renderQuestion(userIndex)}
 						</div>
 					</div>
 				</div>
-				{exam != undefined && user != undefined ? (
+				{/* Unimplemented modal showing unanswered questions */}
+				{/* {exam != undefined && user != undefined ? (
 					<Modal show={showNotDone} onHide={closeNotDone}>
 						<Modal.Body>
 							You have{" "}
@@ -283,7 +297,8 @@ const Questions = () => {
 					</Modal>
 				) : (
 					""
-				)}
+				)} */}
+				{/* score the exam when a user hits submit */}
 				{exam != undefined && user != undefined ? (
 					<ScoringModal
 						hide={showScoring}

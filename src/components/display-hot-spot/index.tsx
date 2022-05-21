@@ -18,6 +18,7 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 }) => {
 	const imageRef = useRef<HTMLImageElement | null>(null);
 
+	// set default styles for the target
 	const [style, setStyle] = useState<React.CSSProperties>({
 		left: 0,
 		top: 0,
@@ -25,12 +26,14 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 		height: HotSpotQuestion.height,
 	});
 
+	// determine the necessary offset to keep the target following the mouse properly
 	const getOffsetWidth = (x: any): string =>
 		x.nativeEvent.offsetX - HotSpotQuestion.offset;
 
 	const getOffsetHeight = (x: any): string =>
 		x.nativeEvent.offsetY - HotSpotQuestion.offset;
 
+	// when the image is clicked, set the (x,y) percentages and move the dot
 	const imageClicked = (e: any) => {
 		const x =
 			(e.nativeEvent.offsetX - HotSpotQuestion.offset) /
@@ -46,12 +49,11 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 		onClick(question, x, y);
 	};
 
+	// render the target in the correct spot
 	const renderRedDotIfNecessary = () => {
 		if (answer?.x && answer?.y) {
 			setStyle((prevStyle) => ({
 				...prevStyle,
-				// left: getOffsetWidth(answer.x),
-				// top: getOffsetHeight(answer.y),
 				left:
 					"calc(" +
 					((answer.x * imageRef.current!.offsetWidth) /
@@ -70,6 +72,7 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 
 	return (
 		<div className={styles.container}>
+			{/* display the image */}
 			<img
 				onClick={imageClicked}
 				src={question.imageURL}
@@ -86,6 +89,7 @@ const DisplayHotSpot: React.FunctionComponent<DisplayHotSpotProps> = ({
 				className={"img-fluid"}
 				draggable={false}
 			></img>
+			{/* display the target */}
 			<div className={styles.hotspotDot} style={style}></div>
 		</div>
 	);

@@ -12,6 +12,7 @@ interface QuestionScoreProps {
 	attempts: AttemptedAnswer[];
 }
 
+// shows answers given and correct answers for a question
 const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 	question,
 	attempts,
@@ -25,12 +26,15 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 				value: string;
 		  }[]
 		| undefined = undefined;
+
+	// determine what type of question this is and get data from appropriate place
 	if (question.type === QuestionType.Match) {
 		matchAnswer = (question as MatchQuestion).answerMapArray();
 	} else {
 		answer = question.correctAnswers();
 	}
 
+	// get question attempt for this question
 	let attempt: AttemptedAnswer | undefined = undefined;
 	for (let i = 0; i < attempts.length; i++) {
 		if (attempts[i].qID === question.id) {
@@ -39,6 +43,7 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 		}
 	}
 
+	// display correct answer
 	const renderQuestionAnswer = () => {
 		if (answer === undefined && matchAnswer !== undefined) {
 			// print all match answer mappings
@@ -64,6 +69,7 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 		}
 	};
 
+	// display user's answer
 	const renderAttemptedAnswer = () => {
 		if (answer === undefined) {
 			return attempt?.answerMapArray().map((x) => {
@@ -84,10 +90,12 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 		}
 	};
 
+	// calculate proper divider width after all DOM changes
 	useLayoutEffect(() => {
 		setQuestionDividerWidth(questionDividerRef.current!.clientWidth);
 	}, [questionDividerRef.current!]);
 
+	// display all answers for this question
 	const renderCorrectAndAttemptedAnswer = () => {
 		if (answer?.length === 0 && matchAnswer === undefined) {
 			return (
@@ -117,6 +125,7 @@ const QuestionScore: React.FunctionComponent<QuestionScoreProps> = ({
 				{renderCorrectAndAttemptedAnswer()}
 			</div>
 			<div className={styles.scoreIcon}>
+				{/* display appropriate icon based on correct or incorrect answer */}
 				{attempt?.isCorrect ? (
 					<svg
 						xmlns='http://www.w3.org/2000/svg'

@@ -11,6 +11,7 @@ const TrashCanButton: React.FunctionComponent<TrashCanButtonProps> = ({
 	click,
 }) => {
 	return (
+		// wrap trash can svg in button and call on click property when clicked
 		<button className={styles.deleteButton} onClick={click}>
 			<svg
 				xmlns='http://www.w3.org/2000/svg'

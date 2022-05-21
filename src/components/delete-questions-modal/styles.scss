@@ -16,15 +16,18 @@
 	align-items: center;
 }
 
+// make the modal wide
 .modal {
 	min-width: 80%;
 
+	// display the questions in a column
 	.questions {
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: flex-start;
 
+		// section them off between each other
 		.section {
 			@include flexColumn;
 			width: 100%;
@@ -32,11 +35,13 @@
 			border-bottom: 1px solid #000000;
 		}
 
+		// make the titles big and bold
 		.titleText {
 			font-weight: bolder;
 			font-size: larger;
 		}
 
+		// indent the body text a bit
 		.bodyText {
 			margin-left: 10px;
 		}

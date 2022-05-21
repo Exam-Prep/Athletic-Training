@@ -16,15 +16,18 @@ const DragBox: React.FC<SourceBoxProps> = ({ name }) => {
 			options: {
 				dropEffect: "copy",
 			},
+			// show an opaque box when dragging
 			collect: (monitor) => ({
 				opacity: monitor.isDragging() ? 0.4 : 1,
 			}),
+			// display the name of the drag object
 			item: { name: name },
 		}),
 		[],
 	);
 
 	return (
+		// display the dragable object
 		<div ref={drag} className={styles.dragBox} style={{ opacity }}>
 			{name}
 		</div>
